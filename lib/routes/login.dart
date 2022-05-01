@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
@@ -125,42 +126,55 @@ class _LoginState extends State<Login> {
                           onSaved: (value) {
                             pass = value ?? "";
                           })),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print("Email: $email");
-                          _formKey.currentState!.save();
-                          print("Email: $email");
-                          // getUsers();
-                        } else {
-                          //_showDialog("Form Error", "Your form is invalid");
-                        }
-                        ;
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: secondaryPink800,
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: Center(
-                              child: Text("Login",
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: textOnSecondaryWhite,
-                                  ))))),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: secondaryPinkDark,
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: Center(
-                              child: Text("Sign Up",
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: textOnSecondaryWhite,
-                                  )))))
+                  Container(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            print("Email: $email");
+                            _formKey.currentState!.save();
+                            print("Email: $email");
+                            // getUsers();
+                          } else {
+                            //_showDialog("Form Error", "Your form is invalid");
+                          }
+                          ;
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: secondaryPink800,
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: Center(
+                                child: Text("Login",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: textOnSecondaryWhite,
+                                    ))))),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: 40.0),
+                      child: Center(child: Text("You don't have an account?"))),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 100.0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUp()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: secondaryPinkDark,
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: Center(
+                                child: Text("Sign Up",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: textOnSecondaryWhite,
+                                    ))))),
+                  )
                 ],
               ),
             ),

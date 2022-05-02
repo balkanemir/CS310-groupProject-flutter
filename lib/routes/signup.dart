@@ -4,6 +4,8 @@ import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:select_form_field/select_form_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignUp extends StatefulWidget {
   static const String routeName = '/signup';
@@ -17,6 +19,72 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String pass = "";
+  String name = "";
+  String surname = "";
+  String MBTI = "";
+
+  final List<Map<String, dynamic>> _items = [
+    {
+      'value': 'ISTJ',
+      'label': 'ISTJ',
+    },
+    {
+      'value': 'ISFJ',
+      'label': 'ISFJ',
+    },
+    {
+      'value': 'INFJ',
+      'label': 'INFJ',
+    },
+    {
+      'value': 'ISTP',
+      'label': 'ISTP',
+    },
+    {
+      'value': 'ISFP',
+      'label': 'ISFP',
+    },
+    {
+      'value': 'INFP',
+      'label': 'INFP',
+    },
+    {
+      'value': 'INTP',
+      'label': 'INTP',
+    },
+    {
+      'value': 'ESTP',
+      'label': 'ESTP',
+    },
+    {
+      'value': 'ESFP',
+      'label': 'ESFP',
+    },
+    {
+      'value': 'ENFP',
+      'label': 'ENFP',
+    },
+    {
+      'value': 'ENTP',
+      'label': 'ENTP',
+    },
+    {
+      'value': 'ESTJ',
+      'label': 'ESTJ',
+    },
+    {
+      'value': 'ESFJ',
+      'label': 'ESFJ',
+    },
+    {
+      'value': 'ENFJ',
+      'label': 'ENFJ',
+    },
+    {
+      'value': 'ENTJ',
+      'label': 'ENTJ',
+    },
+  ];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                             }
                           },
                           onSaved: (value) {
-                            email = value ?? "";
+                            name = value ?? "";
                           })),
                   Container(
                       width: 100,
@@ -116,7 +184,7 @@ class _SignUpState extends State<SignUp> {
                             }
                           },
                           onSaved: (value) {
-                            email = value ?? "";
+                            surname = value ?? "";
                           })),
                   Container(
                       width: 100,
@@ -199,15 +267,20 @@ class _SignUpState extends State<SignUp> {
                   Container(
                       width: 100,
                       height: 50,
-                      child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
+                      child: SelectFormField(
+                        type: SelectFormFieldType.dropdown, // or can be dialog
+                        initialValue: 'circle',
+                        labelText: 'MBTI Type',
+                        items: _items,
+                        onChanged: (val) => print(val),
+                        onSaved: (val) => print(val),
+                        decoration: InputDecoration(
                             label: Container(
-                                width: 200,
+                                width: 150,
                                 child: Row(children: [
-                                  const Icon(Icons.arrow_downward),
+                                  const Icon(Icons.arrow_drop_down),
                                   const SizedBox(width: 4),
-                                  const Text('Select Your MBTI Type')
+                                  const Text('MBTI Type')
                                 ])),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -229,9 +302,14 @@ class _SignUpState extends State<SignUp> {
                               }
                             }
                           },
-                          onSaved: (value) {
-                            email = value ?? "";
-                          })),
+                      )),
+                      Container(child: InkWell(
+              child: Center(child: Text('Learn Your MBTI Type!', style: TextStyle(
+                color: Colors.blue,
+              ))),
+              // ignore: deprecated_member_use
+              onTap: () => launch('https://my-personality-test.com/?gclid=CjwKCAjwgr6TBhAGEiwA3aVuIdpZmKCjr1My_uaRkfGGzspoHPNdSJR8csXwy4H-2wR7KQgiWSFARRoCM_8QAvD_BwE')
+          ),),
                   Container(
                     child: ElevatedButton(
                         onPressed: () {

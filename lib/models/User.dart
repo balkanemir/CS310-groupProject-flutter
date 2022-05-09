@@ -1,5 +1,5 @@
 class User {
-  String? profile_image;
+  String profile_image;
   int id;
   String name;
   String surname;
@@ -7,6 +7,12 @@ class User {
   String email;
   String MBTI_type;
 
-  User(this.profile_image, this.id, this.name, this.surname, this.username, this.email,
-      this.MBTI_type);
+  User(
+      {required this.profile_image,
+      required this.id,
+      required this.name,
+      required this.surname,
+      required this.username,
+      required this.email,
+      required this.MBTI_type});
 }

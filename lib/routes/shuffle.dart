@@ -26,8 +26,8 @@ class _ShuffleState extends State<Shuffle> {
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentindex,
           backgroundColor: primaryPink200,
-          selectedItemColor: textOnSecondaryWhite,
-          unselectedItemColor: secondaryPinkDark,
+          selectedItemColor: textOnPrimaryBlack,
+          unselectedItemColor: secondaryPink800,
           selectedFontSize: 18.0,
           unselectedFontSize: 18.0,
           onTap: (value) {
@@ -95,7 +95,7 @@ class _CardsState extends State<Cards> with SingleTickerProviderStateMixin {
   late CurvedAnimation curvedAnimation;
   late Animation<Offset> animation;
 
-    @override
+  @override
   void initState() {
     super.initState();
     currentindex = 0;
@@ -103,8 +103,8 @@ class _CardsState extends State<Cards> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 150),
     );
-   curvedAnimation = 
-    CurvedAnimation(parent: controller, curve: Curves.easeOut);
+    curvedAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.easeOut);
     animation = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
         .animate(curvedAnimation);
   }
@@ -148,6 +148,4 @@ class _CardsState extends State<Cards> with SingleTickerProviderStateMixin {
           }
         }).toList());
   }
-
-
 }

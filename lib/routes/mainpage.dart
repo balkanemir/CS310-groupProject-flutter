@@ -97,7 +97,7 @@ class _MainPageState extends State<MainPage> {
               BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
             ]),
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(150.0),
+            preferredSize: Size.fromHeight(100.0),
             child: Container(
                 height: 200,
                 child: Center(
@@ -107,7 +107,7 @@ class _MainPageState extends State<MainPage> {
                     ElevatedButton(
                         onPressed: () {},
                         child: CircleAvatar(
-                            radius: 40,
+                            radius: 30,
                             backgroundColor: secondaryPinkLight,
                             backgroundImage: NetworkImage(
                                 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png')),

@@ -13,7 +13,7 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
-      initialRoute: '/mainpage',
+      initialRoute: '/shuffle',
       routes: {
         Login.routeName: (context) => Login(),
         SignUp.routeName: (context) => SignUp(),

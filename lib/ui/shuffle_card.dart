@@ -1,74 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/models/User.dart';
 import 'package:flutterui/utils/colors.dart';
 
 
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
- class Content {
-    final String text;
-    final Color color;
 
-    Content({required this.text, required this.color});
-  }
 
 
 
 
 class ShuffleCard extends StatefulWidget {
-  ShuffleCard({Key? key, this.title}) : super(key: key);
 
-  final String? title;
+  final User user;
+
+  const ShuffleCard({Key? key, required this.user}) : super(key: key);
 
   @override
-  _ShuffleCardState createState() => _ShuffleCardState();
+  _ShuffleCardState createState() => _ShuffleCardState(user);
 }
 
 class _ShuffleCardState extends State<ShuffleCard> {
+  final User user;
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<String> _names = [
-    "Red",
-    "Blue",
-    "Green",
-    "Yellow",
-    "Orange",
-    "Grey",
-    "Purple",
-    "Pink"
-  ];
-  List<Color> _colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.grey,
-    Colors.purple,
-    Colors.pink
-  ];
+
+
+  _ShuffleCardState(this.user);
 
   @override
   void initState() {
-    for (int i = 0; i < _names.length; i++) {
+    for (int i = 0; i <10; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: _names[i], color: _colors[i]),
+          content: User(profile_image: user.profile_image, id: user.id, name: user.name, surname: user.surname, username: user.username, email: user.email, MBTI_type: user.MBTI_type ),
           likeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Liked ${_names[i]}"),
+              content: Text("Liked ${user.username}"),
               duration: Duration(milliseconds: 500),
             ));
           },
           nopeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Nope ${_names[i]}"),
+              content: Text("Nope ${user.username}"),
               duration: Duration(milliseconds: 500),
             ));
           },
           superlikeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Superliked ${_names[i]}"),
+              content: Text("Superliked ${user.username}"),
               duration: Duration(milliseconds: 500),
             ));
           },
@@ -100,13 +81,15 @@ class _ShuffleCardState extends State<ShuffleCard> {
                   return Container(
                     decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: _swipeItems[index].content.color,
+                border: Border.all(width:1.0),
+                image: DecorationImage(image: NetworkImage(_swipeItems[index].content.profile_image)),
               ),
-                    alignment: Alignment.center,
+                    
                     
                     child: Text(
-                      _swipeItems[index].content.text,
-                      style: TextStyle(fontSize: 100),
+                      _swipeItems[index].content.name,
+                      style: TextStyle(fontSize: 10),
+                    
                     ),
                   );
                 },
@@ -117,7 +100,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                   ));
                 },
                 itemChanged: (SwipeItem item, int index) {
-                  print("item: ${item.content.text}, index: $index");
+                  print("item: ${item.content.username}, index: $index");
                 },
                 upSwipeAllowed: true,
                 fillSpace: true,

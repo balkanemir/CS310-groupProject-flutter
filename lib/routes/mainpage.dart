@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/ui/post_card.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
@@ -85,8 +86,19 @@ class _MainPageState extends State<MainPage> {
             selectedFontSize: 18.0,
             unselectedFontSize: 18.0,
             onTap: (value) {
-              // add what you want to do after tapped
               setState(() => _currentindex = value);
+              if(_currentindex == 0) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPage()));
+              }
+              if(_currentindex == 1) {
+                //Search Navigator
+              }
+              if(_currentindex == 2) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));
+              }
+              if(_currentindex == 3) {
+                // Add Navigator
+              }
             },
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

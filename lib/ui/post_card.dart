@@ -16,12 +16,12 @@ class PostCard extends StatelessWidget {
         child: Container(
             margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
             width: screenSize(context).width,
-            height: screenHeight(context, dividedBy: 5),
+            
             decoration: BoxDecoration(
                 border: Border.all(width: 1.0),
                 borderRadius: BorderRadius.circular(10.0)),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -49,12 +49,29 @@ class PostCard extends StatelessWidget {
                         )
                       ],
                     ),
+                    Container(
+                      margin: EdgeInsets.all(8.0),
+                      height: 1,
+                      width: screenSize(context).width,
+                      decoration:BoxDecoration(
+                        color:Colors.grey,
+                      )
+                    ),
+                    
+                    Text(
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae ipsum sem. Suspendisse blandit ultrices massa, quis lacinia urna imperdiet.',
+                        ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         LikeButton(
                           size: 20,
                         ),
+                        IconButton(
+                            onPressed: () {},
+                            splashRadius: 20,
+                            icon:
+                                Icon(Icons.chat, size: 20, color: Colors.grey))
                       ],
                     )
                   ]),

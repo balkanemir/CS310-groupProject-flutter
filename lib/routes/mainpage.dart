@@ -117,7 +117,8 @@ class _MainPageState extends State<MainPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {//go to profile
+                        },
                         child: CircleAvatar(
                             radius: 30,
                             backgroundColor: secondaryPinkLight,

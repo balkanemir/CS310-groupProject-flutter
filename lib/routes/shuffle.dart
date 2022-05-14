@@ -113,9 +113,7 @@ List<User> Users = [
                   icon: Icon(Icons.shuffle), label: 'Shuffle'),
               BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
             ]),
-            body: Stack(children: Users.map((user) {
-              return ShuffleCard(user: user);
-            }).toList()),
+            body: ShuffleCard(Users: Users),
     );
   }
 }

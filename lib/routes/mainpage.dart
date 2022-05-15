@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/ui/post_card.dart';
 import 'package:flutterui/utils/styles.dart';
@@ -94,6 +95,8 @@ class _MainPageState extends State<MainPage> {
               }
               if (_currentindex == 1) {
                 //Search Navigator
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Search()));
               }
               if (_currentindex == 2) {
                 Navigator.push(context,

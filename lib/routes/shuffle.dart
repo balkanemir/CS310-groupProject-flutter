@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
+import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/ui/shuffle_card.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
@@ -97,6 +98,7 @@ List<User> Users = [
               }
               if(_currentindex == 1) {
                 //Search Navigator
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>Search()));
               }
               if(_currentindex == 2) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));

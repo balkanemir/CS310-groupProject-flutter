@@ -2,16 +2,10 @@ class Post {
   int postID;
   String? image;
   String? text;
-  String date;
+  DateTime date;
   int like;
   int comment;
 
-  Post(
-    this.postID,
-    this.image,
-    this.text,
-    this.date,
-    this.like,
-    this.comment,
-  );
+  Post(this.postID, this.date, this.like, this.comment,
+      {this.image, this.text});
 }

@@ -6,6 +6,7 @@ import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:flutterui/routes/profile.dart';
 
 class MainPage extends StatefulWidget {
   static const String routeName = '/mainpage';
@@ -87,16 +88,18 @@ class _MainPageState extends State<MainPage> {
             unselectedFontSize: 18.0,
             onTap: (value) {
               setState(() => _currentindex = value);
-              if(_currentindex == 0) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPage()));
+              if (_currentindex == 0) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
               }
-              if(_currentindex == 1) {
+              if (_currentindex == 1) {
                 //Search Navigator
               }
-              if(_currentindex == 2) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));
+              if (_currentindex == 2) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Shuffle()));
               }
-              if(_currentindex == 3) {
+              if (_currentindex == 3) {
                 // Add Navigator
               }
             },
@@ -117,7 +120,11 @@ class _MainPageState extends State<MainPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                        onPressed: () {//go to profile
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Profile()));
                         },
                         child: CircleAvatar(
                             radius: 30,

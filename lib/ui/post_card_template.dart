@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/models/Post.dart';
@@ -22,11 +23,19 @@ class PostCardTemplate extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: secondaryPinkLight,
-                backgroundImage: NetworkImage(
-                    'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png'),
+              leading: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Profile()));
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: secondaryPink800,
+                  shape: CircleBorder(),
+                ),
+                child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: secondaryPinkLight,
+                    backgroundImage: NetworkImage(user.profile_image)),
               ),
               title: RichText(
                 text: TextSpan(
@@ -72,7 +81,7 @@ class PostCardTemplate extends StatelessWidget {
               ),
             ],
             Container(
-              color: Colors.blueGrey,
+              color: primaryPinkLight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -80,13 +89,19 @@ class PostCardTemplate extends StatelessWidget {
                   TextButton.icon(
                     onPressed: () {},
                     icon: Icon(Icons.comment, size: 20, color: Colors.grey),
-                    label: Text("${post.comment}"),
+                    label: Text("${post.comment}", style: TextStyle(
+                              color: textOnPrimaryBlack
+                            )),
                   ),
-                  TextButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_border,
-                        size: 20, color: Colors.grey),
-                    label: Text("${post.like}"),
+                  Row(
+                    children: [
+                      LikeButton(
+                              size: 20,
+                            ),
+                            Text("${post.like}", style: TextStyle(
+                              color: textOnPrimaryBlack
+                            )),
+                    ],
                   ),
                   SizedBox(
                     width: 175,

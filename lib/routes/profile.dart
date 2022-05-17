@@ -7,6 +7,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/models/Post.dart';
 import 'package:flutterui/routes/editProfile.dart';
+import 'package:flutterui/utils/screensizes.dart';
 
 class Profile extends StatefulWidget {
   static const String routeName = '/profile';
@@ -83,8 +84,7 @@ class _ProfileState extends State<Profile> {
   int _currentindex = -1;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
@@ -119,71 +119,93 @@ class _ProfileState extends State<Profile> {
               BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
             ]),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(125.0),
+          preferredSize: Size.fromHeight(150.0),
           child: Container(
             height: 200,
             child: Center(
                 child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              padding: const EdgeInsets.only(top: 30.0, right: 8.0, left: 8.0),
+              child: Column(
                 children: [
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: secondaryPinkLight,
-                          backgroundImage: NetworkImage(
-                            myUser.profile_image,
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: secondaryPinkLight,
+                              backgroundImage: NetworkImage(
+                                myUser.profile_image,
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(height: 5),
+                          Text(
+                            "${myUser.name} ${myUser.surname} (${myUser.username})",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 5),
-                      Text(
-                        "${myUser.name} ${myUser.surname} (${myUser.username})",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "12",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text("Posts"),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            myUser.following.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text("Following"),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            myUser.followers.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text("Followers"),
+                        ],
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "12",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfile(myUser),
                         ),
-                      ),
-                      Text("Posts"),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        myUser.following.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text("Following"),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        myUser.followers.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text("Followers"),
-                    ],
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      primary: secondaryPink800,
+                      elevation: 5,
+                    ),
+                    child: Text(
+                      "Edit Profile",
+                    ),
                   ),
                 ],
               ),
@@ -197,52 +219,17 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-              ),
-              child: SizedBox(
-                height: 40,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProfile(myUser),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    primary: secondaryPink800,
-                    elevation: 5,
-                  ),
-                  child: Text(
-                    "Edit Profile",
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 400,
-              child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  return PostCardTemplate(
-                    user: myUser,
-                    post: posts[index],
-                  );
-                },
-                itemCount: posts.length,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+        body: SizedBox(
+          height: screenSize(context).height,
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return PostCardTemplate(
+                user: myUser,
+                post: posts[index],
+              );
+            },
+            itemCount: posts.length,
+          ),
+        ));
   }
 }

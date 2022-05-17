@@ -7,8 +7,6 @@ import 'package:flutterui/utils/dimensions.dart';
 
 import 'mainpage.dart';
 
-
-
 class Search extends StatefulWidget {
   static const String routeName = '/search';
 
@@ -16,22 +14,19 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search>{
+class _SearchState extends State<Search> {
   static const historyLength = 5;
-  List<String> _searchHistory = [
-    "selam",
-    "ben",
-    "püren"
-  ];
-  List<String> filteredSearchHistory =[];
+  List<String> _searchHistory = ["selam", "ben", "püren"];
+  List<String> filteredSearchHistory = [];
   late String selectedTerm;
 
-  List<String> filterSearchTerms(){
-    
+  List<String> filterSearchTerms() {
+    return ["dsf"];
   }
+
   int _currentindex = 1;
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -43,24 +38,26 @@ class _SearchState extends State<Search>{
           unselectedFontSize: 18.0,
           onTap: (value) {
             setState(() => _currentindex = value);
-            if(_currentindex == 0) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPage()));
+            if (_currentindex == 0) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
             }
-            if(_currentindex == 1) {
+            if (_currentindex == 1) {
               //Search Navigator
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>Search()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Search()));
             }
-            if(_currentindex == 2) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));
+            if (_currentindex == 2) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
-            if(_currentindex == 3) {
+            if (_currentindex == 3) {
               // Add Navigator
             }
           },
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.shuffle), label: 'Shuffle'),
             BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
@@ -69,4 +66,3 @@ class _SearchState extends State<Search>{
     );
   }
 }
-

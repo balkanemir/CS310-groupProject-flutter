@@ -203,10 +203,10 @@ class _EditProfileState extends State<EditProfile> {
                             height: 2,
                             color: Colors.deepPurpleAccent,
                           ),
-                          onChanged: (String? newValue) {
+                          onChanged: (newValue) {
                             setState(() {
                               dropdownValue = newValue!;
-                              widget.user.MBTI_type = newValue!;
+                              widget.user.MBTI_type = newValue;
                             });
                           },
                           items: mbtiTypes

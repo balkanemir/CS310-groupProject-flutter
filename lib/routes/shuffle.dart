@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
+import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/ui/shuffle_card.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
@@ -20,61 +21,73 @@ class _ShuffleState extends State<Shuffle> {
 
   
 List<User> Users = [
-  User(
-      profile_image:
-          'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
-      id: 10000,
-      name: 'Jane',
-      surname: 'Doe',
-      username: 'JaneDoe',
-      email: 'JaneDoe@example.com',
-      MBTI_type: 'ISTJ'),
-  User(
-      profile_image:
-          'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-      id: 10000,
-      name: 'Jeniffer',
-      surname: 'Lawrance',
-      username: 'Jeniffer123',
-      email: 'Jan@example.com',
-      MBTI_type: 'ESFP'),
-  User(
-      profile_image:
-          'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-      id: 10000,
-      name: 'Jeniffer',
-      surname: 'Lawrance',
-      username: 'Jeniffer123',
-      email: 'Jan@example.com',
-      MBTI_type: 'ESFP'),
-  User(
-      profile_image:
-          'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-      id: 10000,
-      name: 'Jeniffer',
-      surname: 'Lawrance',
-      username: 'Jeniffer123',
-      email: 'Jan@example.com',
-      MBTI_type: 'ESFP'),
-  User(
-      profile_image:
-          'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-      id: 10000,
-      name: 'Jeniffer',
-      surname: 'Lawrance',
-      username: 'Jeniffer123',
-      email: 'Jan@example.com',
-      MBTI_type: 'ESFP'),
-  User(
-      profile_image:
-          'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-      id: 10000,
-      name: 'Jeniffer',
-      surname: 'Lawrance',
-      username: 'Jeniffer123',
-      email: 'Jan@example.com',
-      MBTI_type: 'ESFP'),
-];
+    User(
+        profile_image:
+            'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
+        id: 10000,
+        name: 'Jane',
+        surname: 'Doe',
+        username: 'JaneDoe',
+        email: 'JaneDoe@example.com',
+        MBTI_type: 'ISTJ',
+        following: 12,
+        followers: 78),
+    User(
+        profile_image:
+            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
+        id: 10000,
+        name: 'Jeniffer',
+        surname: 'Lawrance',
+        username: 'Jeniffer123',
+        email: 'Jan@example.com',
+        MBTI_type: 'ESFP',
+        following: 34,
+        followers: 126),
+    User(
+        profile_image:
+            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
+        id: 10000,
+        name: 'Jeniffer',
+        surname: 'Lawrance',
+        username: 'Jeniffer123',
+        email: 'Jan@example.com',
+        MBTI_type: 'ESFP',
+        following: 182,
+        followers: 58),
+    User(
+        profile_image:
+            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
+        id: 10000,
+        name: 'Jeniffer',
+        surname: 'Lawrance',
+        username: 'Jeniffer123',
+        email: 'Jan@example.com',
+        MBTI_type: 'ESFP',
+        following: 12,
+        followers: 78),
+    User(
+        profile_image:
+            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
+        id: 10000,
+        name: 'Jeniffer',
+        surname: 'Lawrance',
+        username: 'Jeniffer123',
+        email: 'Jan@example.com',
+        MBTI_type: 'ESFP',
+        following: 12,
+        followers: 78),
+    User(
+        profile_image:
+            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
+        id: 10000,
+        name: 'Jeniffer',
+        surname: 'Lawrance',
+        username: 'Jeniffer123',
+        email: 'Jan@example.com',
+        MBTI_type: 'ESFP',
+        following: 12,
+        followers: 78),
+  ];
 
   
   int _currentindex = 2;
@@ -97,6 +110,7 @@ List<User> Users = [
               }
               if(_currentindex == 1) {
                 //Search Navigator
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>Search()));
               }
               if(_currentindex == 2) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));

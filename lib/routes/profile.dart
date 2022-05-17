@@ -77,7 +77,9 @@ class _ProfileState extends State<Profile> {
       surname: 'Koç',
       username: 'kocmetehan',
       email: 'kocmetehan@example.com',
-      MBTI_type: 'ISTJ');
+      MBTI_type: 'ISTJ',
+      following: 12,
+      followers: 78);
   int _currentindex = -1;
   @override
   Widget build(BuildContext context) {
@@ -163,7 +165,7 @@ class _ProfileState extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "70",
+                        myUser.following.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -175,7 +177,7 @@ class _ProfileState extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "86",
+                        myUser.followers.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

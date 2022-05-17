@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
+import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/routes/profile.dart';
@@ -13,16 +14,12 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-    MaterialApp(
-      initialRoute: '/shuffle',
-      routes: {
-        Login.routeName: (context) => Login(),
-        SignUp.routeName: (context) => SignUp(),
-        Shuffle.routeName: (context) => Shuffle(),
-        MainPage.routeName: (context) => MainPage(),
-        Profile.routeName: (context) => Profile(),
-      },
-    ),
-  );
+  runApp(MaterialApp(initialRoute: '/mainpage', routes: {
+    Login.routeName: (context) => Login(),
+    SignUp.routeName: (context) => SignUp(),
+    Shuffle.routeName: (context) => Shuffle(),
+    MainPage.routeName: (context) => MainPage(),
+    Profile.routeName: (context) => Profile(),
+    Search.routeName: (context) => Search(),
+  }));
 }

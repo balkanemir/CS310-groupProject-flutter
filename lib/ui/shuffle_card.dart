@@ -34,7 +34,9 @@ class _ShuffleCardState extends State<ShuffleCard> {
               surname: Users[i].surname,
               username: Users[i].username,
               email: Users[i].email,
-              MBTI_type: Users[i].MBTI_type),
+              MBTI_type: Users[i].MBTI_type,
+              following: Users[i].following,
+              followers: Users[i].followers),
           likeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
               content: Text("Liked ${Users[i].username}"),

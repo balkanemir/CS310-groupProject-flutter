@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 
 import 'package:swipe_cards/draggable_card.dart';
@@ -25,7 +26,6 @@ class _ShuffleCardState extends State<ShuffleCard> {
   @override
   void initState() {
     for (int i = 0; i < Users.length; i++) {
-
       _swipeItems.add(SwipeItem(
           content: User(
               profile_image: Users[i].profile_image,
@@ -39,19 +39,24 @@ class _ShuffleCardState extends State<ShuffleCard> {
               followers: Users[i].followers),
           likeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
+              backgroundColor: secondaryPink800,
               content: Text("Liked ${Users[i].username}"),
               duration: Duration(milliseconds: 500),
             ));
           },
           nopeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Passed ${Users[i].username}"),
+              backgroundColor: primaryPinkLight,
+              content: Text("Passed ${Users[i].username}",
+                  style: TextStyle(color: textOnPrimaryBlack)),
               duration: Duration(milliseconds: 500),
             ));
           },
           superlikeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Followed ${Users[i].username}"),
+              backgroundColor: primaryPink200,
+              content: Text("Followed ${Users[i].username}",
+                  style: TextStyle(color: textOnPrimaryBlack)),
               duration: Duration(milliseconds: 500),
             ));
           },
@@ -67,28 +72,31 @@ class _ShuffleCardState extends State<ShuffleCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        body: Column(
+      key: _scaffoldKey,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [primaryPinkLight, secondaryPink800],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight),
+        ),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
                 child: Stack(children: [
               Center(
-                child: Container(
-                  width: 300,
-                  height: 500,
+                child: CircleAvatar(
+                  backgroundColor: primaryPink200,
+                  radius: 200,
                   child: SwipeCards(
                     matchEngine: _matchEngine!,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(width: 1.0),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  _swipeItems[index].content.profile_image),
-                              fit: BoxFit.cover),
-                        ),
+                      return CircleAvatar(
+                        radius: 200,
+                        backgroundColor: primaryPinkLight,
+                        backgroundImage: NetworkImage(
+                            _swipeItems[index].content.profile_image),
                         child: Text(
                           '${_swipeItems[index].content.name} ${_swipeItems[index].content.MBTI_type}',
                           style: TextStyle(fontSize: 20),
@@ -109,40 +117,62 @@ class _ShuffleCardState extends State<ShuffleCard> {
                   ),
                 ),
               ),
-              
             ])),
-          Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        _matchEngine!.currentItem?.nope();
-                      },
-                       style: ElevatedButton.styleFrom(
-                        primary: secondaryPink800,
-                        elevation: 5,
-                      ),
-                      child: Text("Pass")),
-                  ElevatedButton(
-                      onPressed: () {
-                        _matchEngine!.currentItem?.superLike();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: secondaryPink800,
-                        elevation: 5,
-                      ),
-                      child: Text("Follow")),
-                  ElevatedButton(
-                      onPressed: () {
-                        _matchEngine!.currentItem?.like();
-                      },
-                       style: ElevatedButton.styleFrom(
-                        primary: secondaryPink800,
-                        elevation: 5,
-                      ),
-                      child: Text("Like"))
-                ],
-              )],
-        ),);
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      _matchEngine!.currentItem?.nope();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: primaryPinkLight,
+                      elevation: 5,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.arrow_back_ios_rounded,
+                            color: textOnPrimaryBlack),
+                        Text("Pass",
+                            style: TextStyle(color: textOnPrimaryBlack))
+                      ],
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      _matchEngine!.currentItem?.superLike();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: primaryPink200,
+                      elevation: 5,
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(Icons.arrow_upward_rounded,
+                            color: textOnPrimaryBlack),
+                        Text("Follow",
+                            style: TextStyle(color: textOnPrimaryBlack)),
+                      ],
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      _matchEngine!.currentItem?.like();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: secondaryPink800,
+                      elevation: 5,
+                    ),
+                    child: Row(
+                      children: [
+                        Text("Like"),
+                        Icon(Icons.arrow_forward_ios_rounded,
+                            color: textOnSecondaryWhite),
+                      ],
+                    ))
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

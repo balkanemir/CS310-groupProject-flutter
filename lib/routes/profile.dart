@@ -119,7 +119,7 @@ class _ProfileState extends State<Profile> {
               BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
             ]),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(150.0),
+          preferredSize: Size.fromHeight(170.0),
           child: Container(
             height: 200,
             child: Center(

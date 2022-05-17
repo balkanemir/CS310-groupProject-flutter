@@ -44,6 +44,8 @@ dependencies:
   json_annotation: ^4.5.0
   json_serializable: ^6.2.0
 
+  material_floating_search_bar: ^0.3.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

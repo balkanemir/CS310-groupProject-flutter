@@ -20,10 +20,46 @@ class _SearchState extends State<Search> {
   List<String> filteredSearchHistory = [];
   late String selectedTerm;
 
-  List<String> filterSearchTerms() {
-    return ["dsf"];
+  List<String> filterSearchTerms(
+      @required String? filter) {
+    if (filter != null && filter.isNotEmpty)
+      {
+        return _searchHistory.reversed
+            .where((term) => term.startsWith(filter)).toList();
+      }
+    else{
+      return _searchHistory.reversed.toList();
+    }
   }
 
+  void addSearchTerm(String term){
+    if(_searchHistory.contains(term)){
+      putSearchTermFirst(term);
+      return;
+    }
+    _searchHistory.add(term);
+    if(_searchHistory.length > historyLength){
+      _searchHistory.removeRange(0, _searchHistory.length - historyLength);
+    }
+
+    filteredSearchHistory = filterSearchTerms(null);
+  }
+
+  void deleteSearchTerm(String term){
+    _searchHistory.removeWhere((t) => t ==term);
+    filteredSearchHistory = filterSearchTerms(null);
+  }
+
+  void putSearchTermFirst(String term){
+    deleteSearchTerm(term);
+    addSearchTerm(term);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    filteredSearchHistory = filterSearchTerms(null);
+  }
   int _currentindex = 1;
   @override
   Widget build(BuildContext context) {

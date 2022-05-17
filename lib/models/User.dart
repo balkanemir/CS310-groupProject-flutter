@@ -6,7 +6,6 @@ class User {
   String username;
   String email;
   String MBTI_type;
-
   User(
       {required this.profile_image,
       required this.id,

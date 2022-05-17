@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/routes/shuffle.dart';
-import 'package:flutterui/ui/post_card.dart';
 import 'package:flutterui/ui/post_card_template.dart';
-import 'package:flutterui/utils/styles.dart';
-import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
-import 'package:flutterui/utils/dimensions.dart';
-import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/models/Post.dart';
+import 'package:flutterui/routes/editProfile.dart';
 
 class Profile extends StatefulWidget {
   static const String routeName = '/profile';
@@ -210,7 +207,14 @@ class _ProfileState extends State<Profile> {
                 height: 40,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfile(myUser),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     primary: secondaryPink800,

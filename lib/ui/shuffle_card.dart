@@ -39,8 +39,9 @@ class _ShuffleCardState extends State<ShuffleCard> {
               followers: Users[i].followers),
           likeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              backgroundColor: secondaryPink800,
-              content: Text("Liked ${Users[i].username}"),
+              backgroundColor: secondaryPinkLight,
+              content: Text("Liked ${Users[i].username}",
+                  style: TextStyle(color: textOnPrimaryBlack)),
               duration: Duration(milliseconds: 500),
             ));
           },
@@ -76,7 +77,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [primaryPinkLight, secondaryPink800],
+              colors: [primaryPinkLight, secondaryPinkLight],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight),
         ),
@@ -158,14 +159,15 @@ class _ShuffleCardState extends State<ShuffleCard> {
                       _matchEngine!.currentItem?.like();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: secondaryPink800,
+                      primary: secondaryPinkLight,
                       elevation: 5,
                     ),
                     child: Row(
                       children: [
-                        Text("Like"),
+                        Text("Like",
+                            style: TextStyle(color: textOnPrimaryBlack)),
                         Icon(Icons.arrow_forward_ios_rounded,
-                            color: textOnSecondaryWhite),
+                            color: textOnPrimaryBlack),
                       ],
                     ))
               ],

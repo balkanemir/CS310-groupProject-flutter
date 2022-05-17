@@ -82,6 +82,37 @@ class _ProfileState extends State<Profile> {
       following: 12,
       followers: 78);
   int _currentindex = -1;
+
+  void _updateName(String name) {
+    setState(() {
+      myUser.name = name;
+    });
+  }
+
+  void _updateSurname(String surname) {
+    setState(() {
+      myUser.surname = surname;
+    });
+  }
+
+  void _updateUsername(String username) {
+    setState(() {
+      myUser.username = username;
+    });
+  }
+
+  void _updateEmail(String email) {
+    setState(() {
+      myUser.email = email;
+    });
+  }
+
+  void _updateMbti(String mbti) {
+    setState(() {
+      myUser.MBTI_type = mbti;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,7 +225,14 @@ class _ProfileState extends State<Profile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditProfile(myUser),
+                          builder: (context) => EditProfile(
+                            myUser,
+                            _updateName,
+                            _updateSurname,
+                            _updateUsername,
+                            _updateEmail,
+                            _updateMbti,
+                          ),
                         ),
                       );
                     },

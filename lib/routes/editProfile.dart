@@ -58,7 +58,10 @@ class _EditProfileState extends State<EditProfile> {
         builder: (BuildContext context) {
           if (isAndroid) {
             return AlertDialog(
-              title: Text(title),
+              title: Text(
+                title,
+                style: TextStyle(color: Colors.red),
+              ),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: [
@@ -144,8 +147,9 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                     Divider(
+                      endIndent: 15,
                       thickness: 1,
-                      color: Colors.cyan,
+                      color: Color.fromRGBO(113, 26, 117, 1),
                     ),
                     Row(
                       children: [
@@ -164,6 +168,7 @@ class _EditProfileState extends State<EditProfile> {
                           constraints:
                               BoxConstraints.tight(const Size(250, 50)),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.deepPurple),
                             onChanged: (String value) {
                               name = value;
                             },
@@ -190,15 +195,15 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ),
                         ConstrainedBox(
-                          constraints:
-                              BoxConstraints.tight(const Size(250, 50)),
+                          constraints: BoxConstraints.tight(
+                            const Size(250, 50),
+                          ),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.deepPurple),
                             onChanged: (String value) {
                               surname = value;
                             },
-                            controller: TextEditingController(
-                              text: surname,
-                            ),
+                            controller: TextEditingController(text: surname),
                             onSaved: (value) {
                               widget.updateSurname(value);
                             },
@@ -224,6 +229,7 @@ class _EditProfileState extends State<EditProfile> {
                           constraints:
                               BoxConstraints.tight(const Size(250, 50)),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.deepPurple),
                             onChanged: (String value) {
                               username = value;
                             },
@@ -255,6 +261,7 @@ class _EditProfileState extends State<EditProfile> {
                           constraints:
                               BoxConstraints.tight(const Size(250, 50)),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.deepPurple),
                             onChanged: (String value) {
                               email = value;
                             },
@@ -316,17 +323,27 @@ class _EditProfileState extends State<EditProfile> {
                         )
                       ],
                     ),
-                    OutlinedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print('Email: $email');
-                          _formKey.currentState!.save();
-                          print('Email: $email');
-                        } else {
-                          _showDialog('Form Error', 'Your form is invalid');
-                        }
-                      },
-                      child: Text("Submit Changes"),
+                    SizedBox(height: 30),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              print('Email: $email');
+                              _formKey.currentState!.save();
+                              print('Email: $email');
+                            } else {
+                              _showDialog('Form Error', 'Your form is invalid');
+                            }
+                          },
+                          style: OutlinedButton.styleFrom(
+                            primary: Color.fromRGBO(247, 61, 147, 0.8),
+                            backgroundColor: Color.fromRGBO(22, 0, 59, 0.2),
+                          ),
+                          child: Text("Submit Changes"),
+                        ),
+                      ],
                     ),
                   ],
                 ),

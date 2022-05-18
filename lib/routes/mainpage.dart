@@ -3,12 +3,9 @@ import 'package:flutterui/models/Post.dart';
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
-import 'package:flutterui/ui/post_card.dart';
 import 'package:flutterui/ui/post_card_template.dart';
-import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
-import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/routes/profile.dart';
 
 class MainPage extends StatefulWidget {
@@ -88,7 +85,7 @@ class _MainPageState extends State<MainPage> {
         followers: 78),
   ];
 
-    List<Post> posts = [
+  List<Post> posts = [
     Post(
       1000,
       DateTime.utc(1989, 7, 20),
@@ -163,8 +160,8 @@ class _MainPageState extends State<MainPage> {
               }
               if (_currentindex == 1) {
                 //Search Navigator
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Search()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Search()));
               }
               if (_currentindex == 2) {
                 Navigator.push(context,
@@ -232,11 +229,9 @@ class _MainPageState extends State<MainPage> {
           height: screenSize(context).height,
           child: ListView.builder(
             itemBuilder: (context, index) {
-              return PostCardTemplate(
-                user: Users[index],
-                post: posts[index]);
+              return PostCardTemplate(user: Users[index], post: posts[index]);
             },
-              itemCount: posts.length,
+            itemCount: posts.length,
           ),
         ));
   }

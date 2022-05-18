@@ -2,11 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
+import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/editProfile.dart';
+import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/walkthrough.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -32,5 +34,6 @@ Future main() async {
     MainPage.routeName: (context) => MainPage(),
     Profile.routeName: (context) => Profile(),
     Search.routeName: (context) => Search(),
+    NotificationPage.routeName: (context) => NotificationPage(),
   }));
 }

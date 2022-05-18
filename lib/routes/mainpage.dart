@@ -9,6 +9,8 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/comment.dart';
 
+import 'notificationPage.dart';
+
 class MainPage extends StatefulWidget {
   static const String routeName = '/mainpage';
 
@@ -169,7 +171,9 @@ class _MainPageState extends State<MainPage> {
                     MaterialPageRoute(builder: (context) => Shuffle()));
               }
               if (_currentindex == 3) {
-                // Add Navigator
+                Navigator.push(
+                    context, MaterialPageRoute(
+                    builder: (context) => NotificationPage()));
 
               }
             },

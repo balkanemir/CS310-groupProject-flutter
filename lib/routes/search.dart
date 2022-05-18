@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/shuffle.dart';
+import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
@@ -99,16 +100,19 @@ class _SearchState extends State<Search> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
-            if (_currentindex == 3) {
-              // Add Navigator
-            }
+
+              if (_currentindex == 3) {
+                Navigator.push(
+                    context, MaterialPageRoute(
+                    builder: (context) => NotificationPage()));
+              }
           },
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.shuffle), label: 'Shuffle'),
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
+            BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
       body: FloatingSearchBar(
         controller: controller,

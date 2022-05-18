@@ -9,6 +9,8 @@ import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 
+import 'notificationPage.dart';
+
 
 class Shuffle extends StatefulWidget {
   
@@ -116,7 +118,9 @@ List<User> Users = [
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));
               }
               if(_currentindex == 3) {
-                // Add Navigator
+                Navigator.push(
+                    context, MaterialPageRoute(
+                    builder: (context) => NotificationPage()));
               }
             },
             items: [

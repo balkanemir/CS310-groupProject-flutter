@@ -7,6 +7,7 @@ import 'package:flutterui/ui/post_card_template.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
+import 'package:flutterui/routes/comment.dart';
 
 class MainPage extends StatefulWidget {
   static const String routeName = '/mainpage';
@@ -169,6 +170,8 @@ class _MainPageState extends State<MainPage> {
               }
               if (_currentindex == 3) {
                 // Add Navigator
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CommentPage()));
               }
             },
             items: [

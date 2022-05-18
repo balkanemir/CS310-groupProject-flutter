@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/comment.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
@@ -87,7 +88,10 @@ class PostCardTemplate extends StatelessWidget {
                 children: [
                   SizedBox(width: 10),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CommentPage()));
+                    },
                     icon: Icon(Icons.comment, size: 20, color: Colors.grey),
                     label: Text("${post.comment}", style: TextStyle(
                               color: textOnPrimaryBlack

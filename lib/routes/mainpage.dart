@@ -170,8 +170,7 @@ class _MainPageState extends State<MainPage> {
               }
               if (_currentindex == 3) {
                 // Add Navigator
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CommentPage()));
+
               }
             },
             items: [
@@ -180,7 +179,8 @@ class _MainPageState extends State<MainPage> {
                   icon: Icon(Icons.search), label: 'Search'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.shuffle), label: 'Shuffle'),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications), label: 'Notifications')
             ]),
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(100.0),
@@ -236,6 +236,12 @@ class _MainPageState extends State<MainPage> {
             },
             itemCount: posts.length,
           ),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              // go to add_post
+            },
+            backgroundColor: secondaryPink800,
+            child: Icon(Icons.add)));
   }
 }

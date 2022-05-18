@@ -147,7 +147,8 @@ class _ProfileState extends State<Profile> {
                   icon: Icon(Icons.search), label: 'Search'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.shuffle), label: 'Shuffle'),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications), label: 'Notifications')
             ]),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(170.0),

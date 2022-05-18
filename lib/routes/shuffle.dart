@@ -125,7 +125,7 @@ List<User> Users = [
                   icon: Icon(Icons.search), label: 'Search'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.shuffle), label: 'Shuffle'),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add')
+              BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications')
             ]),
             body: ShuffleCard(Users: Users),
     );

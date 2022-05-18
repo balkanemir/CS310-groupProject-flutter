@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/settings.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/ui/post_card_template.dart';
 import 'package:flutterui/utils/colors.dart';
@@ -269,6 +270,13 @@ class _ProfileState extends State<Profile> {
             },
             itemCount: posts.length,
           ),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Settings()));
+            },
+            backgroundColor: secondaryPink800,
+            child: Icon(Icons.settings)));
   }
 }

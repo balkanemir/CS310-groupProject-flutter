@@ -214,7 +214,9 @@ class _MainPageState extends State<MainPage> {
                     SizedBox(
                       height: 50,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // go to messages
+                          },
                           child: Icon(Icons.message_sharp),
                           style: ElevatedButton.styleFrom(
                             primary: secondaryPink800,

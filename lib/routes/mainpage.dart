@@ -7,6 +7,7 @@ import 'package:flutterui/ui/post_card_template.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
+import 'package:flutterui/routes/addpost.dart';
 import 'package:flutterui/routes/comment.dart';
 
 import 'notificationPage.dart';
@@ -172,9 +173,9 @@ class _MainPageState extends State<MainPage> {
               }
               if (_currentindex == 3) {
                 Navigator.push(
-                    context, MaterialPageRoute(
-                    builder: (context) => NotificationPage()));
-
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationPage()));
               }
             },
             items: [
@@ -245,6 +246,8 @@ class _MainPageState extends State<MainPage> {
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddPost()));
               // go to add_post
             },
             backgroundColor: secondaryPink800,

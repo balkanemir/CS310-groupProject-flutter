@@ -7,8 +7,7 @@ import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/routes/profile.dart';
-import 'package:flutterui/routes/editProfile.dart';
-import 'package:flutterui/routes/notificationPage.dart';
+import 'package:flutterui/routes/addpost.dart';
 import 'package:flutterui/routes/walkthrough.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -23,10 +22,9 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  String initRoute = showHome ? '/mainpage' : '/walkthrough';
+  String initRoute = showHome ? '/login' : '/walkthrough';
 
   runApp(MaterialApp(initialRoute: initRoute, routes: {
-
     Login.routeName: (context) => Login(),
     SignUp.routeName: (context) => SignUp(),
     WalkthroughScreen.routeName: (context) => const WalkthroughScreen(),
@@ -35,5 +33,6 @@ Future main() async {
     Profile.routeName: (context) => Profile(),
     Search.routeName: (context) => Search(),
     NotificationPage.routeName: (context) => NotificationPage(),
+    AddPost.routeName: (context) => AddPost(),
   }));
 }

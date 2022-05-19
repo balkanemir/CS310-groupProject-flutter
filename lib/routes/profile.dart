@@ -273,8 +273,8 @@ class _ProfileState extends State<Profile> {
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Settings()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Settings()));
             },
             backgroundColor: secondaryPink800,
             child: Icon(Icons.settings)));

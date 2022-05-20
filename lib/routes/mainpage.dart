@@ -7,8 +7,9 @@ import 'package:flutterui/ui/post_card_template.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
+import 'package:flutterui/routes/messages.dart';
 import 'package:flutterui/routes/addpost.dart';
-import 'package:flutterui/routes/comment.dart';
+
 
 import 'notificationPage.dart';
 
@@ -151,9 +152,9 @@ class _MainPageState extends State<MainPage> {
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentindex,
-            backgroundColor: primaryPink200,
-            selectedItemColor: textOnSecondaryWhite,
-            unselectedItemColor: secondaryPink800,
+            backgroundColor: textOnSecondaryWhite,
+            selectedItemColor: secondaryPink800,
+            unselectedItemColor: Colors.black12,
             selectedFontSize: 18.0,
             unselectedFontSize: 18.0,
             onTap: (value) {
@@ -190,7 +191,7 @@ class _MainPageState extends State<MainPage> {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(100.0),
             child: Container(
-                height: 200,
+                height: 150,
                 child: Center(
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -204,37 +205,38 @@ class _MainPageState extends State<MainPage> {
                         },
                         child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: secondaryPinkLight,
+                            backgroundColor: primaryPinkLight ,
                             backgroundImage: NetworkImage(
                                 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png')),
                         style: ElevatedButton.styleFrom(
                           primary: secondaryPink800,
                           shape: CircleBorder(),
                         )),
-                    Text("SOULMATE",
+                    Text("soulmate",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontFamily: "DancingScript",
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
+                          color: secondaryPink800,
                         )),
                     SizedBox(
                       height: 50,
                       child: ElevatedButton(
                           onPressed: () {
-                            // go to messages
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => MessagePage()));
                           },
                           child: Icon(Icons.message_sharp),
                           style: ElevatedButton.styleFrom(
-                            primary: secondaryPink800,
+                            primary: primaryPinkLight ,
                             shape: CircleBorder(),
                           )),
                     )
                   ],
                 )),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [primaryPink200, Colors.white],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)))),
+                  color: textOnSecondaryWhite,
+                   ))),
         body: SizedBox(
           height: screenSize(context).height,
           child: ListView.builder(

@@ -18,9 +18,7 @@ class PostCardTemplate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Card(
-        elevation: 10,
-        color: Colors.grey[100],
-        shadowColor: Colors.grey[500],
+        color: textOnSecondaryWhite,
         child: Column(
           children: [
             ListTile(
@@ -30,12 +28,12 @@ class PostCardTemplate extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => Profile()));
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: secondaryPink800,
+                  primary: secondaryPinkDark,
                   shape: CircleBorder(),
                 ),
                 child: CircleAvatar(
                     radius: 30,
-                    backgroundColor: secondaryPinkLight,
+                    backgroundColor: primaryPinkLight,
                     backgroundImage: NetworkImage(user.profile_image)),
               ),
               title: RichText(
@@ -43,6 +41,7 @@ class PostCardTemplate extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                   ),
+
                   children: <TextSpan>[
                     TextSpan(
                       text: "${user.name} ${user.surname}",
@@ -82,9 +81,9 @@ class PostCardTemplate extends StatelessWidget {
               ),
             ],
             Container(
-              color: primaryPinkLight,
+              color: textOnSecondaryWhite,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(width: 10),
                   TextButton.icon(
@@ -98,6 +97,7 @@ class PostCardTemplate extends StatelessWidget {
                             )),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       LikeButton(
                               size: 20,

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Comment {
   int commentId;
   String userImage;
@@ -7,6 +5,7 @@ class Comment {
   String uSurname;
   String username;
   String comment;
+  // add int like
 
   Comment(
       {

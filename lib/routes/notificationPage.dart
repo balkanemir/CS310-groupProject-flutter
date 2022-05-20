@@ -95,17 +95,15 @@ class _NotificationPageState extends State<NotificationPage> {
                             },
                             child: Icon(Icons.message_sharp),
                             style: ElevatedButton.styleFrom(
-                              primary: secondaryPink800,
+                              primary: secondaryPinkLight,
                               shape: CircleBorder(),
                             )),
                       )
                     ],
                   )),
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [primaryPink200, Colors.white],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter)))),
+                color: textOnSecondaryWhite,
+              ))),
       body: listView(
 
       )

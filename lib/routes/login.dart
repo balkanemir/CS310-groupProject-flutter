@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/signup.dart';
@@ -7,6 +7,7 @@ import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -36,16 +37,17 @@ class _LoginState extends State<Login> {
             child: Container(
                 height: 200,
                 child: Center(
-                    child: Text("SOULMATE",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ))),
+                  child: Text("soulmate",
+                      style: TextStyle(
+                        fontFamily: "DancingScript",
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: secondaryPink800,
+                      )),
+                ),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [primaryPink200, Colors.white],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)))),
+                  color: textOnSecondaryWhite,
+                ))),
         body: SingleChildScrollView(
           child: Center(
             child: Padding(
@@ -57,7 +59,7 @@ class _LoginState extends State<Login> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Center(
-                      child: Text("LOGIN", style: TextStyle(fontSize: 28)),
+                      child: Text("Login", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                         margin: EdgeInsets.only(top: 10),
@@ -75,14 +77,14 @@ class _LoginState extends State<Login> {
                                   ])),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: primaryPink200,
-                                    width: 2.0,
+                                    color: secondaryPink800,
+                                    width: 1.5,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0)),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: primaryPink200,
-                                    width: 2.0,
+                                    color: textOnPrimaryBlack,
+                                    width: 1.5,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0)),
                             ),
@@ -131,14 +133,14 @@ class _LoginState extends State<Login> {
                                 ])),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: primaryPink200,
-                                  width: 2.0,
+                                  color: secondaryPink800 ,
+                                  width: 1.5,
                                 ),
                                 borderRadius: BorderRadius.circular(10.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: primaryPink200,
-                                  width: 2.0,
+                                  color: textOnPrimaryBlack,
+                                  width: 1.5,
                                 ),
                                 borderRadius: BorderRadius.circular(10.0)),
                           ),
@@ -187,9 +189,10 @@ class _LoginState extends State<Login> {
                                       ))))),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 40.0),
+                        margin: EdgeInsets.only(top: 30.0),
                         child:
                             Center(child: Text("You don't have an account?"))),
+                    SizedBox(height: 5.0),
                     Container(
                       margin: EdgeInsets.only(bottom: 100.0),
                       child: ElevatedButton(
@@ -200,7 +203,7 @@ class _LoginState extends State<Login> {
                                     builder: (context) => SignUp()));
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: secondaryPinkDark,
+                            primary: secondaryPink800,
                           ),
                           child: Padding(
                               padding:

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 const primaryPink200 = const Color(0xFFf48fb1);
-const primaryPinkLight = const Color(0xFFffc1e3);
+const primaryPinkLight = const Color(0xFFFAD4DD);
 const primaryPinkDark = const Color(0xFFbf5f82);
 
 const secondaryPink800 = const Color(0xFFad1457);
 const secondaryPinkLight = const Color(0xFFe35183);
 const secondaryPinkDark = const Color(0xFF78002e);
+
 
 const textOnPrimaryBlack = const Color(0xFF000000);
 const textOnSecondaryWhite = const Color(0xFFffffff);

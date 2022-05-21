@@ -49,6 +49,7 @@ dependencies:
 
   material_floating_search_bar: ^0.3.7
   shared_preferences: ^2.0.15
+  firebase_analytics: ^9.1.8
 
 dev_dependencies:
   flutter_test:

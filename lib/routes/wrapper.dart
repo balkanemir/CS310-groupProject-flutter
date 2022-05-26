@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
-import 'package:flutterui/routes/authenticate.dart';
+import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,7 @@ class Wrapper extends StatelessWidget {
     // return either mainpage or Authenticate widget
 
     if (user == null) {
-      return Authenticate();
+      return Login(); // should go to welcome page which is not exist yet.
     }
     else {
       return MainPage();

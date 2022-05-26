@@ -71,10 +71,10 @@ class _ProfileState extends State<Profile> {
           "https://upload.wikimedia.org/wikipedia/commons/d/d6/Thomas_Hobbes_by_John_Michael_Wright_%282%29.jpg",
     ),
   ];
-  User myUser = User(
+  UserModel myUser = UserModel(
       profile_image:
           'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
-      id: 20000,
+      id: '10000',
       name: 'Metehan',
       surname: 'Koç',
       username: 'kocmetehan',

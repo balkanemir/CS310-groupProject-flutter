@@ -1,7 +1,9 @@
 //import 'dart:ffi';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/signup.dart';
+import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
@@ -21,7 +23,9 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String pass = "";
+  String error = "";
   bool _passwordVisible = false;
+  final AuthService _auth = AuthService();
 
   void _toggle() {
     setState(() {
@@ -59,13 +63,18 @@ class _LoginState extends State<Login> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Center(
-                      child: Text("Login", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      child: Text("Login",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                         margin: EdgeInsets.only(top: 10),
                         width: 100,
                         height: 50,
                         child: TextFormField(
+                            onChanged: (value) {
+                              setState(() => email = value);
+                            },
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               label: Container(
@@ -93,9 +102,9 @@ class _LoginState extends State<Login> {
                                 if (value.isEmpty) {
                                   return "Cannot leave e-mail empty";
                                 }
-                                // if(!EmailValidator.validate(value)) {
-                                //   return "Please enter a valid e-mail address";
-                                // }
+                                if (!EmailValidator.validate(value)) {
+                                  return "Please enter a valid e-mail address";
+                                }
                               }
                             },
                             onSaved: (value) {
@@ -106,6 +115,9 @@ class _LoginState extends State<Login> {
                       width: 100,
                       height: 50,
                       child: TextFormField(
+                          onChanged: (value) {
+                            setState(() => pass = value);
+                          },
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: !_passwordVisible,
                           decoration: InputDecoration(
@@ -133,7 +145,7 @@ class _LoginState extends State<Login> {
                                 ])),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: secondaryPink800 ,
+                                  color: secondaryPink800,
                                   width: 1.5,
                                 ),
                                 borderRadius: BorderRadius.circular(10.0)),
@@ -158,22 +170,28 @@ class _LoginState extends State<Login> {
                             pass = value ?? "";
                           }),
                     ),
+                    SizedBox(height: 12),
+                    Center(
+                      child: Text(error,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
                     Container(
                       child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              print("Email: $email");
-                              _formKey.currentState!.save();
-                              print("Email: $email");
+                          onPressed: () async {
+                            dynamic result = await _auth
+                                .loginWithEmailAndPassword(email, pass);
+                            if (result == null) {
+                              setState(() => error =
+                                  'Could not log in with those credentials');
+                            } else {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => MainPage()));
-                              // getUsers();
-                            } else {
-                              //_showDialog("Form Error", "Your form is invalid");
                             }
-                            ;
                           },
                           style: ElevatedButton.styleFrom(
                             primary: secondaryPink800,

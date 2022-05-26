@@ -22,11 +22,11 @@ class Shuffle extends StatefulWidget {
 class _ShuffleState extends State<Shuffle> {
 
   
-List<User> Users = [
-    User(
+List<UserModel> Users = [
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
-        id: 10000,
+        id: '10000',
         name: 'Jane',
         surname: 'Doe',
         username: 'JaneDoe',
@@ -34,10 +34,10 @@ List<User> Users = [
         MBTI_type: 'ISTJ',
         following: 12,
         followers: 78),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -45,10 +45,10 @@ List<User> Users = [
         MBTI_type: 'ESFP',
         following: 34,
         followers: 126),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -56,10 +56,10 @@ List<User> Users = [
         MBTI_type: 'ESFP',
         following: 182,
         followers: 58),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -67,10 +67,10 @@ List<User> Users = [
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -78,10 +78,10 @@ List<User> Users = [
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',

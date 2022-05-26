@@ -9,7 +9,7 @@ import 'package:flutterui/models/Post.dart';
 import 'package:like_button/like_button.dart';
 
 class PostCardTemplate extends StatelessWidget {
-  final User user;
+  final UserModel user;
   final Post post;
   PostCardTemplate({required this.user, required this.post});
 

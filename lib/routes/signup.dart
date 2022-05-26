@@ -1,5 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/login.dart';
+import 'package:flutterui/routes/mainpage.dart';
+import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -21,6 +24,7 @@ class _SignUpState extends State<SignUp> {
   String name = "";
   String surname = "";
   String MBTI = "";
+  final AuthService _auth = AuthService();
 
   final List<Map<String, dynamic>> _items = [
     {
@@ -94,7 +98,6 @@ class _SignUpState extends State<SignUp> {
                 height: 150,
                 child: Center(
                     child: Text("soulmate",
-
                         style: TextStyle(
                           fontFamily: "DancingScript",
                           fontSize: 40,
@@ -103,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                         ))),
                 decoration: BoxDecoration(
                   color: textOnSecondaryWhite,
-                   ))),
+                ))),
         body: SingleChildScrollView(
           child: Center(
             child: Padding(
@@ -115,13 +118,18 @@ class _SignUpState extends State<SignUp> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Center(
-                      child: Text("Sign Up", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      child: Text("Sign Up",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                         margin: EdgeInsets.only(top: 10),
                         width: 100,
                         height: 50,
                         child: TextFormField(
+                            onChanged: (value) {
+                              setState(() => name = value);
+                            },
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               label: Container(
@@ -132,7 +140,7 @@ class _SignUpState extends State<SignUp> {
                                   ])),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: secondaryPink800 ,
+                                    color: secondaryPink800,
                                     width: 1.5,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0)),
@@ -158,6 +166,9 @@ class _SignUpState extends State<SignUp> {
                         width: 100,
                         height: 50,
                         child: TextFormField(
+                            onChanged: (value) {
+                              setState(() => surname = value);
+                            },
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               label: Container(
@@ -194,6 +205,9 @@ class _SignUpState extends State<SignUp> {
                         width: 100,
                         height: 50,
                         child: TextFormField(
+                            onChanged: (value) {
+                              setState(() => email = value);
+                            },
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               label: Container(
@@ -221,9 +235,9 @@ class _SignUpState extends State<SignUp> {
                                 if (value.isEmpty) {
                                   return "Cannot leave e-mail empty";
                                 }
-                                // if(!EmailValidator.validate(value)) {
-                                //   return "Please enter a valid e-mail address";
-                                // }
+                                if (!EmailValidator.validate(value)) {
+                                  return "Please enter a valid e-mail address";
+                                }
                               }
                             },
                             onSaved: (value) {
@@ -234,6 +248,9 @@ class _SignUpState extends State<SignUp> {
                         width: 100,
                         height: 50,
                         child: TextFormField(
+                            onChanged: (value) {
+                              setState(() => pass = value);
+                            },
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               label: Container(
@@ -245,7 +262,7 @@ class _SignUpState extends State<SignUp> {
                                   ])),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: secondaryPink800 ,
+                                    color: secondaryPink800,
                                     width: 1.5,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0)),
@@ -274,12 +291,14 @@ class _SignUpState extends State<SignUp> {
                         width: 100,
                         height: 50,
                         child: SelectFormField(
+                          onChanged: (value) {
+                            setState(() => MBTI = value);
+                          },
                           type:
                               SelectFormFieldType.dropdown, // or can be dialog
                           initialValue: 'circle',
                           labelText: 'MBTI Type',
                           items: _items,
-                          onChanged: (val) => print(val),
                           onSaved: (val) => print(val),
                           decoration: InputDecoration(
                             label: Container(
@@ -324,18 +343,15 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Container(
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            print("Email: $email");
-                            _formKey.currentState!.save();
-                            print("Email: $email");
+                            dynamic result = await _auth
+                                .registerWithEmailAndPassword(email, pass);
+
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Login()));
-                            // getUsers();
-                          } else {
-                            //_showDialog("Form Error", "Your form is invalid");
+                                    builder: (context) => MainPage()));
                           }
                           ;
                         },

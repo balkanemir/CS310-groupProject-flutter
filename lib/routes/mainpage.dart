@@ -21,11 +21,11 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<User> Users = [
-    User(
+  List<UserModel> Users = [
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
-        id: 10000,
+        id: '10000',
         name: 'Jane',
         surname: 'Doe',
         username: 'JaneDoe',
@@ -33,10 +33,10 @@ class _MainPageState extends State<MainPage> {
         MBTI_type: 'ISTJ',
         following: 12,
         followers: 78),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -44,10 +44,10 @@ class _MainPageState extends State<MainPage> {
         MBTI_type: 'ESFP',
         following: 34,
         followers: 126),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -55,10 +55,10 @@ class _MainPageState extends State<MainPage> {
         MBTI_type: 'ESFP',
         following: 182,
         followers: 58),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -66,10 +66,10 @@ class _MainPageState extends State<MainPage> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -77,10 +77,10 @@ class _MainPageState extends State<MainPage> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    User(
+    UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: 10000,
+        id: '10000',
         name: 'Jeniffer',
         surname: 'Lawrance',
         username: 'Jeniffer123',
@@ -152,9 +152,9 @@ class _MainPageState extends State<MainPage> {
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentindex,
-            backgroundColor: textOnSecondaryWhite,
-            selectedItemColor: secondaryPink800,
-            unselectedItemColor: Colors.black12,
+            backgroundColor: primaryPink200,
+            selectedItemColor: textOnSecondaryWhite,
+            unselectedItemColor: secondaryPink800,
             selectedFontSize: 18.0,
             unselectedFontSize: 18.0,
             onTap: (value) {

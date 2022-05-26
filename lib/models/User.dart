@@ -1,6 +1,6 @@
-class User {
+class UserModel {
   String profile_image;
-  int id;
+  String id;
   String name;
   String surname;
   String username;
@@ -9,7 +9,7 @@ class User {
   int following;
   int followers;
 
-  User({
+  UserModel({
     required this.profile_image,
     required this.id,
     required this.name,

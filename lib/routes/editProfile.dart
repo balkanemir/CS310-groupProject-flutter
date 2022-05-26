@@ -9,7 +9,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/models/User.dart';
 
 class EditProfile extends StatefulWidget {
-  final User user;
+  final UserModel user;
   final Function updateName;
   final Function updateSurname;
   final Function updateUsername;

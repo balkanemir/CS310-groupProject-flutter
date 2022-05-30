@@ -1,5 +1,5 @@
 //import 'dart:ffi';
-
+import 'dart:io' show Platform;
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/signup.dart';
@@ -10,6 +10,8 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -25,7 +27,59 @@ class _LoginState extends State<Login> {
   String pass = "";
   String error = "";
   bool _passwordVisible = false;
+
   final AuthService _auth = AuthService();
+
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if(isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(message),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          } else {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(message),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          }
+
+        });
+  }
+
+
 
   void _toggle() {
     setState(() {

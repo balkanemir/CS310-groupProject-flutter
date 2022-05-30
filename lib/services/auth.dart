@@ -29,25 +29,42 @@ class AuthService {
   }
 
   // login with email & password
-  Future loginWithEmailAndPassword(String email, String password) async {
+  Future<dynamic> loginWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
       User? user = result.user;
       return _userFromFirebaseUser(user);
+    } on FirebaseAuthException catch (e) {
+      if(e.code == 'user-not-found') {
+        return e.message ?? 'E-mail and/or Password not found';
+      }
+      else if(e.code == 'wrong-password') {
+        return e.message ?? 'Password is not correct';
+      }
     }
     catch(e) {
-      print(e.toString());
-      return null;
+      return e.toString();
     }
   }
 
 
   // register with email & password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future<dynamic> registerWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
       return _userFromFirebaseUser(user);
+    }
+    on FirebaseAuthException catch (e) {
+      print(e.toString());
+      if(e.code == 'email-already-in-use') {
+        return e.message ?? 'E-mail already in use';
+      } else if (e.code == 'weak-password') {
+        return e.message ?? 'Ypur password is weak';
+      }
     }
     catch(e) {
       print(e.toString());

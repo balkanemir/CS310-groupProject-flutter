@@ -42,16 +42,17 @@ dependencies:
   swipedetector: ^1.2.0
   like_button: ^2.0.4
   cloud_firestore: ^3.1.14
-  firebase_core: ^1.16.0
   swipe_cards: ^1.0.0
-  json_annotation: ^4.5.0
-  json_serializable: ^6.2.0
 
   material_floating_search_bar: ^0.3.7
   shared_preferences: ^2.0.15
-  firebase_analytics: ^9.1.8
+
+  json_annotation: ^4.5.0
+  json_serializable: ^6.2.0
+  firebase_core: ^1.16.0
   firebase_auth: ^3.3.18
   provider: ^6.0.3
+  firebase_analytics: ^9.1.8
 
 dev_dependencies:
   flutter_test:

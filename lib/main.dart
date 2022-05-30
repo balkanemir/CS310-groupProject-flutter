@@ -9,6 +9,7 @@ import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/addpost.dart';
 import 'package:flutterui/routes/walkthrough.dart';
+import 'package:flutterui/routes/welcome.dart';
 import 'package:flutterui/routes/wrapper.dart';
 import 'package:flutterui/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,24 +35,49 @@ Future main() async {
 class SoulMate extends StatelessWidget {
   const SoulMate({ Key? key, required this.initRoute }) : super(key: key);
   final String initRoute;
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel?>(context);
     return StreamProvider<UserModel?>.value(
       initialData: null,
-    value: AuthService().user,
-    child: MaterialApp( 
-      initialRoute: initRoute,
-      home: Wrapper(), routes: {
-      Login.routeName: (context) => Login(),
-      SignUp.routeName: (context) => SignUp(),
-      WalkthroughScreen.routeName: (context) => const WalkthroughScreen(),
-      Shuffle.routeName: (context) => Shuffle(),
-      MainPage.routeName: (context) => MainPage(),
-      Profile.routeName: (context) => Profile(),
-      Search.routeName: (context) => Search(),
-      NotificationPage.routeName: (context) => NotificationPage(),
-      AddPost.routeName: (context) => AddPost(),
-    }),
+      value: AuthService().user,
+      child: AuthenticationStatus(initRoute: initRoute);
   );
+  }
+}
+class AuthenticationStatus extends StatefulWidget {
+  const AuthenticationStatus({Key? key,  required this.initRoute}) : super(key: key);
+  final String initRoute;
+
+  @override
+  State<AuthenticationStatus> createState() => _AuthenticationStatusState();
+}
+class _AuthenticationStatusState extends State<AuthenticationStatus> {
+  final String initRoute;
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<UserModel?>(context);
+    if(user == null) {
+      return Welcome();
+    }
+    else {
+      return MaterialApp(
+          initialRoute: initRoute,
+          home: Wrapper(), routes: {
+        Login.routeName: (context) => Login(),
+        SignUp.routeName: (context) => SignUp(),
+        WalkthroughScreen.routeName: (context) => const WalkthroughScreen(),
+        Shuffle.routeName: (context) => Shuffle(),
+        MainPage.routeName: (context) => MainPage(),
+        Profile.routeName: (context) => Profile(),
+        Search.routeName: (context) => Search(),
+        NotificationPage.routeName: (context) => NotificationPage(),
+        AddPost.routeName: (context) => AddPost(),
+      }),
+    );
+    }
+
+    return Container();
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/utils/styles.dart';
 
 class Welcome extends StatelessWidget {
+  static const String routeName = '/welcome';
   const Welcome({Key? key}) : super(key: key);
 
   @override
@@ -41,18 +42,21 @@ class Welcome extends StatelessWidget {
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(60.0),
-              child: Image.network('https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png'),
+              child: Image.network(
+                  'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png'),
             ),
             Spacer(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
                     flex: 1,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => SignUp()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -66,18 +70,16 @@ class Welcome extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  SizedBox(width: 8.0,),
-
+                  SizedBox(
+                    width: 8.0,
+                  ),
                   Expanded(
                     flex: 1,
                     child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Login()));
-                        },
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Login()));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Text(

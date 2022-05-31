@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/login.dart';
+import 'package:flutterui/routes/welcome.dart';
 import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
@@ -27,8 +28,11 @@ class Settings extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () async {
                   await _auth.signOut();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Login()));
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Welcome.routeName,
+                    (route) => false,
+                  );
                 },
                 child: Text('Sign out', style: TextStyle(color: Colors.red)),
                 style: ElevatedButton.styleFrom(primary: Colors.white60)),

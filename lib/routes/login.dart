@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          if(isAndroid) {
+          if (isAndroid) {
             return AlertDialog(
               title: Text(title),
               content: SingleChildScrollView(
@@ -75,11 +75,8 @@ class _LoginState extends State<Login> {
               ],
             );
           }
-
         });
   }
-
-
 
   void _toggle() {
     setState(() {
@@ -234,31 +231,35 @@ class _LoginState extends State<Login> {
                     ),
                     Container(
                       child: ElevatedButton(
-                          onPressed: () async {
-                            dynamic result = await _auth
-                                .loginWithEmailAndPassword(email, pass);
-                            if (result == null) {
-                              setState(() => error =
-                                  'Could not log in with those credentials');
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MainPage()));
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: secondaryPink800,
+                        onPressed: () async {
+                          dynamic result = await _auth
+                              .loginWithEmailAndPassword(email, pass);
+                          if (result == null) {
+                            setState(() => error =
+                                'Could not log in with those credentials');
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage()));
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: secondaryPink800,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: textOnSecondaryWhite,
+                              ),
+                            ),
                           ),
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12.0),
-                              child: Center(
-                                  child: Text("Login",
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: textOnSecondaryWhite,
-                                      ))))),
+                        ),
+                      ),
                     ),
                     Container(
                         margin: EdgeInsets.only(top: 30.0),
@@ -266,27 +267,67 @@ class _LoginState extends State<Login> {
                             Center(child: Text("You don't have an account?"))),
                     SizedBox(height: 5.0),
                     Container(
-                      margin: EdgeInsets.only(bottom: 100.0),
+                      margin: EdgeInsets.only(bottom: 25.0),
                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUp()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: secondaryPink800,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUp()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: secondaryPink800,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Center(
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: textOnSecondaryWhite,
+                              ),
+                            ),
                           ),
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12.0),
-                              child: Center(
-                                  child: Text("Sign Up",
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: textOnSecondaryWhite,
-                                      ))))),
-                    )
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          dynamic user = await _auth.signInWithGoogle();
+                          if (user != null) {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/mainpage", (route) => false);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: secondaryPink800,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                  'http://pngimg.com/uploads/google/google_PNG19635.png',
+                                  height: 20,
+                                  width: 20,
+                                ),
+                                Text(
+                                  "Sign Up with Google",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: textOnSecondaryWhite,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

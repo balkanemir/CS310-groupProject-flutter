@@ -33,38 +33,39 @@ Future main() async {
 }
 
 class SoulMate extends StatelessWidget {
-  const SoulMate({ Key? key, required this.initRoute }) : super(key: key);
+  const SoulMate({Key? key, required this.initRoute}) : super(key: key);
   final String initRoute;
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     return StreamProvider<UserModel?>.value(
-      initialData: null,
-      value: AuthService().user,
-      child: AuthenticationStatus(initRoute: initRoute);
-  );
+        initialData: null,
+        value: AuthService().user,
+        child: AuthenticationStatus(initRoute: initRoute));
   }
 }
+
 class AuthenticationStatus extends StatefulWidget {
-  const AuthenticationStatus({Key? key,  required this.initRoute}) : super(key: key);
+  const AuthenticationStatus({Key? key, required this.initRoute})
+      : super(key: key);
   final String initRoute;
 
   @override
   State<AuthenticationStatus> createState() => _AuthenticationStatusState();
 }
+
 class _AuthenticationStatusState extends State<AuthenticationStatus> {
-  final String initRoute;
+  late String initRoute = "/welcome";
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
-    if(user == null) {
-      return Welcome();
-    }
-    else {
-      return MaterialApp(
-          initialRoute: initRoute,
-          home: Wrapper(), routes: {
+    if (user == null) {
+      return MaterialApp(initialRoute: initRoute, home: Wrapper(), routes: {
+        Welcome.routeName: (context) => Welcome(),
+      });
+    } else {
+      return MaterialApp(initialRoute: initRoute, home: Wrapper(), routes: {
         Login.routeName: (context) => Login(),
         SignUp.routeName: (context) => SignUp(),
         WalkthroughScreen.routeName: (context) => const WalkthroughScreen(),
@@ -74,8 +75,7 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
         Search.routeName: (context) => Search(),
         NotificationPage.routeName: (context) => NotificationPage(),
         AddPost.routeName: (context) => AddPost(),
-      }),
-    );
+      });
     }
 
     return Container();

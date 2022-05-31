@@ -4,6 +4,8 @@ import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/utils/styles.dart';
+import 'package:flutterui/services/analytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class Welcome extends StatelessWidget {
   static const String routeName = '/welcome';
@@ -11,6 +13,7 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Welcome_Page", <String, dynamic>{});
     return Scaffold(
       body: SafeArea(
         maintainBottomViewPadding: false,

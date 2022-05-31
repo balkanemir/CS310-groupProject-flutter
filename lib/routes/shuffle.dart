@@ -8,21 +8,18 @@ import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:flutterui/services/analytics.dart';
 
 import 'notificationPage.dart';
 
-
 class Shuffle extends StatefulWidget {
-  
   static const String routeName = '/shuffle';
   @override
   _ShuffleState createState() => _ShuffleState();
 }
 
 class _ShuffleState extends State<Shuffle> {
-
-  
-List<UserModel> Users = [
+  List<UserModel> Users = [
     UserModel(
         profile_image:
             'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
@@ -91,47 +88,49 @@ List<UserModel> Users = [
         followers: 78),
   ];
 
-  
   int _currentindex = 2;
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Shuffle_Page", <String, dynamic>{});
     return Scaffold(
       backgroundColor: Colors.white,
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentindex,
-            backgroundColor: primaryPink200,
-            selectedItemColor: textOnSecondaryWhite,
-            unselectedItemColor: secondaryPink800,
-            selectedFontSize: 18.0,
-            unselectedFontSize: 18.0,
-            onTap: (value) {
-              setState(() => _currentindex = value);
-              if(_currentindex == 0) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>MainPage()));
-              }
-              if(_currentindex == 1) {
-                //Search Navigator
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>Search()));
-              }
-              if(_currentindex == 2) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>Shuffle()));
-              }
-              if(_currentindex == 3) {
-                Navigator.push(
-                    context, MaterialPageRoute(
-                    builder: (context) => NotificationPage()));
-              }
-            },
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.search), label: 'Search'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shuffle), label: 'Shuffle'),
-              BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications')
-            ]),
-            body: ShuffleCard(Users: Users),
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentindex,
+          backgroundColor: primaryPink200,
+          selectedItemColor: textOnSecondaryWhite,
+          unselectedItemColor: secondaryPink800,
+          selectedFontSize: 18.0,
+          unselectedFontSize: 18.0,
+          onTap: (value) {
+            setState(() => _currentindex = value);
+            if (_currentindex == 0) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }
+            if (_currentindex == 1) {
+              //Search Navigator
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Search()));
+            }
+            if (_currentindex == 2) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Shuffle()));
+            }
+            if (_currentindex == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
+            }
+          },
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shuffle), label: 'Shuffle'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications), label: 'Notifications')
+          ]),
+      body: ShuffleCard(Users: Users),
     );
   }
 }

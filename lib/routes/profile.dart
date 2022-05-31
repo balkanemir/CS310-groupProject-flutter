@@ -9,6 +9,7 @@ import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/models/Post.dart';
 import 'package:flutterui/routes/editProfile.dart';
 import 'package:flutterui/utils/screensizes.dart';
+import 'package:flutterui/services/analytics.dart';
 
 class Profile extends StatefulWidget {
   static const String routeName = '/profile';
@@ -116,6 +117,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Profile_Page", <String, dynamic>{});
     return Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomNavigationBar(

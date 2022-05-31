@@ -9,7 +9,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/messages.dart';
 import 'package:flutterui/routes/addpost.dart';
-
+import 'package:flutterui/services/analytics.dart';
 
 import 'notificationPage.dart';
 
@@ -147,6 +147,7 @@ class _MainPageState extends State<MainPage> {
   int _currentindex = 0;
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Main_Page", <String, dynamic>{});
     return Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomNavigationBar(
@@ -205,7 +206,7 @@ class _MainPageState extends State<MainPage> {
                         },
                         child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: primaryPinkLight ,
+                            backgroundColor: primaryPinkLight,
                             backgroundImage: NetworkImage(
                                 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png')),
                         style: ElevatedButton.styleFrom(
@@ -223,12 +224,14 @@ class _MainPageState extends State<MainPage> {
                       height: 50,
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => MessagePage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MessagePage()));
                           },
                           child: Icon(Icons.message_sharp),
                           style: ElevatedButton.styleFrom(
-                            primary: primaryPinkLight ,
+                            primary: primaryPinkLight,
                             shape: CircleBorder(),
                           )),
                     )
@@ -236,7 +239,7 @@ class _MainPageState extends State<MainPage> {
                 )),
                 decoration: BoxDecoration(
                   color: textOnSecondaryWhite,
-                   ))),
+                ))),
         body: SizedBox(
           height: screenSize(context).height,
           child: ListView.builder(

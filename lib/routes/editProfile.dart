@@ -7,6 +7,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/services/analytics.dart';
 
 class EditProfile extends StatefulWidget {
   final UserModel user;
@@ -112,6 +113,7 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Edit_Profile_Page", <String, dynamic>{});
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,

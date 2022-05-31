@@ -27,7 +27,7 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  String initRoute = showHome ? '/login' : '/walkthrough';
+  String initRoute = showHome ? '/login' : WalkthroughScreen.routeName;
 
   return runApp(SoulMate(initRoute: initRoute));
 }
@@ -35,7 +35,6 @@ Future main() async {
 class SoulMate extends StatelessWidget {
   const SoulMate({Key? key, required this.initRoute}) : super(key: key);
   final String initRoute;
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
@@ -56,26 +55,32 @@ class AuthenticationStatus extends StatefulWidget {
 }
 
 class _AuthenticationStatusState extends State<AuthenticationStatus> {
-  late String initRoute = "/welcome";
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     if (user == null) {
-      return MaterialApp(initialRoute: initRoute, home: Wrapper(), routes: {
-        Welcome.routeName: (context) => Welcome(),
-      });
+      return MaterialApp(
+          initialRoute: widget.initRoute,
+          home: Wrapper(),
+          routes: {
+            WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
+            Welcome.routeName: (context) => Welcome(),
+          });
     } else {
-      return MaterialApp(initialRoute: initRoute, home: Wrapper(), routes: {
-        Login.routeName: (context) => Login(),
-        SignUp.routeName: (context) => SignUp(),
-        WalkthroughScreen.routeName: (context) => const WalkthroughScreen(),
-        Shuffle.routeName: (context) => Shuffle(),
-        MainPage.routeName: (context) => MainPage(),
-        Profile.routeName: (context) => Profile(),
-        Search.routeName: (context) => Search(),
-        NotificationPage.routeName: (context) => NotificationPage(),
-        AddPost.routeName: (context) => AddPost(),
-      });
+      return MaterialApp(
+          initialRoute: widget.initRoute,
+          home: Wrapper(),
+          routes: {
+            Login.routeName: (context) => Login(),
+            SignUp.routeName: (context) => SignUp(),
+            WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
+            Shuffle.routeName: (context) => Shuffle(),
+            MainPage.routeName: (context) => MainPage(),
+            Profile.routeName: (context) => Profile(),
+            Search.routeName: (context) => Search(),
+            NotificationPage.routeName: (context) => NotificationPage(),
+            AddPost.routeName: (context) => AddPost(),
+          });
     }
 
     return Container();

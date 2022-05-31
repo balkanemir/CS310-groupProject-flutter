@@ -3,6 +3,7 @@ import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:flutterui/services/analytics.dart';
 
 class AddPost extends StatefulWidget {
   static const String routeName = '/addPost';
@@ -21,6 +22,7 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Add_Post_Page", <String, dynamic>{});
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.pink[100],

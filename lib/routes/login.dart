@@ -10,6 +10,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutterui/services/analytics.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -85,6 +86,7 @@ class _LoginState extends State<Login> {
   }
 
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Login_Page", <String, dynamic>{});
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(

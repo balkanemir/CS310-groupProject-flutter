@@ -6,12 +6,14 @@ import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:flutterui/services/analytics.dart';
 
 class Settings extends StatelessWidget {
   static const String routeName = '/settings';
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Settings_Page", <String, dynamic>{});
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70.0,

@@ -135,8 +135,8 @@ class _WalkthroughItemState extends State<WalkthroughItem> {
                       if ((widget.index + 1) == widget.totalItem) {
                         final prefs = await SharedPreferences.getInstance();
                         prefs.setBool(('showHome'), true);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Login()));
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "/welcome", (route) => false);
                       } else {
                         await widget.controller.animateToPage(
                           widget.index + 1,

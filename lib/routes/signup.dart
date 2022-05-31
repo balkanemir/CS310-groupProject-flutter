@@ -4,10 +4,10 @@ import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/utils/colors.dart';
-import 'package:flutterui/routes/login.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import 'package:flutterui/services/analytics.dart';
 
 class SignUp extends StatefulWidget {
   static const String routeName = '/signup';
@@ -90,6 +90,7 @@ class _SignUpState extends State<SignUp> {
   ];
 
   Widget build(BuildContext context) {
+    AppAnalytics.logCustomEvent("Sign_Up_Page", <String, dynamic>{});
     return Scaffold(
         backgroundColor: secondaryBackgroundWhite,
         appBar: PreferredSize(

@@ -27,7 +27,7 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  String initRoute = showHome ? '/login' : WalkthroughScreen.routeName;
+  String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
 
   return runApp(SoulMate(initRoute: initRoute));
 }

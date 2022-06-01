@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
@@ -28,6 +29,7 @@ Future main() async {
   );
 
   String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   return runApp(SoulMate(initRoute: initRoute));
 }

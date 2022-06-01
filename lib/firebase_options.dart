@@ -29,6 +29,16 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -43,6 +53,7 @@ class DefaultFirebaseOptions {
     projectId: 'cs310-groupproject-flutter',
     authDomain: 'cs310-groupproject-flutter.firebaseapp.com',
     storageBucket: 'cs310-groupproject-flutter.appspot.com',
+    measurementId: 'G-DJ42V18B4J',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -59,6 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '840891291637',
     projectId: 'cs310-groupproject-flutter',
     storageBucket: 'cs310-groupproject-flutter.appspot.com',
+    androidClientId: '840891291637-uamupvs9g36neias4bg7jiu3jnqocend.apps.googleusercontent.com',
     iosClientId: '840891291637-bbgfcleuj2fie8nud5nd7b4f38uurao2.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterui',
   );

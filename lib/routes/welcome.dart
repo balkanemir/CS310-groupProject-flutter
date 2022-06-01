@@ -4,68 +4,56 @@ import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/utils/styles.dart';
-import 'package:flutterui/services/analytics.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 class Welcome extends StatelessWidget {
-  static const String routeName = '/welcome';
   const Welcome({Key? key}) : super(key: key);
+
+  static const String routeName = '/welcome';
 
   @override
   Widget build(BuildContext context) {
-    AppAnalytics.logCustomEvent("Welcome_Page", <String, dynamic>{});
     return Scaffold(
       body: SafeArea(
         maintainBottomViewPadding: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Padding(
-                padding: Dimension.regularPadding,
-                child: RichText(
-                  text: TextSpan(
-                    text: "Welcome to ",
-                    //style: kHeadingTextStyle,
-                    children: const <TextSpan>[
-                      TextSpan(
-                        text: "Soulmate",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.red,
-                          decorationThickness: 2.0,
-                          decorationStyle: TextDecorationStyle.dashed,
-                        ),
-                      ),
-                    ],
-                  ),
+            SizedBox(height: 250),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: RichText(
+                text: TextSpan(
+                    text: "soulmate",
+                    style: TextStyle(
+                      fontFamily: "DancingScript",
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: secondaryPink800,
+                    )
                 ),
               ),
             ),
-            Spacer(),
+            SizedBox(height: 250),
+
+
             Padding(
-              padding: const EdgeInsets.all(60.0),
-              child: Image.network(
-                  'https://images-na.ssl-images-amazon.com/images/I/417MahKs6fL.png'),
-            ),
-            Spacer(),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
                     flex: 1,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignUp()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Text(
                           'Signup',
-                          //style: kButtonLightTextStyle,
+                          style: TextStyle(
+                            color: secondaryBackgroundWhite,
+                          ),
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
@@ -73,21 +61,25 @@ class Welcome extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
+
+                  SizedBox(width: 8.0,),
+
                   Expanded(
                     flex: 1,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Login()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Text(
                           'Login',
-                          //style: kButtonDarkTextStyle,
+                          style: TextStyle(
+                            color: secondaryBackgroundWhite,
+                          ),
                         ),
                       ),
                       style: OutlinedButton.styleFrom(

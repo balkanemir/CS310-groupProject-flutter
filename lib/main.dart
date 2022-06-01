@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/routes/login.dart';
@@ -31,10 +32,14 @@ Future main() async {
   );
 
   String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
+<<<<<<< HEAD
   BlocOverrides.runZoned(
       () => runApp(SoulMate(initRoute: initRoute)),
       blocObserver: AppBlocObserver(),
       );
+=======
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+>>>>>>> cdaf323e0bbb4744059783f78d7dadbe3e5a11da
 
 }
 

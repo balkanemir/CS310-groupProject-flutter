@@ -6,6 +6,7 @@ class UserModel {
   String username;
   String email;
   String MBTI_type;
+  String? bio;
   int following;
   int followers;
 
@@ -19,5 +20,6 @@ class UserModel {
     required this.MBTI_type,
     required this.following,
     required this.followers,
+    this.bio,
   });
 }

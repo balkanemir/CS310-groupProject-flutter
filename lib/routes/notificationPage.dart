@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
+import 'package:flutterui/routes/welcome.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
@@ -76,7 +77,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Profile()));
+                                  builder: (context) => Welcome()));
                         },
                         child: CircleAvatar(
                             radius: 30,

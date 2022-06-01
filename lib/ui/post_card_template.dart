@@ -16,57 +16,66 @@ class PostCardTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+
       child: Card(
+        
         color: textOnSecondaryWhite,
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
         child: Column(
           children: [
-            ListTile(
-              leading: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Profile()));
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: secondaryPinkDark,
-                  shape: CircleBorder(),
-                ),
-                child: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: primaryPinkLight,
-                    backgroundImage: NetworkImage(user.profile_image)),
-              ),
-              title: RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: ListTile(
+                leading: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profile()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: secondaryBackgroundWhite,
+                    shape: CircleBorder(),
                   ),
-
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "${user.name} ${user.surname}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: " (${user.username})",
-                    )
-                  ],
+                  child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: primaryPinkLight,
+                      backgroundImage: NetworkImage(user.profile_image)),
                 ),
+                
+                title: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "${user.name} ${user.surname}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: " @${user.username}",
+                      )
+                    ],
+                  ),
+                ),
+                subtitle: post.text != null
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(post.text!),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      )
+                    : null,
               ),
-              subtitle: post.text != null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(post.text!),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    )
-                  : null,
             ),
             if (post.image != null) ...[
               Column(
@@ -83,7 +92,7 @@ class PostCardTemplate extends StatelessWidget {
             Container(
               color: textOnSecondaryWhite,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width: 10),
                   TextButton.icon(
@@ -91,22 +100,30 @@ class PostCardTemplate extends StatelessWidget {
                         Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CommentPage()));
                     },
-                    icon: Icon(Icons.comment, size: 20, color: Colors.grey),
-                    label: Text("${post.comment}", style: TextStyle(
-                              color: textOnPrimaryBlack
-                            )),
+                    icon: Icon(
+                      Icons.comment, 
+                      size: 15, 
+                      color: Colors.grey),
+                    label: Text("${post.comment}", 
+                              style: TextStyle(
+                              color: textOnPrimaryBlack,
+                              fontSize: 10,
+                            )
+                            ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       LikeButton(
-                              size: 20,
+                              size: 15,
                             ),
                             Text("${post.like}", style: TextStyle(
-                              color: textOnPrimaryBlack
+                              color: textOnPrimaryBlack,
+                              fontSize: 10,
                             )),
                     ],
                   ),
+                  /*
                   SizedBox(
                     width: 175,
                   ),
@@ -114,7 +131,7 @@ class PostCardTemplate extends StatelessWidget {
                     onPressed: () {},
                     splashRadius: 20,
                     icon: Icon(Icons.delete, size: 20, color: Colors.grey),
-                  ),
+                  ),*/
                 ],
               ),
             )

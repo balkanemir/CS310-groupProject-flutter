@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/utils/colors.dart';
-import 'package:flutterui/utils/dimensions.dart';
-import 'package:flutterui/utils/styles.dart';
+
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
-
   static const String routeName = '/welcome';
+
+
 
   @override
   Widget build(BuildContext context) {

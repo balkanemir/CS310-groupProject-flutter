@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/notificationPage.dart';
@@ -12,6 +13,7 @@ import 'package:flutterui/routes/walkthrough.dart';
 import 'package:flutterui/routes/welcome.dart';
 import 'package:flutterui/routes/wrapper.dart';
 import 'package:flutterui/services/auth.dart';
+import 'package:flutterui/services/block_observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +21,7 @@ import 'package:flutterui/models/User.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
 
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
@@ -28,8 +31,11 @@ Future main() async {
   );
 
   String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
+  BlocOverrides.runZoned(
+      () => runApp(SoulMate(initRoute: initRoute)),
+      blocObserver: AppBlocObserver(),
+      );
 
-  return runApp(SoulMate(initRoute: initRoute));
 }
 
 class SoulMate extends StatelessWidget {
@@ -76,7 +82,7 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
             WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
             Shuffle.routeName: (context) => Shuffle(),
             MainPage.routeName: (context) => MainPage(),
-            Profile.routeName: (context) => Profile(),
+            //Profile.routeName: (context) => Profile(),
             Search.routeName: (context) => Search(),
             NotificationPage.routeName: (context) => NotificationPage(),
             AddPost.routeName: (context) => AddPost(),

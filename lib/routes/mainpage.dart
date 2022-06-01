@@ -153,8 +153,8 @@ class _MainPageState extends State<MainPage> {
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentindex,
-            backgroundColor: primaryPink200,
-            selectedItemColor: textOnSecondaryWhite,
+            backgroundColor: textOnSecondaryWhite,
+            selectedItemColor: secondaryPink800,
             unselectedItemColor: secondaryPink800,
             selectedFontSize: 18.0,
             unselectedFontSize: 18.0,
@@ -180,7 +180,7 @@ class _MainPageState extends State<MainPage> {
                         builder: (context) => NotificationPage()));
               }
             },
-            items: [
+            items:const  [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.search), label: 'Search'),
@@ -190,7 +190,7 @@ class _MainPageState extends State<MainPage> {
                   icon: Icon(Icons.notifications), label: 'Notifications')
             ]),
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100.0),
+            preferredSize: const Size.fromHeight(100.0),
             child: Container(
                 height: 150,
                 child: Center(
@@ -206,7 +206,7 @@ class _MainPageState extends State<MainPage> {
                         },
                         child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: primaryPinkLight,
+                            backgroundColor: textOnSecondaryWhite,
                             backgroundImage: NetworkImage(
                                 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png')),
                         style: ElevatedButton.styleFrom(
@@ -237,7 +237,7 @@ class _MainPageState extends State<MainPage> {
                     )
                   ],
                 )),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: textOnSecondaryWhite,
                 ))),
         body: SizedBox(

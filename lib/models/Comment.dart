@@ -5,7 +5,7 @@ class Comment {
   String uSurname;
   String username;
   String comment;
-  // add int like
+  //post ID ekle
 
   Comment(
       {

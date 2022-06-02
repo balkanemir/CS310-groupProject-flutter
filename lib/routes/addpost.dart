@@ -6,7 +6,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/services/analytics.dart';
 
-import '../services/database.dart';
+import '../services/databaseWrite.dart';
 
 class AddPost extends StatefulWidget {
   static const String routeName = '/addPost';
@@ -22,6 +22,8 @@ class _AddPostState extends State<AddPost> {
       _selectedIndex = index;
     });
   }
+
+  String postText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,7 @@ class _AddPostState extends State<AddPost> {
                 icon: Icon(Icons.send),
                 onPressed: () {
                   Navigator.pop(context);
-                  createPost(userID: "", postID: "", date: DateTime(2021,3,2), comments: 2, likes: 2);
+                  createPost(userID: "", postID: "", date: DateTime.now(), comments: 2, likes: 2, postText: postText);
                 },
               ),
             ),
@@ -99,6 +101,9 @@ class _AddPostState extends State<AddPost> {
                       maxLines: 8, //or null
                       decoration: InputDecoration.collapsed(
                           hintText: "Enter your text here"),
+                      onChanged: (text) {
+                        postText = text;
+                      },
                     ),
                   ),
                 ],

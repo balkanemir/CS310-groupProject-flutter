@@ -9,10 +9,10 @@ Future createPost({required String userID, required String postID, required Date
   final post = Post(
     userID: "1",
     postID: docPost.id,
-    date: DateTime(2021,10,10),
+    date: date,
     comments: 3,
     postImage: "",
-    postText: "",
+    postText: postText,
     likes: 4,
   );
 

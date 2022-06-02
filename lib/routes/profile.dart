@@ -261,6 +261,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
+        /*
         body: SizedBox(
           height: screenSize(context).height,
           child: ListView.builder(
@@ -268,11 +269,12 @@ class _ProfileState extends State<Profile> {
               return PostCardTemplate(
                 user: myUser,
                 post: posts[index],
+                comment: posts[index].comment,
               );
             },
             itemCount: posts.length,
           ),
-        ),
+        ),*/
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

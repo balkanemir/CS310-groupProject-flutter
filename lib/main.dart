@@ -32,14 +32,11 @@ Future main() async {
   );
 
   String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
-<<<<<<< HEAD
   BlocOverrides.runZoned(
       () => runApp(SoulMate(initRoute: initRoute)),
       blocObserver: AppBlocObserver(),
       );
-=======
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
->>>>>>> cdaf323e0bbb4744059783f78d7dadbe3e5a11da
 
 }
 

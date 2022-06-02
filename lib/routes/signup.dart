@@ -13,6 +13,8 @@ import 'package:flutterui/services/analytics.dart';
 class SignUp extends StatefulWidget {
   static const String routeName = '/signup';
 
+  const SignUp({Key? key}) : super(key: key);
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -89,6 +91,7 @@ class _SignUpState extends State<SignUp> {
       'label': 'ENTJ',
     },
   ];
+
 
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Sign_Up_Page", <String, dynamic>{});
@@ -349,8 +352,8 @@ class _SignUpState extends State<SignUp> {
                           if (_formKey.currentState!.validate()) {
                             dynamic result = await _auth
                                 .registerWithEmailAndPassword(email, pass);
-                            createUser(id: '', email: email, profile_image: '', followers: 0, following: 0, bio: '', name: name, username: '', surname: surname, MBTI_type: MBTI);
-
+                            createUser(id: result.id, email: email, profile_image: 'https://banner2.cleanpng.com/20180722/gfc/kisspng-user-profile-2018-in-sight-user-conference-expo-5b554c0968c377.0307553315323166814291.jpg', followers: 0, following: 0, bio: '', name: name, username: '', surname: surname, MBTI_type: MBTI);
+                            
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

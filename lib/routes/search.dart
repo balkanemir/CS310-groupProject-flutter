@@ -12,6 +12,8 @@ import 'mainpage.dart';
 class Search extends StatefulWidget {
   static const String routeName = '/search';
 
+  const Search({Key? key}) : super(key: key);
+
   @override
   _SearchState createState() => _SearchState();
 }
@@ -22,6 +24,7 @@ class _SearchState extends State<Search> {
   List<String> filteredSearchHistory = [];
 
   String selectedTerm = "";
+
 
   List<String> filterSearchTerms(@required String? filter) {
     if (filter != null && filter.isNotEmpty) {

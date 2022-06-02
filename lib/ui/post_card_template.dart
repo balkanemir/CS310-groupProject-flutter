@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
+import 'package:flutterui/models/User.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/comment.dart';
@@ -8,15 +10,21 @@ import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:like_button/like_button.dart';
-
 import '../models/comment1.dart';
 
 class PostCardTemplate extends StatelessWidget {
-  final User user;
+  final String uid;
+  final User1? user;
   final Post post;
   final Comment comment;
-  PostCardTemplate({required this.user, required this.post,required this.comment});
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance.collection('users').snapshots();
+  PostCardTemplate({
+    Key? key,
+    required this.uid,
+    required this.user,
+    required this.post,
+    required this.comment
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,7 +52,9 @@ class PostCardTemplate extends StatelessWidget {
                   child: CircleAvatar(
                       radius: 30,
                       backgroundColor: primaryPinkLight,
-                      backgroundImage: NetworkImage(user.profileImage)),
+
+                      backgroundImage: NetworkImage(user!.profileImage)),
+
                 ),
                 
                 title: RichText(
@@ -55,11 +65,11 @@ class PostCardTemplate extends StatelessWidget {
               
                     children: <TextSpan>[
                       TextSpan(
-                        text: "${user.name} ${user.surname}",
+                        text: "${user?.name} ${user?.surname}",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: " @${user.username}",
+                        text: " @${user?.username}",
                       )
                     ],
                   ),

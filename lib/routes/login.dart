@@ -15,6 +15,8 @@ import 'package:flutterui/services/analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
+
+  const Login({Key? key}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 
@@ -30,6 +32,7 @@ class _LoginState extends State<Login> {
   bool _passwordVisible = false;
 
   final AuthService _auth = AuthService();
+
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;

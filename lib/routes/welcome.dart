@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/routes/signup.dart';
+
 import 'package:flutterui/routes/login.dart';
+import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/utils/colors.dart';
 
-
 class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+  const Welcome({
+    Key? key,
+  }) : super(key: key);
   static const String routeName = '/welcome';
 
 

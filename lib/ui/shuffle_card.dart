@@ -7,7 +7,7 @@ import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class ShuffleCard extends StatefulWidget {
-  final List<UserModel> Users;
+  final List<User> Users;
 
   const ShuffleCard({Key? key, required this.Users}) : super(key: key);
 
@@ -16,7 +16,7 @@ class ShuffleCard extends StatefulWidget {
 }
 
 class _ShuffleCardState extends State<ShuffleCard> {
-  final List<UserModel> Users;
+  final List<User> Users;
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -27,7 +27,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
   void initState() {
     for (int i = 0; i < Users.length; i++) {
       _swipeItems.add(SwipeItem(
-          content: UserModel(
+          content: User(
               profile_image: Users[i].profile_image,
               id: Users[i].id,
               name: Users[i].name,

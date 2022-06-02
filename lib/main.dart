@@ -26,7 +26,6 @@ import 'package:flutterui/models/User.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
 
@@ -36,11 +35,10 @@ Future main() async {
 
   String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
   BlocOverrides.runZoned(
-      () => runApp(SoulMate(initRoute: initRoute)),
-      blocObserver: AppBlocObserver(),
-      );
+    () => runApp(SoulMate(initRoute: initRoute)),
+    blocObserver: AppBlocObserver(),
+  );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
 }
 
 class SoulMate extends StatelessWidget {
@@ -48,8 +46,8 @@ class SoulMate extends StatelessWidget {
   final String initRoute;
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserModel?>(context);
-    return StreamProvider<UserModel?>.value(
+    final user = Provider.of<User1?>(context);
+    return StreamProvider<User1?>.value(
         initialData: null,
         value: AuthService().user,
         child: AuthenticationStatus(initRoute: initRoute));
@@ -68,7 +66,7 @@ class AuthenticationStatus extends StatefulWidget {
 class _AuthenticationStatusState extends State<AuthenticationStatus> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserModel?>(context);
+    final user = Provider.of<User1?>(context);
     if (user == null) {
       return MaterialApp(
           initialRoute: widget.initRoute,
@@ -98,16 +96,30 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
   }
 }
 
-Future createUser({required String id, required String email, required String profile_image,required int followers,required int following, required String bio ,required String name, required String username, required String surname, required String MBTI_type}) async {
+Stream<List<User1>> readUsers() =>
+    FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => User1.fromJson(doc.data())).toList());
+
+Future createUser(
+    {required String id,
+    required String email,
+    required String profile_image,
+    required int followers,
+    required int following,
+    required String bio,
+    required String name,
+    required String username,
+    required String surname,
+    required String MBTI_type}) async {
   final docUser = FirebaseFirestore.instance.collection('users').doc();
 
-  final user = User(
+  final user = User1(
     userID: docUser.id,
-    email: '-',
-    profileImage: '-',
+    email: email,
+    profileImage: profile_image,
     bio: bio,
-    followers: 0,
-    following: 0,
+    followers: followers,
+    following: following,
     name: name,
     surname: surname,
     username: username,
@@ -115,19 +127,41 @@ Future createUser({required String id, required String email, required String pr
   );
   final json = user.toJson();
 
-
   await docUser.set(json);
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'email': email,
-      'profile_image': profile_image,
-      'bio': bio,
-      'followers': followers,
-      'following': following,
-      'name': name,
-      'surname': surname,
-      'username': username,
-      'MBTI_type': MBTI_type,
-  };
+        'id': id,
+        'email': email,
+        'profile_image': profile_image,
+        'bio': bio,
+        'followers': followers,
+        'following': following,
+        'name': name,
+        'surname': surname,
+        'username': username,
+        'MBTI_type': MBTI_type,
+      };
+
+  User1 fromJson(Map<String, dynamic> json) => User1(
+        userID: json['id'],
+        email: json['email'],
+        profileImage: json['profileImage'],
+        bio: json['bio'],
+        followers: json['followers'],
+        following: json['following'],
+        name: json['name'],
+        surname: json['surname'],
+        username: json['username'],
+        MBTI: json['MBTI'],
+      );
 }
+
+Future<User1?> readUser() async {
+  final docUser = FirebaseFirestore.instance.collection('users').doc();
+  final snapshot = await docUser.get();
+
+  if (snapshot.exists) {
+    return User1.fromJson(snapshot.data()!);
+  }
+}
+

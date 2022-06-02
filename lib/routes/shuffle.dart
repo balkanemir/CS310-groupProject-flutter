@@ -14,13 +14,17 @@ import 'notificationPage.dart';
 
 class Shuffle extends StatefulWidget {
   static const String routeName = '/shuffle';
+
+  const Shuffle({Key? key}) : super(key: key);
   @override
   _ShuffleState createState() => _ShuffleState();
 }
 
 class _ShuffleState extends State<Shuffle> {
-  List<UserModel> Users = [
-    UserModel(
+  List<User>  Users = [];
+  /*
+  List<User1> Users = [
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
         id: '10000',
@@ -31,7 +35,7 @@ class _ShuffleState extends State<Shuffle> {
         MBTI_type: 'ISTJ',
         following: 12,
         followers: 78),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -42,7 +46,7 @@ class _ShuffleState extends State<Shuffle> {
         MBTI_type: 'ESFP',
         following: 34,
         followers: 126),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -53,7 +57,7 @@ class _ShuffleState extends State<Shuffle> {
         MBTI_type: 'ESFP',
         following: 182,
         followers: 58),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -64,7 +68,7 @@ class _ShuffleState extends State<Shuffle> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -75,7 +79,7 @@ class _ShuffleState extends State<Shuffle> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -87,8 +91,10 @@ class _ShuffleState extends State<Shuffle> {
         following: 12,
         followers: 78),
   ];
-
+*/
   int _currentindex = 2;
+
+
   @override
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Shuffle_Page", <String, dynamic>{});

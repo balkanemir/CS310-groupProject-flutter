@@ -14,12 +14,15 @@ import 'mainpage.dart';
 class NotificationPage extends StatefulWidget {
   static const String routeName = '/notificationPage';
 
+  const NotificationPage({Key? key}) : super(key: key);
+
   @override
   _NotificationPageState createState() => _NotificationPageState();
 }
 
 class _NotificationPageState extends State<NotificationPage> {
   int _currentindex = 3;
+
 
   @override
   Widget build(BuildContext context) {

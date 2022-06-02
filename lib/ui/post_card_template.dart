@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
+import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/comment.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
-import 'package:flutterui/models/Post.dart';
 import 'package:like_button/like_button.dart';
 
+import '../models/comment1.dart';
+
 class PostCardTemplate extends StatelessWidget {
-  final UserModel user;
+  final User user;
   final Post post;
-  PostCardTemplate({required this.user, required this.post});
+  final Comment comment;
+  PostCardTemplate({required this.user, required this.post,required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +39,17 @@ class PostCardTemplate extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     primary: secondaryBackgroundWhite,
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                   ),
                   child: CircleAvatar(
                       radius: 30,
                       backgroundColor: primaryPinkLight,
-                      backgroundImage: NetworkImage(user.profile_image)),
+                      backgroundImage: NetworkImage(user.profileImage)),
                 ),
                 
                 title: RichText(
                   text: TextSpan(
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                     ),
 
@@ -61,15 +64,15 @@ class PostCardTemplate extends StatelessWidget {
                     ],
                   ),
                 ),
-                subtitle: post.text != null
+                subtitle: post.postText != null
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
-                          Text(post.text!),
-                          SizedBox(
+                          Text(post.postText!),
+                         const  SizedBox(
                             height: 15,
                           ),
                         ],
@@ -77,12 +80,12 @@ class PostCardTemplate extends StatelessWidget {
                     : null,
               ),
             ),
-            if (post.image != null) ...[
+            if (post.postImage != null) ...[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.network(
-                    post.image!,
+                    post.postImage!,
                     height: 200,
                     fit: BoxFit.fill,
                   ),
@@ -94,18 +97,18 @@ class PostCardTemplate extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   TextButton.icon(
                     onPressed: () {
                         Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CommentPage()));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.comment, 
                       size: 15, 
                       color: Colors.grey),
-                    label: Text("${post.comment}", 
-                              style: TextStyle(
+                    label: Text("${comment.commentText}", 
+                              style: const TextStyle(
                               color: textOnPrimaryBlack,
                               fontSize: 10,
                             )
@@ -114,10 +117,11 @@ class PostCardTemplate extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      LikeButton(
+                      const LikeButton(
                               size: 15,
                             ),
-                            Text("${post.like}", style: TextStyle(
+                            Text("${post.likes}", 
+                            style: const TextStyle(
                               color: textOnPrimaryBlack,
                               fontSize: 10,
                             )),

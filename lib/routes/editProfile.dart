@@ -10,7 +10,7 @@ import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
 
 class EditProfile extends StatefulWidget {
-  final User? user;
+  final User1? user;
   final Function updateName;
   final Function updateSurname;
   final Function updateUsername;

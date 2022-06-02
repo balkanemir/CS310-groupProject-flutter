@@ -46,8 +46,8 @@ class SoulMate extends StatelessWidget {
   final String initRoute;
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserModel?>(context);
-    return StreamProvider<UserModel?>.value(
+    final user = Provider.of<User1?>(context);
+    return StreamProvider<User1?>.value(
         initialData: null,
         value: AuthService().user,
         child: AuthenticationStatus(initRoute: initRoute));
@@ -66,7 +66,7 @@ class AuthenticationStatus extends StatefulWidget {
 class _AuthenticationStatusState extends State<AuthenticationStatus> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserModel?>(context);
+    final user = Provider.of<User1?>(context);
     if (user == null) {
       return MaterialApp(
           initialRoute: widget.initRoute,
@@ -96,9 +96,9 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
   }
 }
 
-Stream<List<User>> readUsers() =>
+Stream<List<User1>> readUsers() =>
     FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => User.fromJson(doc.data())).toList());
+        snapshot.docs.map((doc) => User1.fromJson(doc.data())).toList());
 
 Future createUser(
     {required String id,
@@ -113,7 +113,7 @@ Future createUser(
     required String MBTI_type}) async {
   final docUser = FirebaseFirestore.instance.collection('users').doc();
 
-  final user = User(
+  final user = User1(
     userID: docUser.id,
     email: email,
     profileImage: profile_image,
@@ -142,7 +142,7 @@ Future createUser(
         'MBTI_type': MBTI_type,
       };
 
-  User fromJson(Map<String, dynamic> json) => User(
+  User1 fromJson(Map<String, dynamic> json) => User1(
         userID: json['id'],
         email: json['email'],
         profileImage: json['profileImage'],
@@ -156,12 +156,12 @@ Future createUser(
       );
 }
 
-Future<User?> readUser() async {
+Future<User1?> readUser() async {
   final docUser = FirebaseFirestore.instance.collection('users').doc();
   final snapshot = await docUser.get();
 
   if (snapshot.exists) {
-    return User.fromJson(snapshot.data()!);
+    return User1.fromJson(snapshot.data()!);
   }
 }
 

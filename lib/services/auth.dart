@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -7,24 +7,24 @@ class AuthService {
 
   //create user obj based on FirebaseUser
 
-  UserModel? _userFromFirebaseUser(User? user) {
+  User1? _userFromFirebaseUser(User? user) {
     return user != null
-        ? UserModel(
-            profile_image:
+        ? User1(
+            profileImage:
                 'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-            id: user.uid,
+            userID: user.uid,
             name: 'Jeniffer',
             surname: 'Lawrance',
             username: 'Jeniffer123',
             email: 'Jan@example.com',
-            MBTI_type: 'ESFP',
+            MBTI: 'ESFP',
             following: 34,
             followers: 126)
         : null;
   }
 
   // auth change user stream
-  Stream<UserModel?> get user {
+  Stream<User1?> get user {
     return _auth
         .authStateChanges()
         //.map((User? user) => _userFromFirebaseUser(user));

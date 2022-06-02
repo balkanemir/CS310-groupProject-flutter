@@ -3,7 +3,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'user1.g.dart';
 @JsonSerializable()
-class User {
+class User1 {
   String userID;
   String name;
   String surname;
@@ -15,7 +15,7 @@ class User {
   int following;
   int followers;
 
-  User({
+  User1({
     required this.profileImage,
     required this.userID,
     required this.name,
@@ -28,7 +28,7 @@ class User {
     this.bio,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User1.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   

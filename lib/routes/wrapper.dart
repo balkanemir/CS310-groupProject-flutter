@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<UserModel?>(context);
+    final user = Provider.of<User1?>(context);
     // return either mainpage or Authenticate widget
 
     if (user == null) {

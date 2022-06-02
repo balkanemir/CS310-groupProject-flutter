@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/User.dart';
+
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/ui/post_card_template.dart';
@@ -18,32 +20,33 @@ import 'notificationPage.dart';
 class MainPage extends StatefulWidget {
   static const String routeName = '/mainpage';
 
-  const MainPage({Key? key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
   @override
+  
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
 
-  List<User> user = [
-    User(
-      userID: "melisa",
-      name: "Melisa",
+  List<User1> user = [
+    User1(
+      userID: "",
+      name: "",
       surname: "",
-      username: "xxxx",
+      username: "",
       email: "",
       profileImage: "",
       MBTI: "",
-      following: 3,
-      followers: 4,
+      following: 0,
+      followers: 0,
 
     )
   ];
     List<Post> post = [
     Post(
-      userID: "melisa",
-      postID: "dsd",
-      date: DateTime(2020,10,10),
+      userID: "",
+      postID: "",
+      date: DateTime.now(),
       comments: 4,
       postImage: "",
       postText: "",
@@ -52,83 +55,17 @@ class _MainPageState extends State<MainPage> {
   ];
   List<Comment> comment = [
     Comment(
-      userID: "melisa",
-      postID: "dsd",
-      commentID: "xxx",
-      commentText: "ttt",
+      userID: "",
+      postID: "",
+      commentID: "",
+      commentText: "",
     )
   ];
+  final Stream<QuerySnapshot> users = FirebaseFirestore.instance.collection('users').snapshots();
+  final Stream<QuerySnapshot> posts = FirebaseFirestore.instance.collection('posts').snapshots();
+  final Stream<QuerySnapshot> comments = FirebaseFirestore.instance.collection('comments').snapshots();
 
-
-  List<UserModel> Users = [
-    UserModel(
-        profile_image:
-            'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
-        id: '10000',
-        name: 'Jane',
-        surname: 'Doe',
-        username: 'JaneDoe',
-        email: 'JaneDoe@example.com',
-        MBTI_type: 'ISTJ',
-        following: 12,
-        followers: 78),
-    UserModel(
-        profile_image:
-            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: '10000',
-        name: 'Jeniffer',
-        surname: 'Lawrance',
-        username: 'Jeniffer123',
-        email: 'Jan@example.com',
-        MBTI_type: 'ESFP',
-        following: 34,
-        followers: 126),
-    UserModel(
-        profile_image:
-            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: '10000',
-        name: 'Jeniffer',
-        surname: 'Lawrance',
-        username: 'Jeniffer123',
-        email: 'Jan@example.com',
-        MBTI_type: 'ESFP',
-        following: 182,
-        followers: 58),
-    UserModel(
-        profile_image:
-            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: '10000',
-        name: 'Jeniffer',
-        surname: 'Lawrance',
-        username: 'Jeniffer123',
-        email: 'Jan@example.com',
-        MBTI_type: 'ESFP',
-        following: 12,
-        followers: 78),
-    UserModel(
-        profile_image:
-            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: '10000',
-        name: 'Jeniffer',
-        surname: 'Lawrance',
-        username: 'Jeniffer123',
-        email: 'Jan@example.com',
-        MBTI_type: 'ESFP',
-        following: 12,
-        followers: 78),
-    UserModel(
-        profile_image:
-            'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
-        id: '10000',
-        name: 'Jeniffer',
-        surname: 'Lawrance',
-        username: 'Jeniffer123',
-        email: 'Jan@example.com',
-        MBTI_type: 'ESFP',
-        following: 12,
-        followers: 78),
-  ];
-
+  
   
   int _currentindex = 0;
 
@@ -240,16 +177,47 @@ class _MainPageState extends State<MainPage> {
                 decoration: const BoxDecoration(
                   color: textOnSecondaryWhite,
                 ))),
-        // body: 
-        // SizedBox(
-        //   height: screenSize(context).height,
-        //   child: ListView.builder(
-        //     itemBuilder: (context, index) {
-        //       return PostCardTemplate(user: Users[index], post: posts[index]);
-        //     },
-        //     itemCount: posts.length,
-        //   ),
-        // ),
+           body: 
+       SizedBox(
+        height: screenSize(context).height,
+       child: StreamBuilder<QuerySnapshot>(
+         stream: users,
+         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
+              return StreamBuilder<QuerySnapshot> (
+                stream: posts,
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                  return StreamBuilder<QuerySnapshot> ( 
+                      stream: comments,
+                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                        final userData = snapshot1.requireData;
+                        final postData = snapshot2.requireData;
+                        final commentData = snapshot3.requireData;
+
+                        return ListView.builder(
+                  
+                          itemCount: postData.size,
+                          itemBuilder: (context, index) {
+                               user[0].userID = userData.docs[index]['userID'];
+                               user[0].name = userData.docs[index]['name'];
+                               user[0].surname = userData.docs[index]['name'];
+                               user[0].email = userData.docs[index]['email'];
+                               user[0].profileImage = userData.docs[index]['profileImage'];
+                               user[0].MBTI = userData.docs[index]['MBTI'];
+                               user[0].following = userData.docs[index]['following'];
+                               user[0].followers = userData.docs[index]['followers'];
+
+                               post[0].userID = postData.docs[index]['userID'];
+                            return PostCardTemplate(uid: post[0].userID, user: user[0], post: post[0], comment: comment[0]);
+
+                          }
+                        );
+                      }
+                  );
+                }
+              );
+            },
+          ),
+          ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

@@ -6,7 +6,7 @@ import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/models/Message.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
 
 class MessagePage extends StatefulWidget {
@@ -15,8 +15,10 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  List<UserModel> Users = [
-    UserModel(
+  List<User1>  Users = [];
+  /*
+  List<User1> Users = [
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/193/660/png-transparent-computer-icons-woman-avatar-avatar-girl-thumbnail.png',
         id: '10000',
@@ -27,7 +29,7 @@ class _MessagePageState extends State<MessagePage> {
         MBTI_type: 'ISTJ',
         following: 12,
         followers: 78),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -38,7 +40,7 @@ class _MessagePageState extends State<MessagePage> {
         MBTI_type: 'ESFP',
         following: 34,
         followers: 126),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -49,7 +51,7 @@ class _MessagePageState extends State<MessagePage> {
         MBTI_type: 'ESFP',
         following: 182,
         followers: 58),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -60,7 +62,7 @@ class _MessagePageState extends State<MessagePage> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -71,7 +73,7 @@ class _MessagePageState extends State<MessagePage> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-    UserModel(
+    User1(
         profile_image:
             'https://w7.pngwing.com/pngs/129/292/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon.png',
         id: '10000',
@@ -82,7 +84,7 @@ class _MessagePageState extends State<MessagePage> {
         MBTI_type: 'ESFP',
         following: 12,
         followers: 78),
-  ];
+  ];*/
 
   List<Message> messages = [
     Message(

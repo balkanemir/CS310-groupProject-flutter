@@ -1,14 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
+import 'package:flutterui/models/comment1.dart';
 
-import 'package:flutterui/models/User.dart';
 import 'package:flutterui/models/user1.dart';
+import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/settings.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/ui/post_card_template.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/mainpage.dart';
-import 'package:flutterui/models/Post.dart';
 import 'package:flutterui/routes/editProfile.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/services/analytics.dart';
@@ -17,65 +18,16 @@ class Profile extends StatefulWidget {
   static const String routeName = '/profile';
   const Profile({Key? key}) : super(key: key);
   @override
-  _ProfileState createState() => _ProfileState(uid);
+
+  _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  final String uid;
-  User? user;
-  List<Post> posts = [
-    Post(
-      1000,
-      DateTime.utc(1989, 7, 20),
-      10,
-      5,
-      text:
-          '\"I have often laughed at the weaklings who thought themselves good because they had no claws. \" Nietzsche',
-    ),
-    Post(
-      1001,
-      DateTime.utc(2001, 11, 10),
-      20,
-      7,
-      image:
-          "https://pz0fpvezntt4.merlincdn.net/Skins/shared/images/yazar/desktop/Friedrich%20Nietzsche_2.png",
-    ),
-    Post(
-      1002,
-      DateTime.utc(2007, 4, 11),
-      2,
-      0,
-      text:
-          '\"You will never reach your destination if you stop and throw stones at every dog that barks\" Churchill',
-      image:
-          "https://upload.wikimedia.org/wikipedia/commons/b/bc/Sir_Winston_Churchill_-_19086236948.jpg",
-    ),
-    Post(
-      1003,
-      DateTime.utc(2011, 1, 12),
-      30,
-      10,
-      text: '\"It is double pleasure to deceive the deceiver. \" Machiavelli',
-    ),
-    Post(
-      1004,
-      DateTime.utc(2021, 7, 20),
-      5,
-      2,
-      image:
-          "https://upload.wikimedia.org/wikipedia/commons/e/e2/Portrait_of_Niccol%C3%B2_Machiavelli_by_Santi_di_Tito.jpg",
-    ),
-    Post(
-      1005,
-      DateTime.utc(1914, 5, 11),
-      125,
-      15,
-      text:
-          '\"Government is necessary, not because man is naturally bad... but because man is by nature more individualistic than social\" Nietzsche',
-      image:
-          "https://upload.wikimedia.org/wikipedia/commons/d/d6/Thomas_Hobbes_by_John_Michael_Wright_%282%29.jpg",
-    ),
-  ];
+
+  //final String uid;
+  User1? user;
+  List<Post> posts = [];
+  List<Comment> comment= [];
   // User?Model user? = User?Model(
   //     profile_image:
   //         'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
@@ -89,7 +41,7 @@ class _ProfileState extends State<Profile> {
   //     followers: 78);
   int _currentindex = -1;
 
-  _ProfileState(this.uid);
+  _ProfileState();
 
   void _updateName(String name) {
     setState(() {
@@ -266,7 +218,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      body: FutureBuilder<User?>(
+      body: FutureBuilder<User1?>(
           future: readUser(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -274,9 +226,11 @@ class _ProfileState extends State<Profile> {
             } else {
               if (snapshot.hasData) {
                 user = snapshot.data;
+                final FirebaseAuth auth = FirebaseAuth.instance;
+                var uid = auth.currentUser!.uid;
                 return user == null
                     ? Center(child: Text('No User?'))
-                    : PostCardTemplate( user: user, post: posts[0]);
+                    : PostCardTemplate(uid: uid, user: user, post: posts[0], comment: comment[0]);
               } else {
                 return Center(child: CircularProgressIndicator());
               }

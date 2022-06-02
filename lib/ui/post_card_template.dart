@@ -13,7 +13,7 @@ import '../models/comment1.dart';
 
 class PostCardTemplate extends StatelessWidget {
   final String uid;
-  final User? user;
+  final User1? user;
   final Post post;
   final Comment comment;
   PostCardTemplate({

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/main.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/services/analytics.dart';
+
+import '../services/database.dart';
 
 class AddPost extends StatefulWidget {
   static const String routeName = '/addPost';
@@ -65,6 +68,7 @@ class _AddPostState extends State<AddPost> {
                 icon: Icon(Icons.send),
                 onPressed: () {
                   Navigator.pop(context);
+                  createPost(userID: "", postID: "", date: DateTime(2021,3,2), comments: 2, likes: 2);
                 },
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/models/user1.dart';
+import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/notificationPage.dart';
@@ -119,7 +120,7 @@ Future createUser({required String id, required String email, required String pr
 
   Map<String, dynamic> toJson() => {
     'id': id,
-      'email': email,
+    'email': email,
       'profile_image': profile_image,
       'bio': bio,
       'followers': followers,
@@ -130,5 +131,3 @@ Future createUser({required String id, required String email, required String pr
       'MBTI_type': MBTI_type,
   };
 }
-
-

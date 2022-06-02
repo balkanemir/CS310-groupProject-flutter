@@ -6,11 +6,11 @@ import 'package:email_validator/email_validator.dart';
 import 'dart:io' show Platform;
 
 import 'package:flutterui/utils/colors.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
 
 class EditProfile extends StatefulWidget {
-  final UserModel user;
+  final User? user;
   final Function updateName;
   final Function updateSurname;
   final Function updateUsername;
@@ -104,11 +104,11 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    mbtiValue = widget.user.MBTI_type;
-    name = widget.user.name;
-    email = widget.user.email;
-    surname = widget.user.surname;
-    username = widget.user.username;
+    mbtiValue = widget.user!.MBTI;
+    name = widget.user!.name;
+    email = widget.user!.email;
+    surname = widget.user!.surname;
+    username = widget.user!.username;
   }
 
   @override
@@ -143,7 +143,7 @@ class _EditProfileState extends State<EditProfile> {
                           radius: 50,
                           backgroundColor: secondaryPinkLight,
                           backgroundImage: NetworkImage(
-                            widget.user.profile_image,
+                            widget.user!.profileImage,
                           ),
                         ),
                       ),

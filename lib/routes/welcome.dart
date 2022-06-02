@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/routes/signup.dart';
+
 import 'package:flutterui/routes/login.dart';
+import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/utils/colors.dart';
 
-
 class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+  const Welcome({
+    Key? key,
+    required this.uid,
+  }) : super(key: key);
+  final String uid;
   static const String routeName = '/welcome';
 
 
@@ -45,7 +49,7 @@ class Welcome extends StatelessWidget {
                     flex: 1,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp(uid: uid)));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -71,7 +75,7 @@ class Welcome extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Login()));
+                                builder: (context) => Login(uid: uid)));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),

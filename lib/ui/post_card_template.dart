@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
+
+import 'package:flutterui/models/Post.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/comment.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
-import 'package:flutterui/models/Post.dart';
-import 'package:like_button/like_button.dart';
 
 class PostCardTemplate extends StatelessWidget {
-  final UserModel user;
+  final String uid;
+  final User? user;
   final Post post;
-  PostCardTemplate({required this.user, required this.post});
+  PostCardTemplate({
+    Key? key,
+    required this.uid,
+    required this.user,
+    required this.post,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +40,7 @@ class PostCardTemplate extends StatelessWidget {
                 leading: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                        MaterialPageRoute(builder: (context) => Profile(uid: uid)));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: secondaryBackgroundWhite,
@@ -41,7 +49,7 @@ class PostCardTemplate extends StatelessWidget {
                   child: CircleAvatar(
                       radius: 30,
                       backgroundColor: primaryPinkLight,
-                      backgroundImage: NetworkImage(user.profile_image)),
+                      backgroundImage: NetworkImage(user!.profileImage)),
                 ),
                 
                 title: RichText(
@@ -52,11 +60,11 @@ class PostCardTemplate extends StatelessWidget {
 
                     children: <TextSpan>[
                       TextSpan(
-                        text: "${user.name} ${user.surname}",
+                        text: "${user?.name} ${user?.surname}",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: " @${user.username}",
+                        text: " @${user?.username}",
                       )
                     ],
                   ),

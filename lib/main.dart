@@ -25,7 +25,6 @@ import 'package:flutterui/models/User.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
 
@@ -35,11 +34,10 @@ Future main() async {
 
   String initRoute = showHome ? '/welcome' : WalkthroughScreen.routeName;
   BlocOverrides.runZoned(
-      () => runApp(SoulMate(initRoute: initRoute)),
-      blocObserver: AppBlocObserver(),
-      );
+    () => runApp(SoulMate(initRoute: initRoute)),
+    blocObserver: AppBlocObserver(),
+  );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
 }
 
 class SoulMate extends StatelessWidget {
@@ -74,21 +72,21 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
           home: Wrapper(),
           routes: {
             WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
-            Welcome.routeName: (context) => Welcome(),
+            Welcome.routeName: (context) => Welcome(uid: ''),
           });
     } else {
       return MaterialApp(
           initialRoute: widget.initRoute,
           home: Wrapper(),
           routes: {
-            Login.routeName: (context) => Login(),
-            SignUp.routeName: (context) => SignUp(),
+            Login.routeName: (context) => Login(uid: ''),
+            SignUp.routeName: (context) => SignUp(uid: ''),
             WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
-            Shuffle.routeName: (context) => Shuffle(),
-            MainPage.routeName: (context) => MainPage(),
+            Shuffle.routeName: (context) => Shuffle(uid: ''),
+            MainPage.routeName: (context) => MainPage(uid: ''),
             //Profile.routeName: (context) => Profile(),
-            Search.routeName: (context) => Search(),
-            NotificationPage.routeName: (context) => NotificationPage(),
+            Search.routeName: (context) => Search(uid: ''),
+            NotificationPage.routeName: (context) => NotificationPage(uid: ''),
             AddPost.routeName: (context) => AddPost(),
           });
     }
@@ -97,16 +95,30 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
   }
 }
 
-Future createUser({required String id, required String email, required String profile_image,required int followers,required int following, required String bio ,required String name, required String username, required String surname, required String MBTI_type}) async {
-  final docUser = FirebaseFirestore.instance.collection('users').doc();
+Stream<List<User>> readUsers() =>
+    FirebaseFirestore.instance.collection('users').snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => User.fromJson(doc.data())).toList());
+
+Future createUser(
+    {required String id,
+    required String email,
+    required String profile_image,
+    required int followers,
+    required int following,
+    required String bio,
+    required String name,
+    required String username,
+    required String surname,
+    required String MBTI_type}) async {
+  final docUser = FirebaseFirestore.instance.collection('users').doc(id);
 
   final user = User(
     userID: docUser.id,
-    email: '-',
-    profileImage: '-',
+    email: email,
+    profileImage: profile_image,
     bio: bio,
-    followers: 0,
-    following: 0,
+    followers: followers,
+    following: following,
     name: name,
     surname: surname,
     username: username,
@@ -114,21 +126,40 @@ Future createUser({required String id, required String email, required String pr
   );
   final json = user.toJson();
 
-
   await docUser.set(json);
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-      'email': email,
-      'profile_image': profile_image,
-      'bio': bio,
-      'followers': followers,
-      'following': following,
-      'name': name,
-      'surname': surname,
-      'username': username,
-      'MBTI_type': MBTI_type,
-  };
+        'id': id,
+        'email': email,
+        'profile_image': profile_image,
+        'bio': bio,
+        'followers': followers,
+        'following': following,
+        'name': name,
+        'surname': surname,
+        'username': username,
+        'MBTI_type': MBTI_type,
+      };
+
+  User fromJson(Map<String, dynamic> json) => User(
+        userID: json['id'],
+        email: json['email'],
+        profileImage: json['profileImage'],
+        bio: json['bio'],
+        followers: json['followers'],
+        following: json['following'],
+        name: json['name'],
+        surname: json['surname'],
+        username: json['username'],
+        MBTI: json['MBTI'],
+      );
 }
 
+Future<User?> readUser(String id) async {
+  final docUser = FirebaseFirestore.instance.collection('users').doc(id);
+  final snapshot = await docUser.get();
 
+  if (snapshot.exists) {
+    return User.fromJson(snapshot.data()!);
+  }
+}

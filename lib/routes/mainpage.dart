@@ -15,12 +15,15 @@ import 'notificationPage.dart';
 
 class MainPage extends StatefulWidget {
   static const String routeName = '/mainpage';
+  final String uid;
 
+  const MainPage({Key? key, required this.uid}) : super(key: key);
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(uid);
 }
 
 class _MainPageState extends State<MainPage> {
+  final String uid;
   List<UserModel> Users = [
     UserModel(
         profile_image:
@@ -145,6 +148,8 @@ class _MainPageState extends State<MainPage> {
   ];
 
   int _currentindex = 0;
+
+  _MainPageState(this.uid);
   @override
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Main_Page", <String, dynamic>{});
@@ -162,22 +167,22 @@ class _MainPageState extends State<MainPage> {
               setState(() => _currentindex = value);
               if (_currentindex == 0) {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MainPage()));
+                    MaterialPageRoute(builder: (context) => MainPage(uid: uid)));
               }
               if (_currentindex == 1) {
                 //Search Navigator
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Search()));
+                    context, MaterialPageRoute(builder: (context) => Search(uid: uid)));
               }
               if (_currentindex == 2) {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Shuffle()));
+                    MaterialPageRoute(builder: (context) => Shuffle(uid: uid)));
               }
               if (_currentindex == 3) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => NotificationPage()));
+                        builder: (context) => NotificationPage(uid: uid)));
               }
             },
             items:const  [
@@ -202,7 +207,7 @@ class _MainPageState extends State<MainPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Profile()));
+                                  builder: (context) => Profile(uid: uid)));
                         },
                         child: CircleAvatar(
                             radius: 30,
@@ -253,15 +258,16 @@ class _MainPageState extends State<MainPage> {
                 decoration: const BoxDecoration(
                   color: textOnSecondaryWhite,
                 ))),
-        body: SizedBox(
-          height: screenSize(context).height,
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return PostCardTemplate(user: Users[index], post: posts[index]);
-            },
-            itemCount: posts.length,
-          ),
-        ),
+        // body: 
+        // SizedBox(
+        //   height: screenSize(context).height,
+        //   child: ListView.builder(
+        //     itemBuilder: (context, index) {
+        //       return PostCardTemplate(user: Users[index], post: posts[index]);
+        //     },
+        //     itemCount: posts.length,
+        //   ),
+        // ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

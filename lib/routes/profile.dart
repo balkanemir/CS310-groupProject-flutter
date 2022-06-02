@@ -261,20 +261,18 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
-        /*
-        body: SizedBox(
-          height: screenSize(context).height,
-          child: ListView.builder(
-            itemBuilder: (ctx, index) {
-              return PostCardTemplate(
-                user: myUser,
-                post: posts[index],
-                comment: posts[index].comment,
-              );
-            },
-            itemCount: posts.length,
-          ),
-        ),*/
+      //  body: SizedBox(
+         // height: screenSize(context).height,
+         // child: ListView.builder(
+           // itemBuilder: (ctx, index) {
+            //  return PostCardTemplate(
+              //  user: myUser,
+                //post: posts[index],
+              //);
+          //  },
+          //  itemCount: posts.length,
+         // ),
+        //),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

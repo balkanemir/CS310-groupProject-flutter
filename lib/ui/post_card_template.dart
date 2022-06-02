@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/user1.dart';
@@ -15,14 +16,13 @@ class PostCardTemplate extends StatelessWidget {
   final Post post;
   final Comment comment;
   PostCardTemplate({required this.user, required this.post,required this.comment});
-
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance.collection('users').snapshots();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
 
       child: Card(
-        
         color: textOnSecondaryWhite,
         shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
@@ -52,7 +52,7 @@ class PostCardTemplate extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-
+              
                     children: <TextSpan>[
                       TextSpan(
                         text: "${user.name} ${user.surname}",

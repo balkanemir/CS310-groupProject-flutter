@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/routes/search.dart';
@@ -12,6 +13,7 @@ import 'package:flutterui/services/analytics.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/models/comment1.dart';
+import 'package:multi_stream_builder/multi_stream_builder.dart';
 
 import 'notificationPage.dart';
 
@@ -125,7 +127,9 @@ class _MainPageState extends State<MainPage> {
         following: 12,
         followers: 78),
   ];
-
+  final Stream<QuerySnapshot> users = FirebaseFirestore.instance.collection('users').snapshots();
+  final Stream<QuerySnapshot> posts = FirebaseFirestore.instance.collection('posts').snapshots();
+  final Stream<QuerySnapshot> comments = FirebaseFirestore.instance.collection('comments').snapshots();
   
   int _currentindex = 0;
   @override
@@ -238,12 +242,20 @@ class _MainPageState extends State<MainPage> {
                 ))),
         body: SizedBox(
           height: screenSize(context).height,
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return PostCardTemplate(user: user[index], post: post[index], comment: comment[index]);
-            },
-            itemCount: post.length,
-          ),
+          child: MultiStreamBuilder(
+            streams: [users, posts, comments],
+            builder: (BuildContext context, snapshots) {
+                final userData = snapshots[0].requireData;
+                final postData = snapshots[1].requireData;
+                final commentData = snapshots[2].requireData;
+                return ListView.builder(
+                          itemCount: postData.size,
+                          itemBuilder: (context, index) {
+                            return PostCardTemplate(user: userData.data, post: postData.data, comment: commentData.data);
+                          }
+                        );
+            }
+            )
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -255,3 +267,36 @@ class _MainPageState extends State<MainPage> {
             child: Icon(Icons.add)));
   }
 }
+
+/*
+
+   StreamBuilder<QuerySnapshot>( 
+            stream:users,
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
+              return StreamBuilder<QuerySnapshot> (
+                stream: posts,
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                  return StreamBuilder<QuerySnapshot> ( 
+                      stream: comments,
+                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                        final userData = snapshot1.requireData;
+                        final postData = snapshot2.requireData;
+                        final commentData = snapshot3.requireData;
+
+                        return ListView.builder(
+                          itemCount: postData.size,
+                          itemBuilder: (context, index) {
+                            return userData.docs[index]['name'];
+
+                          }
+                        );
+                      }
+                  );
+
+                }
+              );
+            },
+
+
+          )
+*/

@@ -245,6 +245,7 @@ class _MainPageState extends State<MainPage> {
           child: MultiStreamBuilder(
             streams: [users, posts, comments],
             builder: (BuildContext context, snapshots) {
+    
                 final userData = snapshots[0].requireData;
                 final postData = snapshots[1].requireData;
                 final commentData = snapshots[2].requireData;

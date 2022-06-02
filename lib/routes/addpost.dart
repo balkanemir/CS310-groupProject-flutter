@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/utils/styles.dart';
@@ -70,7 +71,9 @@ class _AddPostState extends State<AddPost> {
                 icon: Icon(Icons.send),
                 onPressed: () {
                   Navigator.pop(context);
-                  createPost(userID: "", postID: "", date: DateTime.now(), comments: 2, likes: 2, postText: postText);
+                  final FirebaseAuth auth = FirebaseAuth.instance;
+                  var uid = auth.currentUser!.uid;
+                  createPost(userID: uid, postID: "", date: DateTime.now(), comments: 0, likes: 0, postText: postText);
                 },
               ),
             ),

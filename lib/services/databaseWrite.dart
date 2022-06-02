@@ -3,17 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/post1.dart';
 
-Future createPost({required String userID, required String postID, required DateTime date, required int comments, String postImage = "", String postText="", required int likes}) async {
+Future createPost({String userID = "", required String postID, required DateTime date, required int comments, String postImage = "", String postText="", required int likes}) async {
   final docPost = FirebaseFirestore.instance.collection('posts').doc();
   
   final post = Post(
-    userID: "1",
+    userID: userID,
     postID: docPost.id,
     date: date,
-    comments: 3,
-    postImage: "",
+    comments: comments,
+    postImage: postImage,
     postText: postText,
-    likes: 4,
+    likes: likes,
   );
 
   final json = post.toJson();

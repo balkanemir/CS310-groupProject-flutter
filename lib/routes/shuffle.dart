@@ -13,16 +13,14 @@ import 'package:flutterui/services/analytics.dart';
 import 'notificationPage.dart';
 
 class Shuffle extends StatefulWidget {
-  final String uid;
   static const String routeName = '/shuffle';
 
-  const Shuffle({Key? key, required this.uid}) : super(key: key);
+  const Shuffle({Key? key}) : super(key: key);
   @override
-  _ShuffleState createState() => _ShuffleState(uid);
+  _ShuffleState createState() => _ShuffleState();
 }
 
 class _ShuffleState extends State<Shuffle> {
-  final String uid;
   
   List<UserModel> Users = [
     UserModel(
@@ -95,7 +93,7 @@ class _ShuffleState extends State<Shuffle> {
 
   int _currentindex = 2;
 
-  _ShuffleState(this.uid);
+
   @override
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Shuffle_Page", <String, dynamic>{});
@@ -113,20 +111,20 @@ class _ShuffleState extends State<Shuffle> {
             setState(() => _currentindex = value);
             if (_currentindex == 0) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MainPage(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
             }
             if (_currentindex == 1) {
               //Search Navigator
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Search(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => Search()));
             }
             if (_currentindex == 2) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Shuffle(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
             if (_currentindex == 3) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NotificationPage(uid: uid)));
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
           items: [

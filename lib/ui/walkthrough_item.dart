@@ -86,7 +86,7 @@ class _WalkthroughItemState extends State<WalkthroughItem> {
                       onTap: () async {
                         if ((widget.index + 1) == widget.totalItem) {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login(uid: '')));
+                              MaterialPageRoute(builder: (context) => Login()));
                         } else {
                           await widget.controller.animateToPage(
                             widget.index - 1,

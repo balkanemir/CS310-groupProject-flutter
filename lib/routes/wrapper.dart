@@ -14,10 +14,10 @@ class Wrapper extends StatelessWidget {
     // return either mainpage or Authenticate widget
 
     if (user == null) {
-      return Login(uid: ''); // should go to welcome page which is not exist yet.
+      return Login(); // should go to welcome page which is not exist yet.
     }
     else {
-      return MainPage(uid: '');
+      return MainPage();
     }
   }
 }

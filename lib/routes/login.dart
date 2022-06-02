@@ -15,17 +15,15 @@ import 'package:flutterui/services/analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
-  final String uid;
 
-  const Login({Key? key, required this.uid}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
   @override
-  _LoginState createState() => _LoginState(uid);
+  _LoginState createState() => _LoginState();
 
   static const String routeName = '/login';
 }
 
 class _LoginState extends State<Login> {
-  final String uid;
   @override
   final _formKey = GlobalKey<FormState>();
   String email = "";
@@ -35,7 +33,6 @@ class _LoginState extends State<Login> {
 
   final AuthService _auth = AuthService();
 
-  _LoginState(this.uid);
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -249,7 +246,7 @@ class _LoginState extends State<Login> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MainPage(uid: uid)));
+                                    builder: (context) => MainPage()));
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -281,7 +278,7 @@ class _LoginState extends State<Login> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUp(uid: uid)));
+                                  builder: (context) => SignUp()));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: secondaryPink800,

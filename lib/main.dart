@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/models/user1.dart';
+import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/notificationPage.dart';
@@ -72,21 +73,21 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
           home: Wrapper(),
           routes: {
             WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
-            Welcome.routeName: (context) => Welcome(uid: ''),
+            Welcome.routeName: (context) => Welcome(),
           });
     } else {
       return MaterialApp(
           initialRoute: widget.initRoute,
           home: Wrapper(),
           routes: {
-            Login.routeName: (context) => Login(uid: ''),
-            SignUp.routeName: (context) => SignUp(uid: ''),
+            Login.routeName: (context) => Login(),
+            SignUp.routeName: (context) => SignUp(),
             WalkthroughScreen.routeName: (context) => WalkthroughScreen(),
-            Shuffle.routeName: (context) => Shuffle(uid: ''),
-            MainPage.routeName: (context) => MainPage(uid: ''),
+            Shuffle.routeName: (context) => Shuffle(),
+            MainPage.routeName: (context) => MainPage(),
             //Profile.routeName: (context) => Profile(),
-            Search.routeName: (context) => Search(uid: ''),
-            NotificationPage.routeName: (context) => NotificationPage(uid: ''),
+            Search.routeName: (context) => Search(),
+            NotificationPage.routeName: (context) => NotificationPage(),
             AddPost.routeName: (context) => AddPost(),
           });
     }
@@ -110,7 +111,7 @@ Future createUser(
     required String username,
     required String surname,
     required String MBTI_type}) async {
-  final docUser = FirebaseFirestore.instance.collection('users').doc(id);
+  final docUser = FirebaseFirestore.instance.collection('users').doc();
 
   final user = User(
     userID: docUser.id,
@@ -155,11 +156,12 @@ Future createUser(
       );
 }
 
-Future<User?> readUser(String id) async {
-  final docUser = FirebaseFirestore.instance.collection('users').doc(id);
+Future<User?> readUser() async {
+  final docUser = FirebaseFirestore.instance.collection('users').doc();
   final snapshot = await docUser.get();
 
   if (snapshot.exists) {
     return User.fromJson(snapshot.data()!);
   }
 }
+

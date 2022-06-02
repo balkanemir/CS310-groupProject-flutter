@@ -12,16 +12,14 @@ import 'package:flutterui/services/analytics.dart';
 
 class SignUp extends StatefulWidget {
   static const String routeName = '/signup';
-  final String uid;
 
-  const SignUp({Key? key,required this.uid}) : super(key: key);
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState(uid);
+  _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  final String uid;
   @override
   final _formKey = GlobalKey<FormState>();
   String email = "";
@@ -94,7 +92,6 @@ class _SignUpState extends State<SignUp> {
     },
   ];
 
-  _SignUpState(this.uid);
 
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Sign_Up_Page", <String, dynamic>{});
@@ -360,7 +357,7 @@ class _SignUpState extends State<SignUp> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MainPage(uid: result.id)));
+                                    builder: (context) => MainPage()));
                           }
                           ;
                         },
@@ -393,7 +390,7 @@ class _SignUpState extends State<SignUp> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Login(uid: uid)));
+                                    builder: (context) => Login()));
                           },
                           style: ElevatedButton.styleFrom(
                             primary: secondaryPink800,

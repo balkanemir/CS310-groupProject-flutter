@@ -10,24 +10,21 @@ import 'package:flutterui/services/analytics.dart';
 import 'mainpage.dart';
 
 class Search extends StatefulWidget {
-  final String uid;
   static const String routeName = '/search';
 
-  const Search({Key? key,required this.uid}) : super(key: key);
+  const Search({Key? key}) : super(key: key);
 
   @override
-  _SearchState createState() => _SearchState(uid);
+  _SearchState createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
-  final String uid;
   static const historyLength = 5;
   List<String> _searchHistory = [];
   List<String> filteredSearchHistory = [];
 
   String selectedTerm = "";
 
-  _SearchState(this.uid);
 
   List<String> filterSearchTerms(@required String? filter) {
     if (filter != null && filter.isNotEmpty) {
@@ -94,21 +91,21 @@ class _SearchState extends State<Search> {
             setState(() => _currentindex = value);
             if (_currentindex == 0) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MainPage(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
             }
             if (_currentindex == 1) {
               //Search Navigator
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Search(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => Search()));
             }
             if (_currentindex == 2) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Shuffle(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
 
             if (_currentindex == 3) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NotificationPage(uid: uid)));
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
           items: [

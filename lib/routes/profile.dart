@@ -15,8 +15,7 @@ import 'package:flutterui/services/analytics.dart';
 
 class Profile extends StatefulWidget {
   static const String routeName = '/profile';
-  final String uid;
-  const Profile({Key? key, required this.uid}) : super(key: key);
+  const Profile({Key? key}) : super(key: key);
   @override
   _ProfileState createState() => _ProfileState(uid);
 }
@@ -138,14 +137,14 @@ class _ProfileState extends State<Profile> {
             setState(() => _currentindex = value);
             if (_currentindex == 0) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainPage(uid: uid)));
+                  MaterialPageRoute(builder: (context) => MainPage()));
             }
             if (_currentindex == 1) {
               //Search Navigator
             }
             if (_currentindex == 2) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Shuffle(uid: uid)));
+                  context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
             if (_currentindex == 3) {
               // Add Navigator
@@ -277,7 +276,7 @@ class _ProfileState extends State<Profile> {
                 user = snapshot.data;
                 return user == null
                     ? Center(child: Text('No User?'))
-                    : PostCardTemplate(uid: uid, user: user, post: posts[0]);
+                    : PostCardTemplate( user: user, post: posts[0]);
               } else {
                 return Center(child: CircularProgressIndicator());
               }

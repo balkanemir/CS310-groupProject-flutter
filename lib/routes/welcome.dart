@@ -7,9 +7,7 @@ import 'package:flutterui/utils/colors.dart';
 class Welcome extends StatelessWidget {
   const Welcome({
     Key? key,
-    required this.uid,
   }) : super(key: key);
-  final String uid;
   static const String routeName = '/welcome';
 
 
@@ -49,7 +47,7 @@ class Welcome extends StatelessWidget {
                     flex: 1,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp(uid: uid)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -75,7 +73,7 @@ class Welcome extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Login(uid: uid)));
+                                builder: (context) => Login()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),

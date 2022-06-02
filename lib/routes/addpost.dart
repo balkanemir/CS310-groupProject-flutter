@@ -6,7 +6,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/services/analytics.dart';
 
-import '../services/database.dart';
+import '../services/databaseWrite.dart';
 
 class AddPost extends StatefulWidget {
   static const String routeName = '/addPost';

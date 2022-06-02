@@ -27,7 +27,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   List<User1> user = [
     User1(
       userID: "",
@@ -37,6 +36,7 @@ class _MainPageState extends State<MainPage> {
       email: "",
       profileImage: "",
       MBTI: "",
+      bio:"",
       following: 0,
       followers: 0,
 
@@ -46,8 +46,8 @@ class _MainPageState extends State<MainPage> {
     Post(
       userID: "",
       postID: "",
-      date: DateTime.now(),
-      comments: 4,
+      date: DateTime(0,0,0),
+      comments: 0,
       postImage: "",
       postText: "",
       likes: 0,
@@ -195,18 +195,33 @@ class _MainPageState extends State<MainPage> {
 
                         return ListView.builder(
                   
-                          itemCount: postData.size,
+                          itemCount: commentData.size,
                           itemBuilder: (context, index) {
-                               user[0].userID = userData.docs[index]['userID'];
-                               user[0].name = userData.docs[index]['name'];
-                               user[0].surname = userData.docs[index]['name'];
-                               user[0].email = userData.docs[index]['email'];
-                               user[0].profileImage = userData.docs[index]['profileImage'];
-                               user[0].MBTI = userData.docs[index]['MBTI'];
+                               user[0].userID = userData.docs[index]['userID'].toString();
+                               user[0].name = userData.docs[index]['name'].toString();
+                               user[0].surname = userData.docs[index]['surname'].toString();
+                               user[0].email = userData.docs[index]['email'].toString();
+                               user[0].profileImage = userData.docs[index]['profileImage'].toString();
+                               user[0].MBTI = userData.docs[index]['MBTI'].toString();
+                               user[0].bio = userData.docs[index]['bio'];
                                user[0].following = userData.docs[index]['following'];
                                user[0].followers = userData.docs[index]['followers'];
 
-                               post[0].userID = postData.docs[index]['userID'];
+                               post[0].userID = postData.docs[index]['userID'].toString();
+                               post[0].postID = postData.docs[index]['postID'].toString();
+                               post[0].date = postData.docs[index]['date'].toDate();
+                               post[0].comments = postData.docs[index]['comments'];
+                               post[0].postImage= postData.docs[index]['postImage'].toString();
+                               post[0].postText= postData.docs[index]['postText'].toString();
+                               post[0].likes= postData.docs[index]['likes'];
+
+                               comment[0].userID = commentData.docs[index]['userID'].toString();
+                               comment[0].postID = commentData.docs[index]['postID'].toString();
+                               comment[0].commentID = commentData.docs[index]['commentID'].toString();
+                               comment[0].commentText = commentData.docs[index]['commentText'].toString();
+
+
+
                             return PostCardTemplate(uid: post[0].userID, user: user[0], post: post[0], comment: comment[0]);
 
                           }

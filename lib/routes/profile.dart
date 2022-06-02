@@ -25,9 +25,10 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
   //final String uid;
-  User1? user;
-  List<Post> posts = [];
-  List<Comment> comment= [];
+  User1? users;
+  Post? post;
+  Comment? comments;
+
   // User?Model user? = User?Model(
   //     profile_image:
   //         'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
@@ -45,31 +46,31 @@ class _ProfileState extends State<Profile> {
 
   void _updateName(String name) {
     setState(() {
-      user?.name = name;
+      users?.name = name;
     });
   }
 
   void _updateSurname(String surname) {
     setState(() {
-      user?.surname = surname;
+      users?.surname = surname;
     });
   }
 
   void _updateUsername(String username) {
     setState(() {
-      user?.username = username;
+      users?.username = username;
     });
   }
 
   void _updateEmail(String email) {
     setState(() {
-      user?.email = email;
+      users?.email = email;
     });
   }
 
   void _updateMbti(String mbti) {
     setState(() {
-      user?.MBTI = mbti;
+      users?.MBTI = mbti;
     });
   }
 
@@ -130,13 +131,13 @@ class _ProfileState extends State<Profile> {
                             radius: 40,
                             backgroundColor: secondaryPinkLight,
                             backgroundImage: NetworkImage(
-                              user!.profileImage,
+                              users!.profileImage,
                             ),
                           ),
                         ),
                         SizedBox(height: 5),
                         Text(
-                          "${user?.name} ${user?.surname} (${user?.username})",
+                          "${users?.name} ${users?.surname} (${users?.username})",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -159,7 +160,7 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          user!.following.toString(),
+                          users!.following.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -171,7 +172,7 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          user!.followers.toString(),
+                          users!.followers.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -187,7 +188,7 @@ class _ProfileState extends State<Profile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditProfile(
-                          user,
+                          users,
                           _updateName,
                           _updateSurname,
                           _updateUsername,
@@ -225,12 +226,12 @@ class _ProfileState extends State<Profile> {
               return Text('Something went wrong.');
             } else {
               if (snapshot.hasData) {
-                user = snapshot.data;
+                users = snapshot.data;
                 final FirebaseAuth auth = FirebaseAuth.instance;
                 var uid = auth.currentUser!.uid;
-                return user == null
+                return users == null
                     ? Center(child: Text('No User?'))
-                    : PostCardTemplate(uid: uid, user: user, post: posts[0], comment: comment[0]);
+                    : PostCardTemplate(uid: uid, user: users, post: post, comment: comment);
               } else {
                 return Center(child: CircularProgressIndicator());
               }

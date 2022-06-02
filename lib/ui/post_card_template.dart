@@ -90,7 +90,7 @@ class PostCardTemplate extends StatelessWidget {
                     : null,
               ),
             ),
-            if (post.postImage != null) ...[
+            if (post.postImage != null && post.postImage!="") ...[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

@@ -97,7 +97,7 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
   }
 }
 
-Future createUser({required String id, required String email, required String profile_image,required int followers,required String following, required String bio ,required String name, required String username, required String surname, required String MBTI_type}) async {
+Future createUser({required String id, required String email, required String profile_image,required int followers,required int following, required String bio ,required String name, required String username, required String surname, required String MBTI_type}) async {
   final docUser = FirebaseFirestore.instance.collection('users').doc();
 
   final user = User(

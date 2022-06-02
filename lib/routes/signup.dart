@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/main.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/services/auth.dart';
@@ -348,6 +349,7 @@ class _SignUpState extends State<SignUp> {
                           if (_formKey.currentState!.validate()) {
                             dynamic result = await _auth
                                 .registerWithEmailAndPassword(email, pass);
+                            createUser(id: '', email: email, profile_image: '', followers: 0, following: 0, bio: '', name: name, username: '', surname: surname, MBTI_type: MBTI);
 
                             Navigator.push(
                                 context,

@@ -312,11 +312,11 @@ class _LoginState extends State<Login> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.network(
-                                  'http://pngimg.com/uploads/google/google_PNG19635.png',
-                                  height: 20,
-                                  width: 20,
-                                ),
+                                // Image.network(
+                                //   'http://pngimg.com/uploads/google/google_PNG19635.png',
+                                //   height: 20,
+                                //   width: 20,
+                                // ),
                                 Text(
                                   "Sign Up with Google",
                                   style: TextStyle(

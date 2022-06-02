@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/notificationPage.dart';
@@ -94,3 +96,39 @@ class _AuthenticationStatusState extends State<AuthenticationStatus> {
     return Container();
   }
 }
+
+Future createUser({required String id, required String email, required String profile_image,required int followers,required String following, required String bio ,required String name, required String username, required String surname, required String MBTI_type}) async {
+  final docUser = FirebaseFirestore.instance.collection('users').doc();
+
+  final user = User(
+    userID: docUser.id,
+    email: '-',
+    profileImage: '-',
+    bio: bio,
+    followers: 0,
+    following: 0,
+    name: name,
+    surname: surname,
+    username: username,
+    MBTI: MBTI_type,
+  );
+  final json = user.toJson();
+
+
+  await docUser.set(json);
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+      'email': email,
+      'profile_image': profile_image,
+      'bio': bio,
+      'followers': followers,
+      'following': following,
+      'name': name,
+      'surname': surname,
+      'username': username,
+      'MBTI_type': MBTI_type,
+  };
+}
+
+

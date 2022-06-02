@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user1.g.dart';
 @JsonSerializable()
 class User {
-  int userID;
+  String userID;
   String name;
   String surname;
   String username;

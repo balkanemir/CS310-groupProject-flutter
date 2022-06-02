@@ -267,7 +267,7 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       body: FutureBuilder<User?>(
-          future: readUser(uid),
+          future: readUser(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Text('Something went wrong.');

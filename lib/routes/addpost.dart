@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/utils/styles.dart';
@@ -23,6 +24,8 @@ class _AddPostState extends State<AddPost> {
       _selectedIndex = index;
     });
   }
+
+  String postText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +72,9 @@ class _AddPostState extends State<AddPost> {
                 icon: Icon(Icons.send),
                 onPressed: () {
                   Navigator.pop(context);
-                  createPost(userID: "", postID: "", date: DateTime(2021,3,2), comments: 2, likes: 2);
+                  final FirebaseAuth auth = FirebaseAuth.instance;
+                  var uid = auth.currentUser!.uid;
+                  createPost(userID: uid, postID: "", date: DateTime.now(), comments: 0, likes: 0, postText: postText);
                 },
               ),
             ),
@@ -100,6 +105,9 @@ class _AddPostState extends State<AddPost> {
                       maxLines: 8, //or null
                       decoration: InputDecoration.collapsed(
                           hintText: "Enter your text here"),
+                      onChanged: (text) {
+                        postText = text;
+                      },
                     ),
                   ),
                 ],

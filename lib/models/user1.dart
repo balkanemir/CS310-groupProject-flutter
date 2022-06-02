@@ -31,5 +31,4 @@ class User1 {
   factory User1.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
-  
 }

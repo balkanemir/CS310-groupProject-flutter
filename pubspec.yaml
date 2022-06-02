@@ -57,6 +57,7 @@ dependencies:
   firebase_analytics: ^9.1.8
   google_sign_in: ^5.0.0-nullsafety
   firebase_crashlytics: ^2.8.1
+  multi_stream_builder: ^0.0.1
 
 dev_dependencies:
   flutter_test:

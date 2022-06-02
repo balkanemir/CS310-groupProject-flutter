@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
@@ -30,7 +31,6 @@ class PostCardTemplate extends StatelessWidget {
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
 
       child: Card(
-        
         color: textOnSecondaryWhite,
         shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
@@ -62,7 +62,7 @@ class PostCardTemplate extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-
+              
                     children: <TextSpan>[
                       TextSpan(
                         text: "${user?.name} ${user?.surname}",
@@ -90,7 +90,7 @@ class PostCardTemplate extends StatelessWidget {
                     : null,
               ),
             ),
-            if (post.postImage != null && post.postImage!="") ...[
+            if (post.postImage != null && post.postImage != "") ...[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

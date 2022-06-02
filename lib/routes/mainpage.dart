@@ -13,6 +13,7 @@ import 'package:flutterui/services/analytics.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/models/comment1.dart';
+import 'package:multi_stream_builder/multi_stream_builder.dart';
 
 import 'notificationPage.dart';
 
@@ -241,7 +242,35 @@ class _MainPageState extends State<MainPage> {
                 ))),
         body: SizedBox(
           height: screenSize(context).height,
-          child: StreamBuilder<QuerySnapshot>( 
+          child: MultiStreamBuilder(
+            streams: [users, posts, comments],
+            builder: (BuildContext context, snapshots) {
+                final userData = snapshots[0].requireData;
+                final postData = snapshots[1].requireData;
+                final commentData = snapshots[2].requireData;
+                return ListView.builder(
+                          itemCount: postData.size,
+                          itemBuilder: (context, index) {
+                            return PostCardTemplate(user: userData.data, post: postData.data, comment: commentData.data);
+                          }
+                        );
+            }
+            )
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddPost()));
+              // go to add_post
+            },
+            backgroundColor: secondaryPink800,
+            child: Icon(Icons.add)));
+  }
+}
+
+/*
+
+   StreamBuilder<QuerySnapshot>( 
             stream:users,
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
               return StreamBuilder<QuerySnapshot> (
@@ -270,14 +299,4 @@ class _MainPageState extends State<MainPage> {
 
 
           )
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddPost()));
-              // go to add_post
-            },
-            backgroundColor: secondaryPink800,
-            child: Icon(Icons.add)));
-  }
-}
+*/

@@ -429,6 +429,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  multi_stream_builder:
+    dependency: "direct main"
+    description:
+      name: multi_stream_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:
@@ -548,6 +555,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.27.4"
   select_form_field:
     dependency: "direct main"
     description:

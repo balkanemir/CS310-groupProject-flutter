@@ -176,85 +176,85 @@ class _MainPageState extends State<MainPage> {
                 decoration: const BoxDecoration(
                   color: textOnSecondaryWhite,
                 ))),
-        body: SizedBox(
-          height: screenSize(context).height,
-          child: StreamBuilder<QuerySnapshot>(
-            stream: users,
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
-              return StreamBuilder<QuerySnapshot>(
-                  stream: posts,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot2) {
-                    return StreamBuilder<QuerySnapshot>(
-                        stream: comments,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot3) {
-                          final userData = snapshot1.requireData;
-                          final postData = snapshot2.requireData;
-                          final commentData = snapshot3.requireData;
+        // body: SizedBox(
+        //   height: screenSize(context).height,
+        //   child: StreamBuilder<QuerySnapshot>(
+        //     stream: users,
+        //     builder:
+        //         (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
+        //       return StreamBuilder<QuerySnapshot>(
+        //           stream: posts,
+        //           builder: (BuildContext context,
+        //               AsyncSnapshot<QuerySnapshot> snapshot2) {
+        //             return StreamBuilder<QuerySnapshot>(
+        //                 stream: comments,
+        //                 builder: (BuildContext context,
+        //                     AsyncSnapshot<QuerySnapshot> snapshot3) {
+        //                   final userData = snapshot1.requireData;
+        //                   final postData = snapshot2.requireData;
+        //                   final commentData = snapshot3.requireData;
 
-                          return ListView.builder(
-                              itemCount: commentData.size,
-                              itemBuilder: (context, index) {
-                                user[0].userID =
-                                    userData.docs[index]['userID'].toString();
-                                user[0].name =
-                                    userData.docs[index]['name'].toString();
-                                user[0].surname =
-                                    userData.docs[index]['surname'].toString();
-                                user[0].email =
-                                    userData.docs[index]['email'].toString();
-                                user[0].profileImage = userData.docs[index]
-                                        ['profileImage']
-                                    .toString();
-                                user[0].MBTI =
-                                    userData.docs[index]['MBTI'].toString();
-                                user[0].bio = userData.docs[index]['bio'];
-                                user[0].following =
-                                    userData.docs[index]['following'];
-                                user[0].followers =
-                                    userData.docs[index]['followers'];
+        //                   return ListView.builder(
+        //                       itemCount: commentData.size,
+        //                       itemBuilder: (context, index) {
+        //                         user[0].userID =
+        //                             userData.docs[index]['userID'].toString();
+        //                         user[0].name =
+        //                             userData.docs[index]['name'].toString();
+        //                         user[0].surname =
+        //                             userData.docs[index]['surname'].toString();
+        //                         user[0].email =
+        //                             userData.docs[index]['email'].toString();
+        //                         user[0].profileImage = userData.docs[index]
+        //                                 ['profileImage']
+        //                             .toString();
+        //                         user[0].MBTI =
+        //                             userData.docs[index]['MBTI'].toString();
+        //                         user[0].bio = userData.docs[index]['bio'];
+        //                         user[0].following =
+        //                             userData.docs[index]['following'];
+        //                         user[0].followers =
+        //                             userData.docs[index]['followers'];
 
-                                post[0].userID =
-                                    postData.docs[index]['userID'].toString();
-                                post[0].postID =
-                                    postData.docs[index]['postID'].toString();
-                                post[0].date =
-                                    postData.docs[index]['date'].toDate();
-                                post[0].comments =
-                                    postData.docs[index]['comments'];
-                                post[0].postImage = postData.docs[index]
-                                        ['postImage']
-                                    .toString();
-                                post[0].postText =
-                                    postData.docs[index]['postText'].toString();
-                                post[0].likes = postData.docs[index]['likes'];
+        //                         post[0].userID =
+        //                             postData.docs[index]['userID'].toString();
+        //                         post[0].postID =
+        //                             postData.docs[index]['postID'].toString();
+        //                         post[0].date =
+        //                             postData.docs[index]['date'].toDate();
+        //                         post[0].comments =
+        //                             postData.docs[index]['comments'];
+        //                         post[0].postImage = postData.docs[index]
+        //                                 ['postImage']
+        //                             .toString();
+        //                         post[0].postText =
+        //                             postData.docs[index]['postText'].toString();
+        //                         post[0].likes = postData.docs[index]['likes'];
 
-                                comment[0].userID = commentData.docs[index]
-                                        ['userID']
-                                    .toString();
-                                comment[0].postID = commentData.docs[index]
-                                        ['postID']
-                                    .toString();
-                                comment[0].commentID = commentData.docs[index]
-                                        ['commentID']
-                                    .toString();
-                                comment[0].commentText = commentData.docs[index]
-                                        ['commentText']
-                                    .toString();
+        //                         comment[0].userID = commentData.docs[index]
+        //                                 ['userID']
+        //                             .toString();
+        //                         comment[0].postID = commentData.docs[index]
+        //                                 ['postID']
+        //                             .toString();
+        //                         comment[0].commentID = commentData.docs[index]
+        //                                 ['commentID']
+        //                             .toString();
+        //                         comment[0].commentText = commentData.docs[index]
+        //                                 ['commentText']
+        //                             .toString();
 
-                                return PostCardTemplate(
-                                    uid: post[0].userID,
-                                    user: user[0],
-                                    post: post[0],
-                                    comment: comment[0]);
-                              });
-                        });
-                  });
-            },
-          ),
-        ),
+        //                         return PostCardTemplate(
+        //                             uid: post[0].userID,
+        //                             user: user[0],
+        //                             post: post[0],
+        //                             comment: comment[0]);
+        //                       });
+        //                 });
+        //           });
+        //     },
+        //   ),
+        // ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

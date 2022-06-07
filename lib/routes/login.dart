@@ -242,7 +242,7 @@ class _LoginState extends State<Login> {
                           print("merhaba");
                           if (!(result is User1)) {
                             setState(() => error =
-                                'Could not log in with those credentials');
+                                result);
                           } else {
                             Navigator.push(
                                 context,

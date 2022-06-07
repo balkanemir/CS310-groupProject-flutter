@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/search.dart';
@@ -114,7 +115,7 @@ Future createUser(
   final docUser = FirebaseFirestore.instance.collection('users').doc();
 
   final user = User1(
-    userID: docUser.id,
+    userID: id,
     email: email,
     profileImage: profile_image,
     bio: bio,
@@ -157,11 +158,36 @@ Future createUser(
 }
 
 Future<User1?> readUser() async {
-  final docUser = FirebaseFirestore.instance.collection('users').doc();
-  final snapshot = await docUser.get();
-
-  if (snapshot.exists) {
-    return User1.fromJson(snapshot.data()!);
-  }
+  final FirebaseAuth auth = await FirebaseAuth.instance;
+  var uid = await auth.currentUser!.uid;
+  User1 user = User1(
+      MBTI: "",
+      profileImage: "",
+      followers: 0,
+      following: 0,
+      userID: "",
+      name: "",
+      surname: "",
+      email: "",
+      username: "");
+  await FirebaseFirestore.instance
+      .collection('users')
+      .where("userID", isEqualTo: uid)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      user.profileImage = doc["profileImage"];
+      user.userID = doc["userID"];
+      user.username = doc["username"];
+      user.name = doc["name"];
+      user.surname = doc["surname"];
+      user.MBTI = doc["MBTI"];
+      user.followers = doc["followers"];
+      user.following = doc["following"];
+      user.email = doc["email"];
+    });
+  });
+  print(user.userID);
+  print("metehan");
+  return user;
 }
-

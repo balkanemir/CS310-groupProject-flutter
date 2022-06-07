@@ -7,7 +7,7 @@ import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterui/services/analytics.dart';
 
 class SignUp extends StatefulWidget {
@@ -351,9 +351,9 @@ class _SignUpState extends State<SignUp> {
                           if (_formKey.currentState!.validate()) {
                             dynamic result = await _auth
                                 .registerWithEmailAndPassword(email, pass);
-
-                            createUser(
-                                id: result.userID,
+                            await createUser(
+                                id: await FirebaseAuth
+                                    .instance.currentUser!.uid,
                                 email: email,
                                 profile_image:
                                     'https://banner2.cleanpng.com/20180722/gfc/kisspng-user-profile-2018-in-sight-user-conference-expo-5b554c0968c377.0307553315323166814291.jpg',

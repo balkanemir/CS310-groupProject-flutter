@@ -2,6 +2,7 @@
 import 'dart:io' show Platform;
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/signup.dart';
 import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/utils/styles.dart';
@@ -15,7 +16,6 @@ import 'package:flutterui/services/analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
-
   const Login({Key? key}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
@@ -32,7 +32,6 @@ class _LoginState extends State<Login> {
   bool _passwordVisible = false;
 
   final AuthService _auth = AuthService();
-
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -239,7 +238,9 @@ class _LoginState extends State<Login> {
                         onPressed: () async {
                           dynamic result = await _auth
                               .loginWithEmailAndPassword(email, pass);
-                          if (result == null) {
+                          print(result);
+                          print("merhaba");
+                          if (!(result is User1)) {
                             setState(() => error =
                                 'Could not log in with those credentials');
                           } else {

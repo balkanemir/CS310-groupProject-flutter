@@ -187,7 +187,5 @@ Future<User1?> readUser() async {
       user.email = doc["email"];
     });
   });
-  print(user.userID);
-  print("metehan");
   return user;
 }

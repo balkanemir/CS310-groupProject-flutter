@@ -18,12 +18,10 @@ class Profile extends StatefulWidget {
   static const String routeName = '/profile';
   const Profile({Key? key}) : super(key: key);
   @override
-
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-
   //final String uid;
   User1? users;
   Post? post;
@@ -89,8 +87,8 @@ class _ProfileState extends State<Profile> {
           onTap: (value) {
             setState(() => _currentindex = value);
             if (_currentindex == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainPage()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
             }
             if (_currentindex == 1) {
               //Search Navigator
@@ -219,6 +217,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
+      /*
       body: FutureBuilder<User1?>(
           future: readUser(),
           builder: (context, snapshot) {
@@ -237,6 +236,7 @@ class _ProfileState extends State<Profile> {
               }
             }
           }),
+      */
 
       // SizedBox(
       //   height: screenSize(context).height,

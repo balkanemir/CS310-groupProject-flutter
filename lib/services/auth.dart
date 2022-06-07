@@ -65,10 +65,8 @@ class AuthService {
       } else if (e.code == 'wrong-password') {
         return e.message ?? 'Password is not correct';
       }
-    } catch (e) {
-      return e.toString();
-    }
   }
+      }
 
   // register with email & password
   Future<dynamic> registerWithEmailAndPassword(
@@ -85,10 +83,7 @@ class AuthService {
       } else if (e.code == 'weak-password') {
         return e.message ?? 'Ypur password is weak';
       }
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
+    } 
   }
 
   // sign out

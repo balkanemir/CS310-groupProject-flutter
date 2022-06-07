@@ -345,6 +345,7 @@ class _SignUpState extends State<SignUp> {
                           onTap: () => launch(
                               'https://my-personality-test.com/?gclid=CjwKCAjwgr6TBhAGEiwA3aVuIdpZmKCjr1My_uaRkfGGzspoHPNdSJR8csXwy4H-2wR7KQgiWSFARRoCM_8QAvD_BwE')),
                     ),
+                    
                     Container(
                       child: ElevatedButton(
                         onPressed: () async {

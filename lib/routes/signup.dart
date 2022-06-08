@@ -26,6 +26,7 @@ class _SignUpState extends State<SignUp> {
   String pass = "";
   String name = "";
   String surname = "";
+  String username = "";
   String MBTI = "";
   final AuthService _auth = AuthService();
 
@@ -210,6 +211,45 @@ class _SignUpState extends State<SignUp> {
                         height: 50,
                         child: TextFormField(
                             onChanged: (value) {
+                              setState(() => username = value);
+                            },
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                              label: Container(
+                                  width: 100,
+                                  child: Row(children: [
+                                    const SizedBox(width: 4),
+                                    const Text('Username')
+                                  ])),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: secondaryPink800,
+                                    width: 1.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textOnPrimaryBlack,
+                                    width: 1.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0)),
+                            ),
+                            validator: (value) {
+                              if (value != null) {
+                                if (value.isEmpty) {
+                                  return "Cannot leave username empty";
+                                }
+                              }
+                            },
+                            onSaved: (value) {
+                              username = value ?? "";
+                            })),
+                    Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: 100,
+                        height: 50,
+                        child: TextFormField(
+                            onChanged: (value) {
                               setState(() => email = value);
                             },
                             keyboardType: TextInputType.emailAddress,
@@ -345,7 +385,6 @@ class _SignUpState extends State<SignUp> {
                           onTap: () => launch(
                               'https://my-personality-test.com/?gclid=CjwKCAjwgr6TBhAGEiwA3aVuIdpZmKCjr1My_uaRkfGGzspoHPNdSJR8csXwy4H-2wR7KQgiWSFARRoCM_8QAvD_BwE')),
                     ),
-                    
                     Container(
                       child: ElevatedButton(
                         onPressed: () async {
@@ -362,7 +401,7 @@ class _SignUpState extends State<SignUp> {
                                 following: 0,
                                 bio: '',
                                 name: name,
-                                username: '',
+                                username: username,
                                 surname: surname,
                                 MBTI_type: MBTI);
 

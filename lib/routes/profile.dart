@@ -205,13 +205,13 @@ class _ProfileState extends State<Profile> {
                                     radius: 40,
                                     backgroundColor: secondaryPinkLight,
                                     backgroundImage: NetworkImage(
-                                      "${snapshot.data!.profileImage}",
+                                      "${snapshot.data?.profileImage}",
                                     ),
                                   ),
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  "${snapshot.data!.name} ${snapshot.data!.surname} (${snapshot.data!.username})",
+                                  "${snapshot.data?.name} ${snapshot.data?.surname} (${snapshot.data?.username})",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -234,7 +234,7 @@ class _ProfileState extends State<Profile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${snapshot.data!.following}",
+                                  "${snapshot.data?.following}",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -246,7 +246,7 @@ class _ProfileState extends State<Profile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${snapshot.data!.followers}",
+                                  "${snapshot.data?.followers}",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),

@@ -239,10 +239,8 @@ class _LoginState extends State<Login> {
                           dynamic result = await _auth
                               .loginWithEmailAndPassword(email, pass);
                           print(result);
-                          print("merhaba");
                           if (!(result is User1)) {
-                            setState(() => error =
-                                result);
+                            setState(() => error = result);
                           } else {
                             Navigator.push(
                                 context,

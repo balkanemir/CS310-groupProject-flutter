@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post1.g.dart';
+
 @JsonSerializable()
 class Post {
   String userID;
@@ -25,5 +26,4 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
-
 }

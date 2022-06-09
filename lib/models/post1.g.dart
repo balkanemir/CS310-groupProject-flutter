@@ -12,9 +12,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       postImage: json['postImage'] as String,
       postText: json['postText'] as String,
       likes: json['likes'] as int,
-
     );
-
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'userID': instance.userID,

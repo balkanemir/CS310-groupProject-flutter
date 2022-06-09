@@ -280,12 +280,18 @@ class _ProfileState extends State<Profile> {
                 height: screenSize(context).height,
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {
-                    return PostCardTemplate(
-                      uid: snapshot.data![index]!.userID,
-                      post: snapshot.data![index]!,
-                    );
+                    Post? post = snapshot.data?[index];
+                    String? uid = snapshot.data?[index]?.userID;
+                    if (post != null && uid != null) {
+                      return PostCardTemplate(
+                        uid: uid,
+                        post: post,
+                      );
+                    } else {
+                      return Text("");
+                    }
                   },
-                  itemCount: snapshot.data!.length,
+                  itemCount: snapshot.data?.length,
                 ),
               );
             }

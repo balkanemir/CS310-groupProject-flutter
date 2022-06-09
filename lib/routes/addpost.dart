@@ -60,6 +60,7 @@ class _AddPostState extends State<AddPost> {
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Add_Post_Page", <String, dynamic>{});
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.pink,
         leading: GestureDetector(
@@ -101,7 +102,7 @@ class _AddPostState extends State<AddPost> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 15, 8, 15),
+        padding: const EdgeInsets.fromLTRB(8, 15, 0, 15),
         child: Column(
           children: [
             Row(
@@ -153,13 +154,17 @@ class _AddPostState extends State<AddPost> {
                   )),
             ),
             if (_image != null)
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _image = null;
-                    });
-                  },
-                  child: Text('Cancel', style: TextStyle(color: Colors.red))),
+              Container(
+                height: 22,
+                child: OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        _image = null;
+                      });
+                    },
+                    child: Text('Cancel', style: TextStyle(color: Colors.red))),
+              ),
+
           ],
         ),
       ),

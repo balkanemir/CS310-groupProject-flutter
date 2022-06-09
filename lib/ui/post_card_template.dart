@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/main.dart';
+import 'package:flutterui/services/databaseRead.dart';
 import 'package:like_button/like_button.dart';
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/models/user1.dart';
@@ -14,81 +16,88 @@ import '../models/comment1.dart';
 
 class PostCardTemplate extends StatelessWidget {
   final String uid;
-  final User1? user;
   final Post post;
-  final Comment comment;
   PostCardTemplate({
     Key? key,
     required this.uid,
-    required this.user,
     required this.post,
-    required this.comment
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-
       child: Card(
         color: textOnSecondaryWhite,
         shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
-      ),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: ListTile(
-                leading: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: secondaryBackgroundWhite,
-                    shape: const CircleBorder(),
-                  ),
-                  child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: primaryPinkLight,
-
-                      backgroundImage: NetworkImage(user!.profileImage)),
-
-                ),
-                
-                title: RichText(
-                  text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
-              
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: "${user?.name} ${user?.surname}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+            FutureBuilder<User1?>(
+              future: readUser(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong.');
+                }
+                if (snapshot.hasData && snapshot.data == null) {
+                  return Text("Document does not exist");
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: ListTile(
+                      leading: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Profile()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: secondaryBackgroundWhite,
+                          shape: const CircleBorder(),
+                        ),
+                        child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: primaryPinkLight,
+                            backgroundImage:
+                                NetworkImage(snapshot.data!.profileImage)),
                       ),
-                      TextSpan(
-                        text: " @${user?.username}",
-                      )
-                    ],
-                  ),
-                ),
-                subtitle: post.postText != null
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(
-                            height: 5,
+                      title: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            color: Colors.black,
                           ),
-                          Text(post.postText!),
-                         const  SizedBox(
-                            height: 15,
-                          ),
-                        ],
-                      )
-                    : null,
-              ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "${snapshot.data!.name} ${snapshot.data!.surname}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: " @${snapshot.data!.username}",
+                            )
+                          ],
+                        ),
+                      ),
+                      subtitle: post.postText != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(post.postText!),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                              ],
+                            )
+                          : null,
+                    ),
+                  );
+                }
+              },
             ),
             if (post.postImage != null && post.postImage != "") ...[
               Column(
@@ -108,33 +117,46 @@ class PostCardTemplate extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(width: 10),
-                  TextButton.icon(
-                    onPressed: () {
-                        Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CommentPage()));
-                    },
-                    icon: const Icon(
-                      Icons.comment, 
-                      size: 15, 
-                      color: Colors.grey),
-                    label: Text("${comment.commentText}", 
+                  FutureBuilder<Comment?>(
+                      future: getCommentWithId(post.comments[0]),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return Text('Something went wrong.');
+                        }
+                        if (snapshot.hasData && snapshot.data == null) {
+                          return Text("Document does not exist");
+                        } else {
+                          return TextButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CommentPage()));
+                            },
+                            icon: const Icon(Icons.comment,
+                                size: 15, color: Colors.grey),
+                            label: Text(
+                              "${snapshot.data?.commentText}",
                               style: const TextStyle(
-                              color: textOnPrimaryBlack,
-                              fontSize: 10,
-                            )
+                                color: textOnPrimaryBlack,
+                                fontSize: 10,
+                              ),
                             ),
-                  ),
+                          );
+                        }
+                      }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const LikeButton(
-                              size: 15,
-                            ),
-                            Text("${post.likes}", 
-                            style: const TextStyle(
-                              color: textOnPrimaryBlack,
-                              fontSize: 10,
-                            )),
+                        size: 15,
+                      ),
+                      Text("${post.likes}",
+                          style: const TextStyle(
+                            color: textOnPrimaryBlack,
+                            fontSize: 10,
+                          )),
                     ],
                   ),
                   /*

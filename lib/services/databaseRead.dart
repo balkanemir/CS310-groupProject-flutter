@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/Follower.dart';
 import 'package:flutterui/models/post1.dart';
-import 'package:flutterui/models/post1.dart';
+import 'package:flutterui/models/comment1.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +14,7 @@ Future<List<Post?>> readPostOfUser() async {
     userID: "",
     postID: "",
     date: DateTime.utc(0),
-    comments: 0,
+    comments: [],
     postImage: "",
     postText: "",
     likes: 0,
@@ -28,7 +28,7 @@ Future<List<Post?>> readPostOfUser() async {
       post.userID = doc["userID"];
       post.postID = doc["postID"];
       post.date = doc["date"].toDate();
-      post.comments = doc["comments"];
+      post.comments = List<String>.from(doc["comments"]);
       post.postImage = doc["postImage"];
       post.postText = doc["postText"];
       post.likes = doc["likes"];
@@ -84,4 +84,26 @@ Future<List<Follower?>> readFollowingsOfUser() async {
     });
   });
   return followers;
+}
+
+Future<Comment?> getCommentWithId(String commentId) async {
+  Comment comment = Comment(
+    commentID: "",
+    postID: "",
+    userID: "",
+    commentText: "",
+  );
+  await FirebaseFirestore.instance
+      .collection("comments")
+      .where("commentID", isEqualTo: commentId)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      comment.commentID = doc["commentID"];
+      comment.postID = doc["postID"];
+      comment.userID = doc["userID"];
+      comment.commentText = doc["commentText"];
+    });
+  });
+  return comment;
 }

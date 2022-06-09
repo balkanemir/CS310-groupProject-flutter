@@ -98,9 +98,7 @@ class _ProfileState extends State<Profile> {
             }
             if (_currentindex == 3) {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NotificationPage()));
+                  context, MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
           items: [

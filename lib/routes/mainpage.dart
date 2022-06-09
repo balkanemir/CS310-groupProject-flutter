@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => NotificationPage()));
+                        builder: (context) => NotificationPage())); //
               }
             },
             items: const [

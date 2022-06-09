@@ -126,18 +126,6 @@ class _MainPageState extends State<MainPage> {
                             shape: CircleBorder(),
                           )),
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            throw Exception();
-                          },
-                          child: Icon(Icons.error),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            shape: CircleBorder(),
-                          )),
-                    )
                   ],
                 )),
                 decoration: const BoxDecoration(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/models/Follower.dart';
 import 'package:flutterui/models/comment1.dart';
+import 'package:flutterui/routes/notificationPage.dart';
+import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/services/databaseRead.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
@@ -87,14 +89,18 @@ class _ProfileState extends State<Profile> {
                   context, MaterialPageRoute(builder: (context) => MainPage()));
             }
             if (_currentindex == 1) {
-              //Search Navigator
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Search()));
             }
             if (_currentindex == 2) {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
             if (_currentindex == 3) {
-              // Add Navigator
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NotificationPage()));
             }
           },
           items: [

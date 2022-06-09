@@ -44,6 +44,10 @@ class _SignUpState extends State<SignUp> {
       'label': 'INFJ',
     },
     {
+      'value': 'INTJ',
+      'label': 'INTJ',
+    },
+    {
       'value': 'ISTP',
       'label': 'ISTP',
     },

@@ -27,39 +27,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<User1> user = [
-    User1(
-      userID: "",
-      name: "",
-      surname: "",
-      username: "",
-      email: "",
-      profileImage: "",
-      MBTI: "",
-      bio: "",
-      following: 0,
-      followers: 0,
-    )
-  ];
-  List<Post> post = [
-    Post(
-      userID: "",
-      postID: "",
-      date: DateTime(0, 0, 0),
-      comments: 0,
-      postImage: "",
-      postText: "",
-      likes: 0,
-    )
-  ];
-  List<Comment> comment = [
-    Comment(
-      userID: "",
-      postID: "",
-      commentID: "",
-      commentText: "",
-    )
-  ];
   final Stream<QuerySnapshot> users =
       FirebaseFirestore.instance.collection('users').snapshots();
   final Stream<QuerySnapshot> posts =

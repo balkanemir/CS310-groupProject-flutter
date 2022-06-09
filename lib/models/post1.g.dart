@@ -8,7 +8,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       userID: json['userID'] as String,
       postID: json['postID'] as String,
       date: json['date'] as DateTime,
-      comments: json['comments'] as int,
+      comments: json['comments'] as List<String>,
       postImage: json['postImage'] as String,
       postText: json['postText'] as String,
       likes: json['likes'] as int,

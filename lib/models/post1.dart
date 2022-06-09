@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'comment1.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +10,7 @@ class Post {
   String userID;
   String postID;
   DateTime date;
-  int comments;
+  List<String> comments;
   String? postImage;
   String? postText;
   int likes;

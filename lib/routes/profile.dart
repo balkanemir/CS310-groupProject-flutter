@@ -266,44 +266,36 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      body: Text("Ppost Here"),
-      /*
-      FutureBuilder<User1?>(
-          future: readUser(),
+      body: FutureBuilder<List<Post?>>(
+          future: readPostOfUser(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
+              print(snapshot.error);
               return Text('Something went wrong.');
+            }
+            if (snapshot.hasData && snapshot.data == null) {
+              return Text("Document does not exist");
             } else {
-              if (snapshot.hasData) {
-                users = snapshot.data;
-                final FirebaseAuth auth = FirebaseAuth.instance;
-                var uid = auth.currentUser!.uid;
-                return users == null
-                    ? Center(child: Text('No User?'))
-                    : PostCardTemplate(
-                        uid: uid, user: users, post: post, comment: comment);
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
+              return SizedBox(
+                height: screenSize(context).height,
+                child: ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    Post? post = snapshot.data?[index];
+                    String? uid = snapshot.data?[index]?.userID;
+                    if (post != null && uid != null) {
+                      return PostCardTemplate(
+                        uid: uid,
+                        post: post,
+                      );
+                    } else {
+                      return Text("");
+                    }
+                  },
+                  itemCount: snapshot.data?.length,
+                ),
+              );
             }
           }),
-      */
-      /*
-          SizedBox(
-        height: screenSize(context).height,
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return PostCardTemplate(
-              uid: user.userID,
-              comment: comment[0],
-              user: user,
-              post: posts[index],
-            );
-          },
-          itemCount: posts.length,
-        ),
-      ),
-      */
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(

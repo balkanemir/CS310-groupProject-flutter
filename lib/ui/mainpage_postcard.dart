@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
@@ -11,7 +14,22 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:like_button/like_button.dart';
 import '../models/comment1.dart';
+class FirebaseStoreDataBase {
+  String? downloadUrl;
 
+  Future getData(String? postImage) async {
+    try {
+      downloadUrl = await FirebaseStorage.instance.ref().child(postImage!).getDownloadURL();
+      return downloadUrl;
+    }
+    catch (e) {
+      print("Error is in image $e");
+      
+    }
+
+
+  }
+}
 class MainPostCardTemplate extends StatelessWidget {
   final String uid;
   final User1? user;
@@ -27,6 +45,7 @@ class MainPostCardTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     print('post.image is/storage/uploads/${post.postImage}');
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
 
@@ -90,18 +109,33 @@ class MainPostCardTemplate extends StatelessWidget {
                     : null,
               ),
             ),
+            
             if (post.postImage != null && post.postImage != "") ...[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Image.network(
-                    post.postImage!,
-                    height: 200,
-                    fit: BoxFit.fill,
-                  ),
-                ],
+              FutureBuilder(
+                future: FirebaseStoreDataBase().getData(post.postImage),
+                builder: (context, snapshot) {
+                  if(snapshot.hasError) {
+                    return const Text("image error");
+                  }
+                  if(snapshot.connectionState == ConnectionState.done) {
+                    return Column (
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        //Image.network(snapshot.data.toString()),
+                     // Image.file(File('/storage/uploads/${snapshot.data.toString()}') ),
+                  
+                ],);
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+                
+
+                
+               
               ),
+            
             ],
+          
             Container(
               color: textOnSecondaryWhite,
               child: Row(

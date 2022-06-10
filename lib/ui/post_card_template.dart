@@ -108,7 +108,7 @@ class PostCardTemplate extends StatelessWidget {
                 Image.file(File(post.postImage!))
                 ],
               ),
-            ],
+            ], /*
             Container(
               color: textOnSecondaryWhite,
               child: Row(
@@ -168,7 +168,7 @@ class PostCardTemplate extends StatelessWidget {
                   ),*/
                 ],
               ),
-            )
+            )*/
           ],
         ),
       ),

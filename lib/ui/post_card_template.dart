@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -103,14 +105,10 @@ class PostCardTemplate extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.network(
-                    post.postImage!,
-                    height: 200,
-                    fit: BoxFit.fill,
-                  ),
+                Image.file(File(post.postImage!))
                 ],
               ),
-            ],
+            ], /*
             Container(
               color: textOnSecondaryWhite,
               child: Row(
@@ -170,7 +168,7 @@ class PostCardTemplate extends StatelessWidget {
                   ),*/
                 ],
               ),
-            )
+            )*/
           ],
         ),
       ),

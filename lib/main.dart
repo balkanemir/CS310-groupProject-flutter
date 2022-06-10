@@ -162,8 +162,6 @@ Future createUser(
 Future<User1?> readUser() async {
   final FirebaseAuth auth = await FirebaseAuth.instance;
   var uid = await auth.currentUser!.uid;
-  print(uid);
-  print("merhaba");
   User1 user = User1(
       MBTI: "",
       profileImage: "",

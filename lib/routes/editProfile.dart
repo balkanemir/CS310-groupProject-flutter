@@ -3,11 +3,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 import 'dart:io' show Platform;
-
+import 'package:image_picker/image_picker.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class EditProfile extends StatefulWidget {
   final User1? user;
@@ -16,15 +19,26 @@ class EditProfile extends StatefulWidget {
   final Function updateUsername;
   final Function updateEmail;
   final Function updateMbti;
+  final Function updatePrivate;
+  final Function updateImage;
 
-  EditProfile(this.user, this.updateName, this.updateSurname,
-      this.updateUsername, this.updateEmail, this.updateMbti);
+  EditProfile(
+      this.user,
+      this.updateName,
+      this.updateSurname,
+      this.updateUsername,
+      this.updateEmail,
+      this.updateMbti,
+      this.updatePrivate,
+      this.updateImage);
 
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
   String mbtiValue = "";
   String name = "";
   String surname = "";
@@ -139,11 +153,18 @@ class _EditProfileState extends State<EditProfile> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundColor: secondaryPinkLight,
-                          backgroundImage: NetworkImage(
-                            widget.user!.profileImage,
+                        child: ClipOval(
+                          child: IconButton(
+                            iconSize: 150,
+                            onPressed: () async {
+                              widget.updateImage();
+                            },
+                            icon: Image.network(
+                              widget.user!.profileImage,
+                              fit: BoxFit.cover,
+                              width: 90.0,
+                              height: 90.0,
+                            ),
                           ),
                         ),
                       ),

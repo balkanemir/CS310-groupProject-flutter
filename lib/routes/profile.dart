@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/models/Follower.dart';
@@ -44,33 +45,54 @@ class _ProfileState extends State<Profile> {
 
   _ProfileState();
   void _updateName(String name) {
-    setState(() {
-      users?.name = name;
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'name': name});
   }
 
   void _updateSurname(String surname) {
-    setState(() {
-      users?.surname = surname;
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'surname': surname});
   }
 
   void _updateUsername(String username) {
-    setState(() {
-      users?.username = username;
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'username': username});
   }
 
   void _updateEmail(String email) {
-    setState(() {
-      users?.email = email;
-    });
+    FirebaseFirestore.instance
+        .collection('email')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'email': email});
   }
 
   void _updateMbti(String mbti) {
-    setState(() {
-      users?.MBTI = mbti;
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'MBTI': mbti});
+  }
+
+  void _updatePrivate(bool private) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'isPrivate': private});
+  }
+
+  void _updateImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'profileImage': image!.path});
   }
 
   @override
@@ -153,8 +175,8 @@ class _ProfileState extends State<Profile> {
                                     child: CircleAvatar(
                                       radius: 40,
                                       backgroundColor: secondaryPinkLight,
-                                      backgroundImage: NetworkImage(
-                                        "${snapshot.data?.profileImage}",
+                                      backgroundImage: FileImage(
+                                        File(snapshot.data!.profileImage),
                                       ),
                                     ),
                                   ),
@@ -283,33 +305,44 @@ class _ProfileState extends State<Profile> {
                       }
                     }),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditProfile(
-                            users,
-                            _updateName,
-                            _updateSurname,
-                            _updateUsername,
-                            _updateEmail,
-                            _updateMbti,
-                          ),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      primary: secondaryPink800,
-                      elevation: 5,
-                    ),
-                    child: Text(
-                      "Edit Profile",
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.only(top: 10),
+                    child: FutureBuilder<User1?>(
+                        future: readUser(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong.');
+                          }
+                          if (snapshot.hasData && snapshot.data == null) {
+                            return Text("Document does not exist");
+                          } else {
+                            return ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfile(
+                                        snapshot.data,
+                                        _updateName,
+                                        _updateSurname,
+                                        _updateUsername,
+                                        _updateEmail,
+                                        _updateMbti,
+                                        _updatePrivate,
+                                        _updateImage),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size.fromHeight(50),
+                                primary: secondaryPink800,
+                                elevation: 5,
+                              ),
+                              child: Text(
+                                "Edit Profile",
+                              ),
+                            );
+                          }
+                        })),
               ],
             ),
           )),

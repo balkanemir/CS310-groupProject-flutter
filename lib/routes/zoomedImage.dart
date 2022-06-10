@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+class ZoomedImage extends StatelessWidget {
+  final image;
+  const ZoomedImage({this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
+      child: CircleAvatar(
+          radius: 300,
+          child: Image.network(
+            image,
+            fit: BoxFit.fill,
+          ),
+          backgroundColor: Colors.transparent),
+    );
+  }
+}

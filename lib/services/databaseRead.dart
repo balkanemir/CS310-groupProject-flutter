@@ -50,6 +50,7 @@ Future<List<Follower?>> readFollowersOfUser() async {
   await FirebaseFirestore.instance
       .collection('followers')
       .where("followed", isEqualTo: uid)
+      .where("isEnabled", isEqualTo: true)
       .get()
       .then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
@@ -74,6 +75,7 @@ Future<List<Follower?>> readFollowingsOfUser() async {
   await FirebaseFirestore.instance
       .collection('followers')
       .where("user", isEqualTo: uid)
+      .where("isEnabled", isEqualTo: true)
       .get()
       .then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
@@ -106,4 +108,37 @@ Future<Comment?> getCommentWithId(String commentId) async {
     });
   });
   return comment;
+}
+
+Future<User1?> readUserWithId(String uid) async {
+  User1 user = User1(
+      MBTI: "",
+      profileImage: "",
+      followers: 0,
+      following: 0,
+      userID: "",
+      name: "",
+      surname: "",
+      email: "",
+      username: "",
+      isPrivate: false);
+  await FirebaseFirestore.instance
+      .collection('users')
+      .where("userID", isEqualTo: uid)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      user.profileImage = doc["profileImage"];
+      user.userID = doc["userID"];
+      user.username = doc["username"];
+      user.name = doc["name"];
+      user.surname = doc["surname"];
+      user.MBTI = doc["MBTI"];
+      user.followers = doc["followers"];
+      user.following = doc["following"];
+      user.email = doc["email"];
+      user.isPrivate = doc["isPrivate"];
+    });
+  });
+  return user;
 }

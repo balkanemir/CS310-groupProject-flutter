@@ -1,20 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
-import 'package:flutterui/ui/post_card_template.dart';
-import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/messages.dart';
 import 'package:flutterui/routes/addpost.dart';
 import 'package:flutterui/services/analytics.dart';
-import 'package:flutterui/models/user1.dart';
-import 'package:flutterui/models/post1.dart';
-import 'package:flutterui/models/comment1.dart';
-import 'package:multi_stream_builder/multi_stream_builder.dart';
 
 import 'notificationPage.dart';
 

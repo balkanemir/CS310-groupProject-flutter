@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/models/Follower.dart';
 import 'package:flutterui/models/comment1.dart';
 import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/search.dart';
+import 'package:flutterui/routes/zoomedImage.dart';
 import 'package:flutterui/services/databaseRead.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
@@ -14,6 +17,7 @@ import 'package:flutterui/ui/post_card_template.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/editProfile.dart';
+import 'package:flutterui/routes/followerList.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/services/analytics.dart';
 
@@ -39,7 +43,6 @@ class _ProfileState extends State<Profile> {
   int _currentindex = -1;
 
   _ProfileState();
-
   void _updateName(String name) {
     setState(() {
       users?.name = name;
@@ -97,8 +100,8 @@ class _ProfileState extends State<Profile> {
                   context, MaterialPageRoute(builder: (context) => Shuffle()));
             }
             if (_currentindex == 3) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => NotificationPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
           items: [
@@ -110,12 +113,12 @@ class _ProfileState extends State<Profile> {
                 icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(170.0),
+        preferredSize: Size.fromHeight(230.0),
         child: Container(
-          height: 200,
+          height: 230,
           child: Center(
               child: Padding(
-            padding: const EdgeInsets.only(top: 30.0, right: 8.0, left: 8.0),
+            padding: const EdgeInsets.only(top: 19.0, right: 8.0, left: 8.0),
             child: Column(
               children: [
                 FutureBuilder<User1?>(
@@ -134,11 +137,25 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: secondaryPinkLight,
-                                    backgroundImage: NetworkImage(
-                                      "${snapshot.data?.profileImage}",
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        splashFactory: NoSplash.splashFactory),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ZoomedImage(
+                                              image:
+                                                  "${snapshot.data?.profileImage}"),
+                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      backgroundColor: secondaryPinkLight,
+                                      backgroundImage: NetworkImage(
+                                        "${snapshot.data?.profileImage}",
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -188,18 +205,34 @@ class _ProfileState extends State<Profile> {
                                       snapshot.data == null) {
                                     return Text("Document does not exist");
                                   } else {
-                                    return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data?.length}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
+                                    return TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => FollowerList(
+                                              followers: snapshot.data,
+                                              title: "Followings",
+                                            ),
                                           ),
-                                        ),
-                                        Text("Following"),
-                                      ],
+                                        );
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "${snapshot.data?.length}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text("Following"),
+                                        ],
+                                      ),
                                     );
                                   }
                                 }),
@@ -214,18 +247,34 @@ class _ProfileState extends State<Profile> {
                                       snapshot.data == null) {
                                     return Text("Document does not exist");
                                   } else {
-                                    return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data?.length}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
+                                    return TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => FollowerList(
+                                              followers: snapshot.data,
+                                              title: "Followers",
+                                            ),
                                           ),
-                                        ),
-                                        Text("Followers"),
-                                      ],
+                                        );
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "${snapshot.data?.length}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text("Followers"),
+                                        ],
+                                      ),
                                     );
                                   }
                                 }),
@@ -233,29 +282,32 @@ class _ProfileState extends State<Profile> {
                         );
                       }
                     }),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProfile(
-                          users,
-                          _updateName,
-                          _updateSurname,
-                          _updateUsername,
-                          _updateEmail,
-                          _updateMbti,
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfile(
+                            users,
+                            _updateName,
+                            _updateSurname,
+                            _updateUsername,
+                            _updateEmail,
+                            _updateMbti,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    primary: secondaryPink800,
-                    elevation: 5,
-                  ),
-                  child: Text(
-                    "Edit Profile",
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      primary: secondaryPink800,
+                      elevation: 5,
+                    ),
+                    child: Text(
+                      "Edit Profile",
+                    ),
                   ),
                 ),
               ],
@@ -303,7 +355,7 @@ class _ProfileState extends State<Profile> {
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Settings()));
+                context, MaterialPageRoute(builder: (context) => Setting()));
           },
           backgroundColor: secondaryPink800,
           child: Icon(Icons.settings)),

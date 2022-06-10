@@ -8,7 +8,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/services/analytics.dart';
 
-class Settings extends StatelessWidget {
+class Setting extends StatelessWidget {
   static const String routeName = '/settings';
   final AuthService _auth = AuthService();
   @override

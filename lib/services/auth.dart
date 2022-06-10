@@ -19,7 +19,8 @@ class AuthService {
             email: 'Jan@example.com',
             MBTI: 'ESFP',
             following: 34,
-            followers: 126)
+            followers: 126,
+            isPrivate: false)
         : null;
   }
 
@@ -65,8 +66,8 @@ class AuthService {
       } else if (e.code == 'wrong-password') {
         return e.message ?? 'Password is not correct';
       }
+    }
   }
-      }
 
   // register with email & password
   Future<dynamic> registerWithEmailAndPassword(
@@ -83,7 +84,7 @@ class AuthService {
       } else if (e.code == 'weak-password') {
         return e.message ?? 'Ypur password is weak';
       }
-    } 
+    }
   }
 
   // sign out

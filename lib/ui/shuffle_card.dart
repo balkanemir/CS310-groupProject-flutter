@@ -36,7 +36,8 @@ class _ShuffleCardState extends State<ShuffleCard> {
               email: Users[i].email,
               MBTI_type: Users[i].MBTI_type,
               following: Users[i].following,
-              followers: Users[i].followers),
+              followers: Users[i].followers,
+              isPrivate: Users[i].isPrivate),
           likeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
               backgroundColor: secondaryPinkLight,

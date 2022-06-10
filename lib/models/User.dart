@@ -9,6 +9,7 @@ class User {
   String? bio;
   int following;
   int followers;
+  bool isPrivate;
 
   User({
     required this.profile_image,
@@ -20,6 +21,7 @@ class User {
     required this.MBTI_type,
     required this.following,
     required this.followers,
+    required this.isPrivate,
     this.bio,
   });
 }

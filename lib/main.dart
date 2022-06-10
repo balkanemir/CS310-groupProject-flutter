@@ -4,15 +4,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/models/user1.dart';
-import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/search.dart';
+import 'package:flutterui/routes/followerList.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/routes/signup.dart';
-import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/addpost.dart';
 import 'package:flutterui/routes/walkthrough.dart';
 import 'package:flutterui/routes/welcome.dart';
@@ -20,9 +19,9 @@ import 'package:flutterui/routes/wrapper.dart';
 import 'package:flutterui/services/auth.dart';
 import 'package:flutterui/services/block_observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterui/models/User.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -112,7 +111,7 @@ Future createUser(
     required String username,
     required String surname,
     required String MBTI_type}) async {
-  final docUser = FirebaseFirestore.instance.collection('users').doc();
+  final docUser = FirebaseFirestore.instance.collection('users');
 
   final user = User1(
     userID: id,
@@ -125,10 +124,11 @@ Future createUser(
     surname: surname,
     username: username,
     MBTI: MBTI_type,
+    isPrivate: false,
   );
   final json = user.toJson();
 
-  await docUser.set(json);
+  await docUser.doc(id).set(json);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -141,6 +141,7 @@ Future createUser(
         'surname': surname,
         'username': username,
         'MBTI_type': MBTI_type,
+        "isPrivate": false,
       };
 
   User1 fromJson(Map<String, dynamic> json) => User1(
@@ -154,12 +155,15 @@ Future createUser(
         surname: json['surname'],
         username: json['username'],
         MBTI: json['MBTI'],
+        isPrivate: json["isPrivate"],
       );
 }
 
 Future<User1?> readUser() async {
   final FirebaseAuth auth = await FirebaseAuth.instance;
   var uid = await auth.currentUser!.uid;
+  print(uid);
+  print("merhaba");
   User1 user = User1(
       MBTI: "",
       profileImage: "",
@@ -169,7 +173,8 @@ Future<User1?> readUser() async {
       name: "",
       surname: "",
       email: "",
-      username: "");
+      username: "",
+      isPrivate: false);
   await FirebaseFirestore.instance
       .collection('users')
       .where("userID", isEqualTo: uid)
@@ -185,6 +190,7 @@ Future<User1?> readUser() async {
       user.followers = doc["followers"];
       user.following = doc["following"];
       user.email = doc["email"];
+      user.isPrivate = doc["isPrivate"];
     });
   });
   return user;

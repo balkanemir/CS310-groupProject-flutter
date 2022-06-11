@@ -43,13 +43,24 @@ class FollowerList extends StatelessWidget {
                   if (snapshot.hasData && snapshot.data == null) {
                     return Text("Document does not exist");
                   } else {
-                    return Row(
-                      children: [
-                        Image.network(snapshot.data!.profileImage,
-                            height: 100, width: 100),
-                        Text(snapshot.data!.username,
-                            style: TextStyle(fontWeight: FontWeight.bold))
-                      ],
+                    return Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage(
+                              snapshot.data!.profileImage,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 75,
+                          ),
+                          Text(snapshot.data!.username,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20))
+                        ],
+                      ),
                     );
                   }
                 });

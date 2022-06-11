@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
@@ -15,7 +16,23 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:like_button/like_button.dart';
 import '../models/comment1.dart';
+class FirebaseStoreDataBase {
+  String? downloadUrl;
 
+  Future getData(String? postImage) async {
+    try {
+      downloadUrl = await FirebaseStorage.instance.ref().child('uploads/$postImage').getDownloadURL();
+       print("Download url is ${downloadUrl}");
+      return downloadUrl;
+    }
+    catch (e) {
+      print("Error is in image $e");
+      
+    }
+
+
+  }
+}
 class PostCardTemplate extends StatelessWidget {
   final String uid;
   final Post post;
@@ -111,13 +128,34 @@ class PostCardTemplate extends StatelessWidget {
               },
             ),
             if (post.postImage != null && post.postImage != "") ...[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                Image.file(File(post.postImage!))
-                ],
+                
+              FutureBuilder(
+                future: FirebaseStoreDataBase().getData(post.postImage),
+                builder: (context, snapshot) {
+                  if(snapshot.hasError) {
+                    return const Text("image error");
+                  }
+                  if(snapshot.connectionState == ConnectionState.done) {
+                    print("snapshot connected for postImage");
+                    return Column (
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                       Image.file(File('${snapshot.data.toString()}') ),
+                   
+                  
+                ]
+               
+                ,);
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+                
+
+                
+               
               ),
-            ], /*
+            
+            ],/*
             Container(
               color: textOnSecondaryWhite,
               child: Row(

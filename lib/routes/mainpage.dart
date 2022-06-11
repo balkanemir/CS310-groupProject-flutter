@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/models/User.dart';
+import 'package:path/path.dart';
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/ui/mainpage_postcard.dart';
@@ -9,11 +12,12 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/messages.dart';
 import 'package:flutterui/routes/addpost.dart';
-import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/models/comment1.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterui/models/follower1.dart';
+import 'package:multi_stream_builder/multi_stream_builder.dart';
 
 import 'notificationPage.dart';
 
@@ -26,6 +30,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  List<Follower> follower = [
+      Follower(
+        followed: "", 
+        user: "", 
+        isEnabled: false),
+  ];
   List<User1> user = [
     User1(
       userID: "",
@@ -37,7 +47,7 @@ class _MainPageState extends State<MainPage> {
       MBTI: "",
       bio: "",
       following: 0,
-      followers: 0,
+      followers: 0, 
       isPrivate: false,
     )
   ];
@@ -66,6 +76,8 @@ class _MainPageState extends State<MainPage> {
       FirebaseFirestore.instance.collection('posts').snapshots();
   final Stream<QuerySnapshot> comments =
       FirebaseFirestore.instance.collection('comments').snapshots();
+        final Stream<QuerySnapshot> followers =
+      FirebaseFirestore.instance.collection('followers').snapshots();
 
   int _currentindex = 0;
 
@@ -165,73 +177,160 @@ class _MainPageState extends State<MainPage> {
                   color: textOnSecondaryWhite,
                 ))),
         body: SizedBox(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: users,
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
-              if (snapshot1.hasError) {
-                return const Text('error');
-              }
-              if (!snapshot1.hasData) {
-                return const Text('User data error');
-              }
-              final FirebaseAuth auth = FirebaseAuth.instance;
-              var uid = auth.currentUser!.uid;
-              final userData = snapshot1.requireData;
-              print("uid is ${uid}");
-              print("user data length: ${userData.size}");
-              return StreamBuilder<QuerySnapshot>(
-                  stream: posts,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot2) {
-                    if (snapshot2.hasError) {
-                      return const Text('Post error');
+            
+           child: StreamBuilder<QuerySnapshot>(
+             stream: users,
+             builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) 
+              {    if(snapshot1.hasError) {
+                            return const Text('error');
                     }
-                    if (!snapshot2.hasData) {
-                      return const Text('Post data error');
-                    }
-                    final postData = snapshot2.requireData;
-                    print("size of post data is ${postData.size}");
-                    return ListView.builder(
-                        itemCount: userData.size,
-                        itemBuilder: (context, index) {
-                          user[0].userID =
-                              userData.docs[index]['userID'].toString();
-                          user[0].name =
-                              userData.docs[index]['name'].toString();
-                          user[0].surname =
-                              userData.docs[index]['surname'].toString();
-                          user[0].email =
-                              userData.docs[index]['email'].toString();
-                          user[0].profileImage =
-                              userData.docs[index]['profileImage'].toString();
-                          user[0].MBTI =
-                              userData.docs[index]['MBTI'].toString();
-                          user[0].bio = userData.docs[index]['bio'];
-                          //user[0].following =userData.docs[index]['following'];
-                          // user[0].followers = userData.docs[index]['followers'];
-                          post[0].userID =
-                              postData.docs[index]['userID'].toString();
-                          post[0].postID =
-                              postData.docs[index]['postID'].toString();
-                          post[0].date = postData.docs[index]['date'].toDate();
-                          // post[0].comments =
-                          //   postData.docs[index]['comments'];
-                          post[0].postImage =
-                              postData.docs[index]['postImage'].toString();
-                          post[0].postText =
-                              postData.docs[index]['postText'].toString();
-                          post[0].likes = postData.docs[index]['likes'];
+                  if(!snapshot1.hasData) 
+                  {
+                    return const Text('User data error');
+                  }
+                   final FirebaseAuth auth = FirebaseAuth.instance;
+                   var uid = auth.currentUser!.uid;
 
-                          return MainPostCardTemplate(
-                              uid: uid,
-                              user: user[0],
-                              post: post[0],
-                              comment: comment[0]);
-                        });
-                  });
+                   final userData = snapshot1.requireData;
+                   print("uid is ${uid}");
+                   print("user data length: ${userData.size}" );
+                  return StreamBuilder<QuerySnapshot>(
+                    stream: posts,
+                    builder:
+                   (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                        if(snapshot2.hasError) {
+                            return const Text('Post error');
+                        }
+                         if(!snapshot2.hasData) 
+                        {
+                         return const Text('Post data error');
+                        }
+                        final postData = snapshot2.requireData;
+                        
+                        return  StreamBuilder<QuerySnapshot>(
+                          stream: followers,
+                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                            
+                            final FirebaseAuth auth = FirebaseAuth.instance;
+                            var uid = auth.currentUser!.uid;
+                             if(snapshot3.hasError) {
+                               return const Text('Follower error');
+                           }
+                             if(!snapshot3.hasData) 
+                           {
+                               return const Text("Don't have any follower");
+                           }
 
-              /*
+                           final followerData = snapshot3.requireData;
+                            print("size of follower data is ${followerData.size}" );
+                            List<MainPostCardTemplate> postCards = <MainPostCardTemplate>[];
+                            for(int p = 0; p < postData.size ; p++) {
+
+                                print("processing post: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}, am I the poster? ${uid == postData.docs[p]['userID']}" );
+
+                                if (postData.docs[p]['userID'] == uid) 
+                                {
+                                  print("processing post 2: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}" );
+
+                                  for(int u = 0; u < userData.size; u++) 
+                                  {
+                                    print(" user data is ${u}" );
+
+                                    if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) 
+                                    {
+                                      User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
+                                      Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage:"" /*postData.docs[p]['postImage'].toString()*/);
+                                      
+                                      print("create post card");
+                                      postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
+                                      break;
+                                    }
+                                  }
+                                  continue;
+                                }
+
+                                for (var f = 0; f < followerData.size ; f++) {
+                                  print("size of post data is ${postData.size}" );
+
+                                  if(postData.docs[p]['userID'] == followerData.docs[f]['followed'] &&  followerData.docs[f]['user'] == uid) {                                       
+                                      
+                                      for(int u = 0; u < userData.size; u++) 
+                                      {
+                                        print(" user data is ${u}" );
+                                        if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) {
+
+                                          User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
+                                          Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: ""/*postData.docs[p]['postImage'].toString()*/);
+
+                                          print("create post card");
+
+                                          postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
+                                          break;
+                                        }
+                                      }
+
+                                      break;
+                                    }
+                                }
+                           
+              
+                           }
+
+                            return ListView.builder(
+                              itemCount: postCards.length,
+                              itemBuilder: (context, int index) 
+                              {
+                                print("post: ${postCards[index].post.postText}");
+                                return postCards[index];
+                              }
+                            );
+           
+                           
+return const Center(child: CircularProgressIndicator());
+
+                          }
+                        );
+                        /*  
+                  return ListView.builder(
+                     itemCount: userData.size,
+                     itemBuilder: (context, index) {
+                       
+                              user[0].userID = userData.docs[index]['userID'].toString();
+                              user[0].name = userData.docs[index]['name'].toString();
+                              user[0].surname = userData.docs[index]['surname'].toString();
+                              user[0].email = userData.docs[index]['email'].toString();
+                              user[0].profileImage = userData.docs[index]['profileImage'].toString();
+                              user[0].MBTI = userData.docs[index]['MBTI'].toString();
+                              user[0].bio = userData.docs[index]['bio'];
+                              //user[0].following =userData.docs[index]['following'];
+                             // user[0].followers = userData.docs[index]['followers'];
+                              post[0].userID =
+                                     postData.docs[index]['userID'].toString();
+                                 post[0].postID =
+                                     postData.docs[index]['postID'].toString();
+                                 post[0].date =
+                                     postData.docs[index]['date'].toDate();
+                                // post[0].comments =
+                                  //   postData.docs[index]['comments'];
+                                 post[0].postImage = postData.docs[index]
+                                         ['postImage']
+                                     .toString();
+                                 post[0].postText =
+                                     postData.docs[index]['postText'].toString();
+                                 post[0].likes = postData.docs[index]['likes'];
+
+                             
+                                return MainPostCardTemplate(
+                                     uid: uid,
+                                     user: user[0],
+                                     post: post[0],
+                                     comment: comment[0]);
+                     }
+                  );*/
+                   });
+
+                  /*
                   final userData = snapshot1.requireData;
                   final FirebaseAuth auth = FirebaseAuth.instance;
                   var uid = auth.currentUser!.uid;
@@ -256,7 +355,7 @@ class _MainPageState extends State<MainPage> {
                                      comment: comment[0]);
                      }
                   ); */
-              /*
+                  /*
                   return StreamBuilder<QuerySnapshot>(
                    stream: posts,
                    builder: (BuildContext context,
@@ -355,9 +454,12 @@ class _MainPageState extends State<MainPage> {
                    }
                
                    );*/
-            },
-          ), //user
-        ),
+                },
+
+          
+          ),//user
+          
+         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

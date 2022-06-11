@@ -19,7 +19,8 @@ class FirebaseStoreDataBase {
 
   Future getData(String? postImage) async {
     try {
-      downloadUrl = await FirebaseStorage.instance.ref().child(postImage!).getDownloadURL();
+      downloadUrl = await FirebaseStorage.instance.ref().child('uploads/$postImage').getDownloadURL();
+       print("Download url is ${downloadUrl}");
       return downloadUrl;
     }
     catch (e) {
@@ -45,7 +46,7 @@ class MainPostCardTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     print('post.image is/storage/uploads/${post.postImage}');
+  
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
 
@@ -111,6 +112,7 @@ class MainPostCardTemplate extends StatelessWidget {
             ),
             
             if (post.postImage != null && post.postImage != "") ...[
+             
               FutureBuilder(
                 future: FirebaseStoreDataBase().getData(post.postImage),
                 builder: (context, snapshot) {
@@ -121,10 +123,13 @@ class MainPostCardTemplate extends StatelessWidget {
                     return Column (
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        //Image.network(snapshot.data.toString()),
-                     // Image.file(File('/storage/uploads/${snapshot.data.toString()}') ),
+                       // Image.network('${snapshot.data.toString()}'),
+                       Image.file(File('${snapshot.data.toString()}') ),
+                   
                   
-                ],);
+                ]
+               
+                ,);
                   }
                   return const Center(child: CircularProgressIndicator());
                 },

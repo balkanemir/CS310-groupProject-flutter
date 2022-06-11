@@ -14,6 +14,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:checkbox_formfield/checkbox_formfield.dart';
 
 class EditProfile extends StatefulWidget {
   final User1? user;
@@ -47,6 +48,7 @@ class _EditProfileState extends State<EditProfile> {
   String username = "";
   String email = "";
   XFile? _image;
+  bool isPrivate = false;
   final _formKey = GlobalKey<FormState>();
 
   List<String> mbtiTypes = [
@@ -151,6 +153,7 @@ class _EditProfileState extends State<EditProfile> {
     email = widget.user!.email;
     surname = widget.user!.surname;
     username = widget.user!.username;
+    isPrivate = widget.user!.isPrivate;
   }
 
   @override
@@ -188,8 +191,8 @@ class _EditProfileState extends State<EditProfile> {
                               await updateImage();
                               await uploadImageToFirebase(context);
                             },
-                            icon: Image.file(
-                              File(widget.user!.profileImage),
+                            icon: Image.network(
+                              widget.user!.profileImage,
                               fit: BoxFit.cover,
                               width: 90.0,
                               height: 90.0,
@@ -371,6 +374,38 @@ class _EditProfileState extends State<EditProfile> {
                                 child: Text(value),
                               );
                             }).toList(),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            "Private",
+                            style: TextStyle(
+                              color: Color.fromRGBO(87, 10, 87, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints.tight(const Size(250, 50)),
+                          child: CheckboxListTileFormField(
+                            checkColor: Colors.white,
+                            initialValue: isPrivate,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isPrivate = value!;
+                              });
+                            },
+                            onSaved: (value) {
+                              widget.updatePrivate(value);
+                            },
                           ),
                         )
                       ],

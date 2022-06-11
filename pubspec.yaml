@@ -37,6 +37,7 @@ dependencies:
   auto_size_text: ^3.0.0
   google_fonts: ^2.3.3
   path: ^1.8.0
+  checkbox_formfield: ^0.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

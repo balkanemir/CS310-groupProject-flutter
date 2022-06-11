@@ -14,8 +14,8 @@ class ZoomedImage extends StatelessWidget {
       style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
       child: CircleAvatar(
           radius: 300,
-          child: Image.file(
-            File(image),
+          child: Image.network(
+            image,
             fit: BoxFit.fill,
           ),
           backgroundColor: Colors.transparent),

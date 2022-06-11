@@ -225,34 +225,52 @@ class _MainPageState extends State<MainPage> {
                            final followerData = snapshot3.requireData;
                             print("size of follower data is ${followerData.size}" );
                             List<MainPostCardTemplate> postCards = <MainPostCardTemplate>[];
-                            for (var i = 0; i < followerData.size ; i++) {
-                              
-                               print("\n");
-                              print("followed id  is ${followerData.docs[i]['followed']}" );
-                              print("user id in followed is ${followerData.docs[i]['user']}" );
+                            for(int p = 0; p < postData.size ; p++) {
 
-                          
-                                print("YES" );
+                                print("processing post: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}, am I the poster? ${uid == postData.docs[p]['userID']}" );
 
+                                if (postData.docs[p]['userID'] == uid) 
+                                {
+                                  print("processing post 2: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}" );
 
-                                for(int k = 0; k < postData.size ; k++) {
+                                  for(int u = 0; u < userData.size; u++) 
+                                  {
+                                    print(" user data is ${u}" );
+
+                                    if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) 
+                                    {
+                                      User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
+                                      Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: "");
+                                      
+                                      print("create post card");
+                                      postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
+                                      break;
+                                    }
+                                  }
+                                  continue;
+                                }
+
+                                for (var f = 0; f < followerData.size ; f++) {
                                   print("size of post data is ${postData.size}" );
-                                
-                                  if( (postData.docs[k]['userID'] == followerData.docs[i]['followed'] &&  followerData.docs[i]['user'] == uid )  || postData.docs[k]['userID'] == uid ) { 
-                                      for(int p = 0; p < userData.size; p++) 
-                                      {
-                                        print(" user data is ${p}" );
-                                        if(postData.docs[k]['userID'] == userData.docs[p]["userID"]) {
 
-                                          User1 myUser = User1(profileImage: "", userID: userData.docs[p]['userID'].toString(), name: userData.docs[p]['name'].toString(), surname: userData.docs[p]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
-                                          Post myPost = Post(userID: postData.docs[k]['userID'].toString(), postID: postData.docs[k]['postID'].toString(), date: postData.docs[k]['date'].toDate(), comments: [], likes: postData.docs[k]['likes'], postText: postData.docs[k]['postText'].toString(), postImage: "");
+                                  if(postData.docs[p]['userID'] == followerData.docs[f]['followed'] &&  followerData.docs[f]['user'] == uid) {                                       
+                                      
+                                      for(int u = 0; u < userData.size; u++) 
+                                      {
+                                        print(" user data is ${u}" );
+                                        if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) {
+
+                                          User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
+                                          Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: "");
 
                                           print("create post card");
 
                                           postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
+                                          break;
                                         }
                                       }
 
+                                      break;
                                     }
                                 }
                            

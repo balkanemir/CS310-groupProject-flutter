@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../models/post1.dart';
+import '../routes/profile.dart';
 
 Future createPost(
     {String userID = "",
@@ -35,3 +38,17 @@ Future createPost(
         'likes': 4,
       };
 }
+
+Future updatePost({
+    context,
+    required String postID,
+    String postText = ""
+    }) async {
+      print("updated post id: ${postID} ");
+      print("updated post text: ${postText} ");
+      await FirebaseFirestore.instance.collection('posts').doc(postID).set({
+      'postText': postText,
+    }, SetOptions(merge: true)).whenComplete(() => {
+        Navigator.push(context, MaterialPageRoute( builder: (context) => Profile()))
+      });
+    }

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:like_button/like_button.dart';
 import '../models/comment1.dart';
+import '../routes/updatepost.dart';
 
 class PostCardTemplate extends StatelessWidget {
   final String uid;
@@ -85,13 +85,23 @@ class PostCardTemplate extends StatelessWidget {
                           ],
                         ),
                       ),
-                      trailing: IconButton(
+                      
+                      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                        IconButton(
                         onPressed: () {
                           deletePost(context: context, id: post.postID);
                         },
                         splashRadius: 20,
                         icon: Icon(Icons.delete, size: 20, color: Colors.grey),
                       ),
+                       IconButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute( builder: (context) => UpdatePost(postID: post.postID, postText: post.postText)));
+                        },
+                        splashRadius: 20,
+                        icon: Icon(Icons.edit, size: 20, color: Colors.grey),
+                      ),
+                      ],),
                       subtitle: post.postText != null
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,

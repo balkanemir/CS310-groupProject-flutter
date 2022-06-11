@@ -46,7 +46,9 @@ class MainPostCardTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
+    print("YEEEEEEEES");
+    print("post image is ${post.postImage}");
+
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
 
@@ -112,7 +114,7 @@ class MainPostCardTemplate extends StatelessWidget {
             ),
             
             if (post.postImage != null && post.postImage != "") ...[
-             
+                
               FutureBuilder(
                 future: FirebaseStoreDataBase().getData(post.postImage),
                 builder: (context, snapshot) {
@@ -120,10 +122,10 @@ class MainPostCardTemplate extends StatelessWidget {
                     return const Text("image error");
                   }
                   if(snapshot.connectionState == ConnectionState.done) {
+                    print("snapshot connected for postImage");
                     return Column (
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                       // Image.network('${snapshot.data.toString()}'),
                        Image.file(File('${snapshot.data.toString()}') ),
                    
                   

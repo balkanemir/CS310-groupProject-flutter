@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'dart:io';
-import 'package:path/path.dart' as path;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:path/path.dart' show basename;
 import 'dart:io' show Platform;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutterui/utils/colors.dart';
@@ -20,17 +23,16 @@ class EditProfile extends StatefulWidget {
   final Function updateEmail;
   final Function updateMbti;
   final Function updatePrivate;
-  final Function updateImage;
 
   EditProfile(
-      this.user,
-      this.updateName,
-      this.updateSurname,
-      this.updateUsername,
-      this.updateEmail,
-      this.updateMbti,
-      this.updatePrivate,
-      this.updateImage);
+    this.user,
+    this.updateName,
+    this.updateSurname,
+    this.updateUsername,
+    this.updateEmail,
+    this.updateMbti,
+    this.updatePrivate,
+  );
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -44,6 +46,7 @@ class _EditProfileState extends State<EditProfile> {
   String surname = "";
   String username = "";
   String email = "";
+  XFile? _image;
   final _formKey = GlobalKey<FormState>();
 
   List<String> mbtiTypes = [
@@ -64,6 +67,31 @@ class _EditProfileState extends State<EditProfile> {
     "ESTP",
     "ESFP"
   ];
+  Future uploadImageToFirebase(BuildContext context) async {
+    String fileName = basename(_image!.path);
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+    try {
+      await firebaseStorageRef.putFile(File(_image!.path));
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .update({'profileImage': await firebaseStorageRef.getDownloadURL()});
+      print('Upload completed image');
+      setState(() {
+        _image = null;
+      });
+    } on FirebaseException catch (e) {
+      print('ERROR: ${e.code} - ${e.message}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future updateImage() async {
+    final ImagePicker _picker = ImagePicker();
+    _image = await _picker.pickImage(source: ImageSource.gallery);
+  }
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -157,10 +185,11 @@ class _EditProfileState extends State<EditProfile> {
                           child: IconButton(
                             iconSize: 150,
                             onPressed: () async {
-                              widget.updateImage();
+                              await updateImage();
+                              await uploadImageToFirebase(context);
                             },
-                            icon: Image.network(
-                              widget.user!.profileImage,
+                            icon: Image.file(
+                              File(widget.user!.profileImage),
                               fit: BoxFit.cover,
                               width: 90.0,
                               height: 90.0,

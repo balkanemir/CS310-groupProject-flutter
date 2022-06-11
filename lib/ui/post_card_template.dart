@@ -16,23 +16,24 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:like_button/like_button.dart';
 import '../models/comment1.dart';
+
 class FirebaseStoreDataBase {
   String? downloadUrl;
 
   Future getData(String? postImage) async {
     try {
-      downloadUrl = await FirebaseStorage.instance.ref().child('uploads/$postImage').getDownloadURL();
-       print("Download url is ${downloadUrl}");
+      downloadUrl = await FirebaseStorage.instance
+          .ref()
+          .child('uploads/$postImage')
+          .getDownloadURL();
+      print("Download url is ${downloadUrl}");
       return downloadUrl;
-    }
-    catch (e) {
+    } catch (e) {
       print("Error is in image $e");
-      
     }
-
-
   }
 }
+
 class PostCardTemplate extends StatelessWidget {
   final String uid;
   final Post post;
@@ -65,7 +66,6 @@ class PostCardTemplate extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: ListTile(
-
                       leading: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -83,8 +83,7 @@ class PostCardTemplate extends StatelessWidget {
                             backgroundImage:
                                 NetworkImage(snapshot.data!.profileImage)),
                       ),
-                      title: 
-                      RichText(
+                      title: RichText(
                         text: TextSpan(
                           style: const TextStyle(
                             color: Colors.black,
@@ -98,7 +97,6 @@ class PostCardTemplate extends StatelessWidget {
                             TextSpan(
                               text: " @${snapshot.data!.username}",
                             )
-                            
                           ],
                         ),
                       ),
@@ -121,41 +119,35 @@ class PostCardTemplate extends StatelessWidget {
                                   height: 15,
                                 ),
                               ],
-                            ): null,
+                            )
+                          : null,
                     ),
                   );
                 }
               },
             ),
             if (post.postImage != null && post.postImage != "") ...[
-                
               FutureBuilder(
                 future: FirebaseStoreDataBase().getData(post.postImage),
                 builder: (context, snapshot) {
-                  if(snapshot.hasError) {
+                  if (snapshot.hasError) {
                     return const Text("image error");
                   }
-                  if(snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    print(snapshot.data.toString());
                     print("snapshot connected for postImage");
-                    return Column (
+
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                       Image.file(File('${snapshot.data.toString()}') ),
-                   
-                  
-                ]
-               
-                ,);
+                        Image.network(snapshot.data.toString()),
+                      ],
+                    );
                   }
                   return const Center(child: CircularProgressIndicator());
                 },
-                
-
-                
-               
               ),
-            
-            ],/*
+            ], /*
             Container(
               color: textOnSecondaryWhite,
               child: Row(
@@ -222,11 +214,12 @@ class PostCardTemplate extends StatelessWidget {
     );
   }
 
-  static Future<void> deletePost({context, 
-    required String id}) async{
-      DocumentReference document = FirebaseFirestore.instance.collection('posts').doc(id);
-      await document.delete().whenComplete(() => {
-        Navigator.push(context, MaterialPageRoute( builder: (context) => Profile()))
-      });
-  } 
+  static Future<void> deletePost({context, required String id}) async {
+    DocumentReference document =
+        FirebaseFirestore.instance.collection('posts').doc(id);
+    await document.delete().whenComplete(() => {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Profile()))
+        });
+  }
 }

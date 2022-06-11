@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class ZoomedImage extends StatelessWidget {
   final image;
@@ -13,8 +14,8 @@ class ZoomedImage extends StatelessWidget {
       style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
       child: CircleAvatar(
           radius: 300,
-          child: Image.network(
-            image,
+          child: Image.file(
+            File(image),
             fit: BoxFit.fill,
           ),
           backgroundColor: Colors.transparent),

@@ -86,15 +86,6 @@ class _ProfileState extends State<Profile> {
         .update({'isPrivate': private});
   }
 
-  void _updateImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .update({'profileImage': image!.path});
-  }
-
   @override
   Widget build(BuildContext context) {
     AppAnalytics.logCustomEvent("Profile_Page", <String, dynamic>{});
@@ -175,8 +166,8 @@ class _ProfileState extends State<Profile> {
                                     child: CircleAvatar(
                                       radius: 40,
                                       backgroundColor: secondaryPinkLight,
-                                      backgroundImage: FileImage(
-                                        File(snapshot.data!.profileImage),
+                                      backgroundImage: NetworkImage(
+                                        snapshot.data!.profileImage,
                                       ),
                                     ),
                                   ),
@@ -321,14 +312,14 @@ class _ProfileState extends State<Profile> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => EditProfile(
-                                        snapshot.data,
-                                        _updateName,
-                                        _updateSurname,
-                                        _updateUsername,
-                                        _updateEmail,
-                                        _updateMbti,
-                                        _updatePrivate,
-                                        _updateImage),
+                                      snapshot.data,
+                                      _updateName,
+                                      _updateSurname,
+                                      _updateUsername,
+                                      _updateEmail,
+                                      _updateMbti,
+                                      _updatePrivate,
+                                    ),
                                   ),
                                 );
                               },

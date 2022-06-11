@@ -4,13 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'dart:io';
-import 'package:path/path.dart' as path;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:path/path.dart' show basename;
 import 'dart:io' show Platform;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/services/analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:checkbox_formfield/checkbox_formfield.dart';
 
 class EditProfile extends StatefulWidget {
   final User1? user;
@@ -20,17 +24,16 @@ class EditProfile extends StatefulWidget {
   final Function updateEmail;
   final Function updateMbti;
   final Function updatePrivate;
-  final Function updateImage;
 
   EditProfile(
-      this.user,
-      this.updateName,
-      this.updateSurname,
-      this.updateUsername,
-      this.updateEmail,
-      this.updateMbti,
-      this.updatePrivate,
-      this.updateImage);
+    this.user,
+    this.updateName,
+    this.updateSurname,
+    this.updateUsername,
+    this.updateEmail,
+    this.updateMbti,
+    this.updatePrivate,
+  );
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -44,6 +47,8 @@ class _EditProfileState extends State<EditProfile> {
   String surname = "";
   String username = "";
   String email = "";
+  XFile? _image;
+  bool isPrivate = false;
   final _formKey = GlobalKey<FormState>();
 
   List<String> mbtiTypes = [
@@ -64,6 +69,31 @@ class _EditProfileState extends State<EditProfile> {
     "ESTP",
     "ESFP"
   ];
+  Future uploadImageToFirebase(BuildContext context) async {
+    String fileName = basename(_image!.path);
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+    try {
+      await firebaseStorageRef.putFile(File(_image!.path));
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .update({'profileImage': await firebaseStorageRef.getDownloadURL()});
+      print('Upload completed image');
+      setState(() {
+        _image = null;
+      });
+    } on FirebaseException catch (e) {
+      print('ERROR: ${e.code} - ${e.message}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future updateImage() async {
+    final ImagePicker _picker = ImagePicker();
+    _image = await _picker.pickImage(source: ImageSource.gallery);
+  }
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -123,6 +153,7 @@ class _EditProfileState extends State<EditProfile> {
     email = widget.user!.email;
     surname = widget.user!.surname;
     username = widget.user!.username;
+    isPrivate = widget.user!.isPrivate;
   }
 
   @override
@@ -157,7 +188,8 @@ class _EditProfileState extends State<EditProfile> {
                           child: IconButton(
                             iconSize: 150,
                             onPressed: () async {
-                              widget.updateImage();
+                              await updateImage();
+                              await uploadImageToFirebase(context);
                             },
                             icon: Image.network(
                               widget.user!.profileImage,
@@ -342,6 +374,38 @@ class _EditProfileState extends State<EditProfile> {
                                 child: Text(value),
                               );
                             }).toList(),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            "Private",
+                            style: TextStyle(
+                              color: Color.fromRGBO(87, 10, 87, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints.tight(const Size(250, 50)),
+                          child: CheckboxListTileFormField(
+                            checkColor: Colors.white,
+                            initialValue: isPrivate,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isPrivate = value!;
+                              });
+                            },
+                            onSaved: (value) {
+                              widget.updatePrivate(value);
+                            },
                           ),
                         )
                       ],

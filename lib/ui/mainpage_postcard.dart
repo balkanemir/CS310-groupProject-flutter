@@ -14,46 +14,48 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:like_button/like_button.dart';
 import '../models/comment1.dart';
+
 class FirebaseStoreDataBase {
   String? downloadUrl;
 
   Future getData(String? postImage) async {
     try {
-      downloadUrl = await FirebaseStorage.instance.ref().child(postImage!).getDownloadURL();
+      downloadUrl = await FirebaseStorage.instance
+          .ref()
+          .child('uploads/$postImage')
+          .getDownloadURL();
+      print("Download url is ${downloadUrl}");
       return downloadUrl;
-    }
-    catch (e) {
+    } catch (e) {
       print("Error is in image $e");
-      
     }
-
-
   }
 }
+
 class MainPostCardTemplate extends StatelessWidget {
   final String uid;
   final User1? user;
   final Post post;
   final Comment comment;
-  MainPostCardTemplate({
-    Key? key,
-    required this.uid,
-    required this.user,
-    required this.post,
-    required this.comment
-  }) : super(key: key);
+  MainPostCardTemplate(
+      {Key? key,
+      required this.uid,
+      required this.user,
+      required this.post,
+      required this.comment})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     print('post.image is/storage/uploads/${post.postImage}');
+
+
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-
       child: Card(
         color: textOnSecondaryWhite,
         shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
-      ),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         child: Column(
           children: [
             Padding(
@@ -71,17 +73,13 @@ class MainPostCardTemplate extends StatelessWidget {
                   child: CircleAvatar(
                       radius: 30,
                       backgroundColor: primaryPinkLight,
-
                       backgroundImage: NetworkImage(user!.profileImage)),
-
                 ),
-                
                 title: RichText(
                   text: TextSpan(
                     style: const TextStyle(
                       color: Colors.black,
                     ),
-              
                     children: <TextSpan>[
                       TextSpan(
                         text: "${user?.name} ${user?.surname}",
@@ -101,7 +99,7 @@ class MainPostCardTemplate extends StatelessWidget {
                             height: 5,
                           ),
                           Text(post.postText!),
-                         const  SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                         ],
@@ -109,33 +107,26 @@ class MainPostCardTemplate extends StatelessWidget {
                     : null,
               ),
             ),
-            
             if (post.postImage != null && post.postImage != "") ...[
               FutureBuilder(
                 future: FirebaseStoreDataBase().getData(post.postImage),
                 builder: (context, snapshot) {
-                  if(snapshot.hasError) {
+                  if (snapshot.hasError) {
                     return const Text("image error");
                   }
-                  if(snapshot.connectionState == ConnectionState.done) {
-                    return Column (
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    print("snapshot connected for postImage");
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        //Image.network(snapshot.data.toString()),
-                     // Image.file(File('/storage/uploads/${snapshot.data.toString()}') ),
-                  
-                ],);
+                        Image.network(snapshot.data.toString()),
+                      ],
+                    );
                   }
                   return const Center(child: CircularProgressIndicator());
                 },
-                
-
-                
-               
               ),
-            
             ],
-          
             Container(
               color: textOnSecondaryWhite,
               child: Row(
@@ -144,31 +135,30 @@ class MainPostCardTemplate extends StatelessWidget {
                   const SizedBox(width: 10),
                   TextButton.icon(
                     onPressed: () {
-                        Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CommentPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CommentPage()));
                     },
-                    icon: const Icon(
-                      Icons.comment, 
-                      size: 15, 
-                      color: Colors.grey),
-                    label: Text("${comment.commentText}", 
-                              style: const TextStyle(
-                              color: textOnPrimaryBlack,
-                              fontSize: 10,
-                            )
-                            ),
+                    icon:
+                        const Icon(Icons.comment, size: 15, color: Colors.grey),
+                    label: Text("${comment.commentText}",
+                        style: const TextStyle(
+                          color: textOnPrimaryBlack,
+                          fontSize: 10,
+                        )),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const LikeButton(
-                              size: 15,
-                            ),
-                            Text("${post.likes}", 
-                            style: const TextStyle(
-                              color: textOnPrimaryBlack,
-                              fontSize: 10,
-                            )),
+                        size: 15,
+                      ),
+                      Text("${post.likes}",
+                          style: const TextStyle(
+                            color: textOnPrimaryBlack,
+                            fontSize: 10,
+                          )),
                     ],
                   ),
                   /*

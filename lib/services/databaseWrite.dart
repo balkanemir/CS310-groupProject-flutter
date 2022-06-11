@@ -11,6 +11,7 @@ Future createPost(
     required DateTime date,
     required int comments,
     String postImage = "",
+    String postVideo = "",
     String postText = "",
     required int likes}) async {
   final docPost = FirebaseFirestore.instance.collection('posts').doc();
@@ -21,6 +22,7 @@ Future createPost(
     date: date,
     comments: [],
     postImage: postImage,
+    postVideo: postVideo,
     postText: postText,
     likes: likes,
   );

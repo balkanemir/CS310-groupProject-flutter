@@ -24,6 +24,7 @@ class _AddPostState extends State<AddPost> {
   int _selectedIndex = 0;
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
+  XFile? _video;
 
   Future pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -38,9 +39,33 @@ class _AddPostState extends State<AddPost> {
         FirebaseStorage.instance.ref().child('uploads/$fileName');
     try {
       await firebaseStorageRef.putFile(File(_image!.path));
-      print('Upload completed');
+      print('Upload completed image');
       setState(() {
         _image = null;
+      });
+    } on FirebaseException catch (e) {
+      print('ERROR: ${e.code} - ${e.message}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+   Future pickVideo() async {
+    final pickedFile = await _picker.pickVideo(source: ImageSource.gallery);
+    setState(() {
+      _image = pickedFile;
+    });
+  }
+
+    Future uploadVideoToFirebase(BuildContext context) async {
+    String fileName = basename(_video!.path);
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+    try {
+      await firebaseStorageRef.putFile(File(_video!.path));
+      print('Upload completed video');
+      setState(() {
+        _video = null;
       });
     } on FirebaseException catch (e) {
       print('ERROR: ${e.code} - ${e.message}');
@@ -54,6 +79,10 @@ class _AddPostState extends State<AddPost> {
       _selectedIndex = index;
     });
   }
+
+
+
+  
 
   String postText = "";
   @override
@@ -86,12 +115,15 @@ class _AddPostState extends State<AddPost> {
                   final FirebaseAuth auth = FirebaseAuth.instance;
                   var uid = auth.currentUser!.uid;
                   uploadImageToFirebase(context);
+                  uploadVideoToFirebase(context);
                   String? fileName = basename(_image!.path);
+                  String? videoFile = basename(_video!.path);
                   createPost(
                       userID: uid,
                       postID: "",
                       date: DateTime.now(),
                       comments: 0,
+                      postVideo: videoFile ,
                       postImage: fileName,
                       likes: 0,
                       postText: postText);
@@ -138,6 +170,11 @@ class _AddPostState extends State<AddPost> {
                       pickImage();
                     },
                     icon: Icon(Icons.add_a_photo)),
+                IconButton(
+                    onPressed: () {
+                      pickVideo();
+                    },
+                    icon: Icon(Icons.add_alarm_outlined)),
               ],
             ),
             Center(
@@ -164,6 +201,18 @@ class _AddPostState extends State<AddPost> {
                     },
                     child: Text('Cancel', style: TextStyle(color: Colors.red))),
               ),
+              if (_video != null)
+              Container(
+                height: 22,
+                child: OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        _video = null;
+                      });
+                    },
+                    child: Text('Cancel', style: TextStyle(color: Colors.red))),
+              ),
+
 
           ],
         ),

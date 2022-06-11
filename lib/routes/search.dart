@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/routes/shuffle.dart';
 import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/utils/styles.dart';
@@ -23,8 +25,11 @@ class _SearchState extends State<Search> {
   List<String> _searchHistory = [];
   List<String> filteredSearchHistory = [];
 
-  String selectedTerm = "";
+  CollectionReference _users =
+  FirebaseFirestore.instance.collection('users');
 
+  String selectedTerm = "";
+  bool onTap = false;
 
   List<String> filterSearchTerms(@required String? filter) {
     if (filter != null && filter.isNotEmpty) {
@@ -82,8 +87,8 @@ class _SearchState extends State<Search> {
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentindex,
-          backgroundColor: primaryPink200,
-          selectedItemColor: textOnSecondaryWhite,
+          backgroundColor: textOnSecondaryWhite,
+          selectedItemColor: secondaryPink800,
           unselectedItemColor: secondaryPink800,
           selectedFontSize: 18.0,
           unselectedFontSize: 18.0,
@@ -117,9 +122,13 @@ class _SearchState extends State<Search> {
                 icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
       body: FloatingSearchBar(
+
         controller: controller,
         body:
-            FloatingSearchBarScrollNotifier(child: ((SearchResultsListView()))),
+            FloatingSearchBarScrollNotifier(
+                child: (
+                    (SearchResultsListView())),
+                ),
         transition: CircularFloatingSearchBarTransition(),
         physics: BouncingScrollPhysics(),
         hint: "Search",
@@ -135,6 +144,8 @@ class _SearchState extends State<Search> {
           setState(() {
             addSearchTerm(query);
             selectedTerm = query;
+
+            onTap = true;
           });
           controller.close();
         },
@@ -166,6 +177,7 @@ class _SearchState extends State<Search> {
                           setState(() {
                             addSearchTerm(controller.query);
                             selectedTerm = controller.query;
+
                           });
                           controller.close();
                         },
@@ -208,18 +220,61 @@ class _SearchState extends State<Search> {
     );
   }
 
-  ListView SearchResultsListView() {
+  StreamBuilder<QuerySnapshot> SearchResultsListView() {
     final fsb = FloatingSearchBar.of(context);
 
-    return ListView(
-      padding: EdgeInsets.only(top: 75, bottom: 56),
-      children: List.generate(
-        5,
-        (index) => ListTile(
-          title: Text('$selectedTerm search result'),
-          subtitle: Text(index.toString()),
-        ),
-      ),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _users.snapshots().asBroadcastStream(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+          if (snapshot.hasError) {
+            return const Text('error');
+          }
+          if(!snapshot.hasData){
+            return Center(child: CircularProgressIndicator());
+          }
+          else{
+            //print(snapshot.data);
+            if (onTap == false){
+                return Center(child: Text("Search anything here"));
+            }
+            else{
+              if(snapshot.data!.docs.where(((QueryDocumentSnapshot<Object?> element) => element['username']
+                  .toString()
+                  .toLowerCase()
+                  .contains(selectedTerm.toLowerCase()))).isEmpty){
+
+                      return Center(child: Text("No such user found"));
+          }
+              else{
+            return ListView(
+                padding: EdgeInsets.only(top: 75, bottom: 56),
+              children: [
+                ...snapshot.data!.docs.where(((QueryDocumentSnapshot<Object?> element) => element['username']
+                    .toString()
+                    .toLowerCase()
+                    .contains(selectedTerm.toLowerCase()))).map((QueryDocumentSnapshot<Object?> data) {
+                      final String username = data.get('username');
+                      final String image = data.get('profileImage');
+                      final String fullname = data.get('name') + data.get('surname');
+
+
+                      return ListTile(
+                        onTap:() {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+
+                        },
+                        title: Text(username),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(image),
+                        ),
+                        subtitle: Text(fullname),
+                      );
+                })
+              ],
+            );
+          }}}
+        }
     );
   }
 }

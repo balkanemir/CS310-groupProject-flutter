@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/profile.dart';
 import 'package:flutterui/utils/colors.dart';
 
@@ -7,7 +7,7 @@ import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class ShuffleCard extends StatefulWidget {
-  final List<User> Users;
+  final List<User1> Users;
 
   const ShuffleCard({Key? key, required this.Users}) : super(key: key);
 
@@ -16,7 +16,7 @@ class ShuffleCard extends StatefulWidget {
 }
 
 class _ShuffleCardState extends State<ShuffleCard> {
-  final List<User> Users;
+  final List<User1> Users;
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -27,17 +27,17 @@ class _ShuffleCardState extends State<ShuffleCard> {
   void initState() {
     for (int i = 0; i < Users.length; i++) {
       _swipeItems.add(SwipeItem(
-          content: User(
-              profile_image: Users[i].profile_image,
-              id: Users[i].id,
+          content: User1(
+              profileImage: Users[i].profileImage,
+              userID: Users[i].userID,
               name: Users[i].name,
               surname: Users[i].surname,
               username: Users[i].username,
               email: Users[i].email,
-              MBTI_type: Users[i].MBTI_type,
+              isPrivate: false,
+              MBTI: Users[i].MBTI,
               following: Users[i].following,
-              followers: Users[i].followers,
-              isPrivate: Users[i].isPrivate),
+              followers: Users[i].followers),
           likeAction: () {
             _scaffoldKey.currentState?.showSnackBar(SnackBar(
               backgroundColor: secondaryPinkLight,
@@ -76,12 +76,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [primaryPinkLight, secondaryPinkLight],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight),
-        ),
+        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -98,9 +93,9 @@ class _ShuffleCardState extends State<ShuffleCard> {
                         radius: 200,
                         backgroundColor: primaryPinkLight,
                         backgroundImage: NetworkImage(
-                            _swipeItems[index].content.profile_image),
+                            _swipeItems[index].content.profileImage),
                         child: Text(
-                          '${_swipeItems[index].content.name} ${_swipeItems[index].content.MBTI_type}',
+                          '${_swipeItems[index].content.name} ${_swipeItems[index].content.MBTI}',
                           style: TextStyle(fontSize: 20),
                         ),
                       );
@@ -134,7 +129,8 @@ class _ShuffleCardState extends State<ShuffleCard> {
                     child: Row(
                       children: [
                         Icon(Icons.arrow_back_ios_rounded,
-                            color: textOnPrimaryBlack),
+                            color: secondaryPinkDark
+                            ),
                         Text("Pass",
                             style: TextStyle(color: textOnPrimaryBlack))
                       ],
@@ -144,13 +140,13 @@ class _ShuffleCardState extends State<ShuffleCard> {
                       _matchEngine!.currentItem?.superLike();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: primaryPink200,
+                      primary: primaryPinkLight,
                       elevation: 5,
                     ),
                     child: Column(
                       children: [
                         Icon(Icons.arrow_upward_rounded,
-                            color: textOnPrimaryBlack),
+                            color: secondaryPinkDark),
                         Text("Follow",
                             style: TextStyle(color: textOnPrimaryBlack)),
                       ],
@@ -160,7 +156,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                       _matchEngine!.currentItem?.like();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: secondaryPinkLight,
+                      primary: primaryPinkLight,
                       elevation: 5,
                     ),
                     child: Row(
@@ -168,7 +164,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                         Text("Like",
                             style: TextStyle(color: textOnPrimaryBlack)),
                         Icon(Icons.arrow_forward_ios_rounded,
-                            color: textOnPrimaryBlack),
+                            color: secondaryPinkDark),
                       ],
                     ))
               ],
@@ -179,3 +175,5 @@ class _ShuffleCardState extends State<ShuffleCard> {
     );
   }
 }
+
+/* */

@@ -12,6 +12,7 @@ class Post {
   DateTime date;
   List<String> comments;
   String? postImage;
+   String? postVideo;
   String? postText;
   int likes;
 
@@ -21,6 +22,7 @@ class Post {
     required this.date,
     required this.comments,
     this.postImage,
+    this.postVideo,
     this.postText,
     required this.likes,
   });
@@ -28,3 +30,4 @@ class Post {
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
 }
+

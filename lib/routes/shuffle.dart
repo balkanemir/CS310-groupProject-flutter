@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/User.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/search.dart';
@@ -21,7 +23,8 @@ class Shuffle extends StatefulWidget {
 }
 
 class _ShuffleState extends State<Shuffle> {
-  List<User>  Users = [];
+    final Stream<QuerySnapshot> users = FirebaseFirestore.instance.collection('users').snapshots();
+  List<User1>  Users = [];
   /*
   List<User1> Users = [
     User1(
@@ -103,8 +106,8 @@ class _ShuffleState extends State<Shuffle> {
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentindex,
-          backgroundColor: primaryPink200,
-          selectedItemColor: textOnSecondaryWhite,
+          backgroundColor: textOnSecondaryWhite,
+          selectedItemColor: secondaryPink800,
           unselectedItemColor: secondaryPink800,
           selectedFontSize: 18.0,
           unselectedFontSize: 18.0,
@@ -128,7 +131,7 @@ class _ShuffleState extends State<Shuffle> {
                   MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
@@ -136,7 +139,53 @@ class _ShuffleState extends State<Shuffle> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
-      body: ShuffleCard(Users: Users),
+      body: SizedBox(
+            
+           child: StreamBuilder<QuerySnapshot>(
+             stream: users,
+             builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> userSnapshot) 
+              {    
+                if(userSnapshot.hasError) {
+                            return const Text('error');
+                    }
+                  if(!userSnapshot.hasData) 
+                  {
+                    return const Text('User data error');
+                  }
+                  final FirebaseAuth auth = FirebaseAuth.instance;
+                  var uid = auth.currentUser!.uid;
+
+                   final userData = userSnapshot.requireData;
+                   List<User1> addUsers = <User1>[];
+                   for(int i = 0; i < userData.size; i++) 
+                   {
+                    if(userData.docs[i]['userID'] != uid) {
+                      addUsers.add(User1( 
+                        userID: userData.docs[i]['userID'],
+                        surname: userData.docs[i]['surname'],
+                        name: userData.docs[i]['name'],
+                        username: userData.docs[i]['surname'],
+                        email: userData.docs[i]['email'],
+                        isPrivate: userData.docs[i]['isPrivate'],
+                        followers: userData.docs[i]['followers'],
+                        following: userData.docs[i]['following'],
+                        MBTI: userData.docs[i]['MBTI'],
+                        profileImage: userData.docs[i]['profileImage'],
+
+
+                      ));
+                      
+                     
+                    }
+                 
+                   }
+                      return ShuffleCard(Users: addUsers);
+
+
+              }
+       )
+     )
     );
   }
 }

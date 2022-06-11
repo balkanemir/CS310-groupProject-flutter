@@ -48,6 +48,7 @@ class PostCardTemplate extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: ListTile(
+
                       leading: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -65,7 +66,8 @@ class PostCardTemplate extends StatelessWidget {
                             backgroundImage:
                                 NetworkImage(snapshot.data!.profileImage)),
                       ),
-                      title: RichText(
+                      title: 
+                      RichText(
                         text: TextSpan(
                           style: const TextStyle(
                             color: Colors.black,
@@ -79,8 +81,16 @@ class PostCardTemplate extends StatelessWidget {
                             TextSpan(
                               text: " @${snapshot.data!.username}",
                             )
+                            
                           ],
                         ),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          deletePost(context: context, id: post.postID);
+                        },
+                        splashRadius: 20,
+                        icon: Icon(Icons.delete, size: 20, color: Colors.grey),
                       ),
                       subtitle: post.postText != null
                           ? Column(
@@ -94,8 +104,7 @@ class PostCardTemplate extends StatelessWidget {
                                   height: 15,
                                 ),
                               ],
-                            )
-                          : null,
+                            ): null,
                     ),
                   );
                 }
@@ -157,7 +166,7 @@ class PostCardTemplate extends StatelessWidget {
                           )),
                     ],
                   ),
-                  /*
+                  
                   SizedBox(
                     width: 175,
                   ),
@@ -165,7 +174,7 @@ class PostCardTemplate extends StatelessWidget {
                     onPressed: () {},
                     splashRadius: 20,
                     icon: Icon(Icons.delete, size: 20, color: Colors.grey),
-                  ),*/
+                  ),
                 ],
               ),
             )*/
@@ -174,4 +183,12 @@ class PostCardTemplate extends StatelessWidget {
       ),
     );
   }
+
+  static Future<void> deletePost({context, 
+    required String id}) async{
+      DocumentReference document = FirebaseFirestore.instance.collection('posts').doc(id);
+      await document.delete().whenComplete(() => {
+        Navigator.push(context, MaterialPageRoute( builder: (context) => Profile()))
+      });
+  } 
 }

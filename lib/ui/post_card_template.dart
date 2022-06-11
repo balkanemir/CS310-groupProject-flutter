@@ -131,7 +131,7 @@ class PostCardTemplate extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                Image.file(File(post.postImage!))
+               // NetworkImage((post.postImage!))
                 ],
               ),
             ], /*

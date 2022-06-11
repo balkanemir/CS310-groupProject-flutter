@@ -97,6 +97,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+      final FirebaseAuth auth =  FirebaseAuth.instance;
+      var uid = auth.currentUser!.uid;
     AppAnalytics.logCustomEvent("Profile_Page", <String, dynamic>{});
     return Scaffold(
       backgroundColor: Colors.white,
@@ -126,7 +128,7 @@ class _ProfileState extends State<Profile> {
                   MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
-          items: [
+          items: const  [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
@@ -135,7 +137,7 @@ class _ProfileState extends State<Profile> {
                 icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(230.0),
+        preferredSize: const Size.fromHeight(230.0),
         child: Container(
           height: 230,
           child: Center(
@@ -144,8 +146,11 @@ class _ProfileState extends State<Profile> {
             child: Column(
               children: [
                 FutureBuilder<User1?>(
+                  
                     future: readUser(),
                     builder: (context, snapshot) {
+                        final FirebaseAuth auth = FirebaseAuth.instance;
+                        var uid =  auth.currentUser!.uid;
                       if (snapshot.hasError) {
                         return Text('Something went wrong.');
                       }
@@ -217,7 +222,7 @@ class _ProfileState extends State<Profile> {
                                   }
                                 }),
                             FutureBuilder<List<Follower?>>(
-                                future: readFollowingsOfUser(),
+                                future: readFollowingsOfUser(uid),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     print(snapshot.error);
@@ -259,7 +264,7 @@ class _ProfileState extends State<Profile> {
                                   }
                                 }),
                             FutureBuilder<List<Follower?>>(
-                                future: readFollowersOfUser(),
+                                future: readFollowersOfUser(uid),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     print(snapshot.error);
@@ -350,6 +355,7 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       body: FutureBuilder<List<Post?>>(
+        
           future: readPostOfUser(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {

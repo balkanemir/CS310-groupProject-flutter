@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/User.dart';
+import 'package:flutterui/routes/show_profiles.dart';
 import 'package:path/path.dart';
 import 'package:flutterui/routes/search.dart';
 import 'package:flutterui/routes/shuffle.dart';
@@ -239,7 +240,7 @@ class _MainPageState extends State<MainPage> {
 
                                     if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) 
                                     {
-                                      User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
+                                      User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: userData.docs[u]['username'].toString(), email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
                                       Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage:"" /*postData.docs[p]['postImage'].toString()*/);
                                       
                                       print("create post card");
@@ -260,7 +261,7 @@ class _MainPageState extends State<MainPage> {
                                         print(" user data is ${u}" );
                                         if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) {
 
-                                          User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
+                                          User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: userData.docs[u]['username'].toString(), email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
                                           Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: ""/*postData.docs[p]['postImage'].toString()*/);
 
                                           print("create post card");

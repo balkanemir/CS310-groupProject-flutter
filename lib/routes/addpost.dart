@@ -140,7 +140,7 @@ class _AddPostState extends State<AddPost> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                const Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: CircleAvatar(
                     radius: 30,

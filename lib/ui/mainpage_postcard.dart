@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/routes/show_profiles.dart';
 import 'package:like_button/like_button.dart';
 import 'package:flutterui/models/User.dart';
 import 'package:flutterui/models/user1.dart';
@@ -20,7 +22,6 @@ class FirebaseStoreDataBase {
   Future getData(String? postImage) async {
     try {
       downloadUrl = await FirebaseStorage.instance.ref().child('uploads/$postImage').getDownloadURL();
-       print("Download url is ${downloadUrl}");
       return downloadUrl;
     }
     catch (e) {
@@ -63,8 +64,11 @@ class MainPostCardTemplate extends StatelessWidget {
               child: ListTile(
                 leading: ElevatedButton(
                   onPressed: () {
+                    final FirebaseAuth auth =  FirebaseAuth.instance;
+                    var uid = auth.currentUser!.uid;
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                        user!.userID == uid ? MaterialPageRoute(builder: (context) => Profile()) :
+                        MaterialPageRoute(builder: (context) => ShowProfile(user: user)));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: secondaryBackgroundWhite,
@@ -125,7 +129,7 @@ class MainPostCardTemplate extends StatelessWidget {
                     return Column (
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                       Image.file(File('${snapshot.data.toString()}') ),
+                       //Image.file(File('${snapshot.data.toString()}') ),
                    
                   
                 ]

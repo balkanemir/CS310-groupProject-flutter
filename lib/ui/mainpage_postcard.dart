@@ -47,8 +47,7 @@ class MainPostCardTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("YEEEEEEEES");
-    print("post image is ${post.postImage}");
+
 
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),

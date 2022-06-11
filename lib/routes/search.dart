@@ -82,8 +82,8 @@ class _SearchState extends State<Search> {
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentindex,
-          backgroundColor: primaryPink200,
-          selectedItemColor: textOnSecondaryWhite,
+          backgroundColor: textOnSecondaryWhite,
+          selectedItemColor: secondaryPink800,
           unselectedItemColor: secondaryPink800,
           selectedFontSize: 18.0,
           unselectedFontSize: 18.0,

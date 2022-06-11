@@ -128,34 +128,13 @@ class PostCardTemplate extends StatelessWidget {
               },
             ),
             if (post.postImage != null && post.postImage != "") ...[
-                
-              FutureBuilder(
-                future: FirebaseStoreDataBase().getData(post.postImage),
-                builder: (context, snapshot) {
-                  if(snapshot.hasError) {
-                    return const Text("image error");
-                  }
-                  if(snapshot.connectionState == ConnectionState.done) {
-                    print("snapshot connected for postImage");
-                    return Column (
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                       Image.file(File('${snapshot.data.toString()}') ),
-                   
-                  
-                ]
-               
-                ,);
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-                
-
-                
-               
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                Image.file(File(post.postImage!))
+                ],
               ),
-            
-            ],/*
+            ], /*
             Container(
               color: textOnSecondaryWhite,
               child: Row(

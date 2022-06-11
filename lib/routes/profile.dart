@@ -102,7 +102,7 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: primaryPink200,
+          backgroundColor: textOnSecondaryWhite,
           selectedItemColor: secondaryPink800,
           unselectedItemColor: secondaryPink800,
           selectedFontSize: 18.0,
@@ -139,7 +139,7 @@ class _ProfileState extends State<Profile> {
         child: Container(
           height: 230,
           child: Center(
-              child: Padding(
+            child: Padding(
             padding: const EdgeInsets.only(top: 19.0, right: 8.0, left: 8.0),
             child: Column(
               children: [
@@ -174,7 +174,7 @@ class _ProfileState extends State<Profile> {
                                     },
                                     child: CircleAvatar(
                                       radius: 40,
-                                      backgroundColor: secondaryPinkLight,
+                                      backgroundColor: primaryPinkLight,
                                       backgroundImage: FileImage(
                                         File(snapshot.data!.profileImage),
                                       ),
@@ -346,13 +346,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           )),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [primaryPink200, Colors.white],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+         
         ),
       ),
       body: FutureBuilder<List<Post?>>(

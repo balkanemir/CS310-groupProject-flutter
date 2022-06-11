@@ -240,7 +240,7 @@ class _MainPageState extends State<MainPage> {
                                     if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) 
                                     {
                                       User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
-                                      Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage:postData.docs[p]['postImage'].toString());
+                                      Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage:"" /*postData.docs[p]['postImage'].toString()*/);
                                       
                                       print("create post card");
                                       postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
@@ -261,7 +261,7 @@ class _MainPageState extends State<MainPage> {
                                         if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) {
 
                                           User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: "", email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
-                                          Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: postData.docs[p]['postImage'].toString());
+                                          Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: ""/*postData.docs[p]['postImage'].toString()*/);
 
                                           print("create post card");
 

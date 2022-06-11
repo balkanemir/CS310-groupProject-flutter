@@ -31,8 +31,8 @@ class _NotificationPageState extends State<NotificationPage> {
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentindex,
-            backgroundColor: primaryPink200,
-            selectedItemColor: textOnSecondaryWhite,
+            backgroundColor: textOnSecondaryWhite,
+            selectedItemColor: secondaryPink800,
             unselectedItemColor: secondaryPink800,
             selectedFontSize: 18.0,
             unselectedFontSize: 18.0,
@@ -84,7 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         },
                         child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: secondaryPinkLight,
+                            backgroundColor: primaryPinkLight,
                             backgroundImage: NetworkImage(
                                 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png')),
                         style: ElevatedButton.styleFrom(
@@ -104,7 +104,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           },
                           child: Icon(Icons.message_sharp),
                           style: ElevatedButton.styleFrom(
-                            primary: secondaryPinkLight,
+                            primary: primaryPinkLight,
                             shape: CircleBorder(),
                           )),
                     )
@@ -153,12 +153,12 @@ class _NotificationPageState extends State<NotificationPage> {
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: primaryPink200,
+          color: primaryPinkLight,
         ),
         child: Icon(
           Icons.notifications,
           size: 25,
-          color: secondaryPink800,
+          color: secondaryPinkDark,
         ));
   }
 

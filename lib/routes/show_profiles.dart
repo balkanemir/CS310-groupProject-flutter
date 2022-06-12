@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutterui/services/databaseWrite.dart';
 import 'package:flutterui/ui/mainpage_postcard.dart';
 import 'dart:io';
@@ -313,22 +314,27 @@ class _ShowProfileState extends State<ShowProfile> {
                     child: Container(
                           child: ElevatedButton(
                              onPressed: () {
+                               /*
                              Navigator.pop(context);
                                 StreamBuilder<QuerySnapshot>(
                                   stream: databaseFollower,
-                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> followerSnapshot) {
-                                    final FirebaseAuth auth = FirebaseAuth.instance;
-                                    var currentUserId = auth.currentUser!.uid; 
-                                    final followerData = followerSnapshot.data;
-                                    for(int i = 0; i < followerData!.size; i++) 
-                                    {
-                                      if(followerData.docs[i]['followed'] == currentUserId && followerData.docs[i]['user'] == myUser.userID) {
-                                        deleteFollower(context: context,myUser: myUser, followerID:  followerData.docs[i]['followed'].toString());
-                                      }
-                                    }
-                                    return const  Text("");
+                                  builder: (BuildContext context , AsyncSnapshot<QuerySnapshot> followerSnapshot) {
 
-                                   });
+                                   });*/
+                                   final FirebaseAuth auth = FirebaseAuth.instance;
+                                    var currentUserId = auth.currentUser!.uid; 
+
+                                    var followerData;
+                                    FirebaseFirestore.instance.collection('followers').get().then((value) => {
+                                        print("delete search 1"),
+                                        for(int i = 0; i < value.docs.length; i++) 
+                                        {
+                                          print("delete search 2"),
+                                          if(value.docs[i]['user'] == currentUserId && value.docs[i]['followed'] == myUser.userID) {
+                                            deleteFollower(context: context,myUser: currentUserId, followerID:  value.docs[i]['followed'].toString()),
+                                          }
+                                        }
+                                    });
                                },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size.fromHeight(50),
@@ -397,13 +403,15 @@ class _ShowProfileState extends State<ShowProfile> {
   }
   
  
-  static Future<void> deleteFollower({context,required  User1 myUser, required String followerID}) async {
-    DocumentReference document =
-        FirebaseFirestore.instance.collection('followers').doc(followerID);
-    await document.delete().whenComplete(() => {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ShowProfile(user: myUser)))
-        });
+  static Future<void> deleteFollower({context,required  String myUser, required String followerID}) async {
+      print("delete 1");
+      var query = FirebaseFirestore.instance.collection('followers').where('user', isEqualTo: myUser).where('followed', isEqualTo: followerID);
+      print("delete 2");
+      query.get().then((query) => {
+        print("deleted query length: ${query.docs.length}"),
+        query.docs[0].reference.delete().then((value) => {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()))})
+      });
   }
 }
 

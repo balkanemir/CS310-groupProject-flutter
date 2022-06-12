@@ -25,6 +25,8 @@ class _AddPostState extends State<AddPost> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   XFile? _video;
+String? fileName;
+String? videoFile;
 
   Future pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -114,16 +116,24 @@ class _AddPostState extends State<AddPost> {
                   Navigator.pop(context);
                   final FirebaseAuth auth = FirebaseAuth.instance;
                   var uid = auth.currentUser!.uid;
-                  uploadImageToFirebase(context);
-                  uploadVideoToFirebase(context);
-                  String? fileName = basename(_image!.path);
-                  String? videoFile = basename(_video!.path);
+                  if (_image != null) {
+                      uploadImageToFirebase(context);
+                        fileName = basename(_image!.path);
+                  }
+    
+                  if(_video != null) {
+                    uploadVideoToFirebase(context);
+                     videoFile = basename(_video!.path);
+                  }
+                  
+                
+                 
                   createPost(
                       userID: uid,
                       postID: "",
                       date: DateTime.now(),
                       comments: 0,
-                      postVideo: videoFile ,
+                      postVideo: videoFile,
                       postImage: fileName,
                       likes: 0,
                       postText: postText);

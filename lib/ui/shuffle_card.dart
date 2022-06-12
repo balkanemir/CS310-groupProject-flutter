@@ -97,6 +97,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                   child: SwipeCards(
                     matchEngine: _matchEngine!,
                     itemBuilder: (BuildContext context, int index) {
+                      //index = _swipeItems.length % index;
                       followUsers = _swipeItems[index].content;
                       return CircleAvatar(
                        

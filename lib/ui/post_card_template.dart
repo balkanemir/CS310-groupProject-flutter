@@ -81,7 +81,7 @@ class PostCardTemplate extends StatelessWidget {
                             radius: 30,
                             backgroundColor: primaryPinkLight,
                             backgroundImage:
-                                NetworkImage(snapshot.data!.profileImage)),
+                                NetworkImage("${snapshot.data?.profileImage}")),
                       ),
                       title: RichText(
                         text: TextSpan(
@@ -91,11 +91,11 @@ class PostCardTemplate extends StatelessWidget {
                           children: <TextSpan>[
                             TextSpan(
                               text:
-                                  "${snapshot.data!.name} ${snapshot.data!.surname}",
+                                  "${snapshot.data?.name} ${snapshot.data?.surname}",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             TextSpan(
-                              text: " @${snapshot.data!.username}",
+                              text: " @${snapshot.data?.username}",
                             )
                           ],
                         ),

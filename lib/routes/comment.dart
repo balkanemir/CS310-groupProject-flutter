@@ -81,10 +81,14 @@ class _CommentPageState extends State<CommentPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Melisa Yilmaz"),
-                              Container(
-                                child: AutoSizeText(
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae ipsum sem. Suspendisse blandit ultrices massa, quis lacinia urna imperdiet.'),
+                              Text("Melisa Yilmaz", style: TextStyle(fontWeight: FontWeight.bold) ),
+                              SizedBox(
+                                width: 250.0,
+                                child: Container(
+                                  child: AutoSizeText(
+                                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae ipsum sem. Suspendisse blandit ultrices massa, quis lacinia urna imperdiet.',
+                                  maxLines: 10),
+                                ),
                               ),
                             ]),
                         Row(

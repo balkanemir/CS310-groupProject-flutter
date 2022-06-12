@@ -326,7 +326,7 @@ class _ProfileState extends State<Profile> {
                                           ),
                                           children: <TextSpan>[
                                             TextSpan(
-                                              text: "${snapshot.data?.bio}",
+                                              text: "${snapshot.data!.bio}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             )

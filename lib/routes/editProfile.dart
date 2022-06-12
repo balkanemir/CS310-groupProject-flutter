@@ -444,29 +444,34 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     const SizedBox(height: 30),
                     Column(
+
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              print('Email: $email');
-                              _formKey.currentState!.save();
-                              print('Email: $email');
-                            } else {
-                              _showDialog('Form Error', 'Your form is invalid');
-                            }
-                            Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Profile(),
-                                        ),
-                                      );
-                          },
-                          style: OutlinedButton.styleFrom(
-                            primary: Color.fromRGBO(247, 61, 147, 0.8),
-                            backgroundColor: Color.fromRGBO(22, 0, 59, 0.2),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: OutlinedButton(
+
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                print('Email: $email');
+                                _formKey.currentState!.save();
+                                print('Email: $email');
+                              } else {
+                                _showDialog('Form Error', 'Your form is invalid');
+                              }
+                              Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Profile(),
+                                          ),
+                                        );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              primary: Color.fromRGBO(247, 61, 147, 0.8),
+                              backgroundColor: Color.fromRGBO(22, 0, 59, 0.2),
+                            ),
+                            child: Text("Submit Changes"),
                           ),
-                          child: Text("Submit Changes"),
                         ),
                       ],
                     ),

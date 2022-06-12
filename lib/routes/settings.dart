@@ -30,11 +30,10 @@ class Setting extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () async {
                   await _auth.signOut();
-                  Navigator.pushNamedAndRemoveUntil(
+                  Navigator.pushAndRemoveUntil(
                     context,
-                    Welcome.routeName,
-                    (route) => false,
-                  );
+                    MaterialPageRoute(builder: (BuildContext context) => Welcome()),
+                    ModalRoute.withName('/'));
                 },
                 child: Text('Sign out', style: TextStyle(color: Colors.red)),
                 style: ElevatedButton.styleFrom(primary: Colors.white60)),

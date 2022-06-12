@@ -78,18 +78,19 @@ class _ProfileState extends State<Profile> {
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update({'MBTI': mbti});
   }
-   void _updateBio(String? bio) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .update({'bio': bio});
-  }
+
 
   void _updatePrivate(bool private) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update({'isPrivate': private});
+  }
+  void _updateBio(String? bio) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'bio': bio});
   }
 
   @override
@@ -343,9 +344,9 @@ class _ProfileState extends State<Profile> {
                                           _updateSurname,
                                           _updateUsername,
                                           _updateEmail,
-                                          _updateBio,
                                           _updateMbti,
                                           _updatePrivate,
+                                          _updateBio,
                                         ),
                                       ),
                                     );

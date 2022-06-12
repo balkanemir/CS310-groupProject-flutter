@@ -7,8 +7,11 @@ import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
+import 'package:flutterui/models/user1.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:flutterui/services/analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterui/routes/show_profiles.dart';
 import 'mainpage.dart';
 
 class Search extends StatefulWidget {
@@ -25,8 +28,7 @@ class _SearchState extends State<Search> {
   List<String> _searchHistory = [];
   List<String> filteredSearchHistory = [];
 
-  CollectionReference _users =
-  FirebaseFirestore.instance.collection('users');
+  CollectionReference _users = FirebaseFirestore.instance.collection('users');
 
   String selectedTerm = "";
   bool onTap = false;
@@ -122,13 +124,10 @@ class _SearchState extends State<Search> {
                 icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
       body: FloatingSearchBar(
-
         controller: controller,
-        body:
-            FloatingSearchBarScrollNotifier(
-                child: (
-                    (SearchResultsListView())),
-                ),
+        body: FloatingSearchBarScrollNotifier(
+          child: ((SearchResultsListView())),
+        ),
         transition: CircularFloatingSearchBarTransition(),
         physics: BouncingScrollPhysics(),
         hint: "Search",
@@ -177,7 +176,6 @@ class _SearchState extends State<Search> {
                           setState(() {
                             addSearchTerm(controller.query);
                             selectedTerm = controller.query;
-
                           });
                           controller.close();
                         },
@@ -224,45 +222,69 @@ class _SearchState extends State<Search> {
     final fsb = FloatingSearchBar.of(context);
 
     return StreamBuilder<QuerySnapshot>(
-      stream: _users.snapshots().asBroadcastStream(),
+        stream: _users.snapshots().asBroadcastStream(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
           if (snapshot.hasError) {
             return const Text('error');
           }
-          if(!snapshot.hasData){
+          if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
-          }
-          else{
+          } else {
             //print(snapshot.data);
-            if (onTap == false){
-                return Center(child: Text("Search anything here"));
-            }
-            else{
-              if(snapshot.data!.docs.where(((QueryDocumentSnapshot<Object?> element) => element['username']
-                  .toString()
-                  .toLowerCase()
-                  .contains(selectedTerm.toLowerCase()))).isEmpty){
-
-                      return Center(child: Text("No such user found"));
-          }
-              else{
-            return ListView(
-                padding: EdgeInsets.only(top: 75, bottom: 56),
-              children: [
-                ...snapshot.data!.docs.where(((QueryDocumentSnapshot<Object?> element) => element['username']
-                    .toString()
-                    .toLowerCase()
-                    .contains(selectedTerm.toLowerCase()))).map((QueryDocumentSnapshot<Object?> data) {
+            if (onTap == false) {
+              return Center(child: Text("Search anything here"));
+            } else {
+              if (snapshot.data!.docs
+                  .where(((QueryDocumentSnapshot<Object?> element) =>
+                      element['username']
+                          .toString()
+                          .toLowerCase()
+                          .contains(selectedTerm.toLowerCase())))
+                  .isEmpty) {
+                return Center(child: Text("No such user found"));
+              } else {
+                return ListView(
+                  padding: EdgeInsets.only(top: 75, bottom: 56),
+                  children: [
+                    ...snapshot.data!.docs
+                        .where(((QueryDocumentSnapshot<Object?> element) =>
+                            element['username']
+                                .toString()
+                                .toLowerCase()
+                                .contains(selectedTerm.toLowerCase())))
+                        .map((QueryDocumentSnapshot<Object?> data) {
                       final String username = data.get('username');
                       final String image = data.get('profileImage');
-                      final String fullname = data.get('name') + data.get('surname');
-
+                      final String fullname =
+                          data.get('name') + data.get('surname');
 
                       return ListTile(
-                        onTap:() {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
-
+                        onTap: () {
+                          final FirebaseAuth auth = FirebaseAuth.instance;
+                          var uid = auth.currentUser!.uid;
+                          Navigator.push(
+                            context,
+                            data.get('userID') == uid
+                                ? MaterialPageRoute(
+                                    builder: (context) => Profile())
+                                : MaterialPageRoute(
+                                    builder: (context) => ShowProfile(
+                                      user: User1(
+                                        MBTI: data.get("MBTI"),
+                                        profileImage: data.get("profileImage"),
+                                        userID: data.get("userID"),
+                                        name: data.get("name"),
+                                        surname: data.get("surname"),
+                                        username: data.get("username"),
+                                        isPrivate: data.get("isPrivate"),
+                                        following: data.get("following"),
+                                        followers: data.get("followers"),
+                                        bio: data.get("bio"),
+                                        email: data.get("email"),
+                                      ),
+                                    ),
+                                  ),
+                          );
                         },
                         title: Text(username),
                         leading: CircleAvatar(
@@ -270,11 +292,12 @@ class _SearchState extends State<Search> {
                         ),
                         subtitle: Text(fullname),
                       );
-                })
-              ],
-            );
-          }}}
-        }
-    );
+                    })
+                  ],
+                );
+              }
+            }
+          }
+        });
   }
 }

@@ -296,42 +296,6 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    Container(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          dynamic user = await _auth.signInWithGoogle();
-                          if (user != null) {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, "/mainpage", (route) => false);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: secondaryPink800,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Image.network(
-                                //   'http://pngimg.com/uploads/google/google_PNG19635.png',
-                                //   height: 20,
-                                //   width: 20,
-                                // ),
-                                Text(
-                                  "Sign Up with Google",
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: textOnSecondaryWhite,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

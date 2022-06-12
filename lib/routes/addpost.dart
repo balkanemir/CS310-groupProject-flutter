@@ -162,7 +162,7 @@ String? videoFile;
                 Column(
                   children: [
                     SizedBox(
-                      width: 280,
+                      width: 237,
                       child: TextField(
                         maxLength: 150,
                         maxLines: 8, //or null

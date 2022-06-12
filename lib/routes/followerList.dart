@@ -50,13 +50,14 @@ class FollowerList extends StatelessWidget {
                           CircleAvatar(
                             radius: 40,
                             backgroundImage: NetworkImage(
-                              snapshot.data!.profileImage,
+                                snapshot.data?.profileImage ??
+                                            "https://cdn-icons-png.flaticon.com/512/149/149071.png",
                             ),
                           ),
                           SizedBox(
                             width: 75,
                           ),
-                          Text(snapshot.data!.username,
+                          Text("${snapshot.data?.username}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20))
                         ],

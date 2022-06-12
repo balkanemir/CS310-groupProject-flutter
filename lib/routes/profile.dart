@@ -79,13 +79,13 @@ class _ProfileState extends State<Profile> {
         .update({'MBTI': mbti});
   }
 
-
   void _updatePrivate(bool private) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update({'isPrivate': private});
   }
+
   void _updateBio(String? bio) {
     FirebaseFirestore.instance
         .collection('users')
@@ -96,7 +96,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final FirebaseAuth auth = FirebaseAuth.instance;
-    var uid = auth.currentUser!.uid;
+    var uid = auth.currentUser?.uid;
     AppAnalytics.logCustomEvent("Profile_Page", <String, dynamic>{});
     return Scaffold(
       backgroundColor: Colors.white,
@@ -176,7 +176,8 @@ class _ProfileState extends State<Profile> {
                                       radius: 40,
                                       backgroundColor: secondaryPinkLight,
                                       backgroundImage: NetworkImage(
-                                        snapshot.data!.profileImage,
+                                        snapshot.data?.profileImage ??
+                                            "https://cdn-icons-png.flaticon.com/512/149/149071.png",
                                       ),
                                     ),
                                   ),
@@ -217,7 +218,7 @@ class _ProfileState extends State<Profile> {
                                   }
                                 }),
                             FutureBuilder<List<Follower?>>(
-                                future: readFollowingsOfUser(uid),
+                                future: readFollowingsOfUser(uid!),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     print(snapshot.error);
@@ -304,8 +305,6 @@ class _ProfileState extends State<Profile> {
                         );
                       }
                     }),
-                    
-                
                 Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: FutureBuilder<User1?>(
@@ -317,22 +316,24 @@ class _ProfileState extends State<Profile> {
                           if (snapshot.hasData && snapshot.data == null) {
                             return Text("Document does not exist");
                           } else {
-                            
                             return Column(
                               children: [
-                               snapshot.data!.bio != null ? RichText(
-                                  text: TextSpan(
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: "${snapshot.data!.bio}",
-                                          style: TextStyle(fontWeight: FontWeight.bold),
-                                        ) 
-                                      
-                                      ],
-                                ),) : RichText(text: TextSpan(text: "")),
+                                snapshot.data?.bio != null
+                                    ? RichText(
+                                        text: TextSpan(
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: "${snapshot.data?.bio}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : RichText(text: TextSpan(text: "")),
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.push(

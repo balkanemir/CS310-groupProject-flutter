@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<List<Post?>> readPostOfUser() async {
-    final FirebaseAuth auth =  FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   var uid = auth.currentUser!.uid;
 
   List<Post> posts = [];
@@ -38,6 +38,7 @@ Future<List<Post?>> readPostOfUser() async {
   });
   return posts;
 }
+
 Future<List<Post?>> readPostOfUserProfile(String myId) async {
   List<Post> posts = [];
   Post post = Post(
@@ -68,7 +69,6 @@ Future<List<Post?>> readPostOfUserProfile(String myId) async {
   return posts;
 }
 
-
 Future<List<Follower?>> readFollowersOfUser(String uid) async {
   List<Follower> followers = [];
   Follower follower = Follower(
@@ -93,8 +93,6 @@ Future<List<Follower?>> readFollowersOfUser(String uid) async {
   });
   return followers;
 }
-
-
 
 Future<List<Follower?>> readFollowingsOfUser(String uid) async {
   List<Follower> followers = [];
@@ -121,6 +119,30 @@ Future<List<Follower?>> readFollowingsOfUser(String uid) async {
   return followers;
 }
 
+Future<List<Follower?>> readRequests(String uid) async {
+  List<Follower> followers = [];
+  Follower follower = Follower(
+    followerID: "",
+    user: "",
+    followed: "",
+    isEnabled: false,
+  );
+  await FirebaseFirestore.instance
+      .collection('followers')
+      .where("followed", isEqualTo: uid)
+      .where("isEnabled", isEqualTo: false)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      follower.followerID = doc["followerID"];
+      follower.followed = doc["followed"];
+      follower.user = doc["user"];
+      follower.isEnabled = doc["isEnabled"];
+      followers.add(follower);
+    });
+  });
+  return followers;
+}
 
 Future<Comment?> getCommentWithId(String commentId) async {
   Comment comment = Comment(

@@ -49,8 +49,6 @@ class MainPostCardTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Padding(
       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
       child: Card(
@@ -65,20 +63,24 @@ class MainPostCardTemplate extends StatelessWidget {
               child: ListTile(
                 leading: ElevatedButton(
                   onPressed: () {
-                    final FirebaseAuth auth =  FirebaseAuth.instance;
+                    final FirebaseAuth auth = FirebaseAuth.instance;
                     var uid = auth.currentUser!.uid;
-                    Navigator.push(context,
-                        user!.userID == uid ? MaterialPageRoute(builder: (context) => Profile()) :
-                        MaterialPageRoute(builder: (context) => ShowProfile(user: user)));
+                    Navigator.push(
+                        context,
+                        user!.userID == uid
+                            ? MaterialPageRoute(builder: (context) => Profile())
+                            : MaterialPageRoute(
+                                builder: (context) => ShowProfile(user: user)));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: secondaryBackgroundWhite,
                     shape: const CircleBorder(),
                   ),
                   child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: primaryPinkLight,
-                      backgroundImage: NetworkImage(user!.profileImage)),
+                    radius: 30,
+                    backgroundColor: primaryPinkLight,
+                    backgroundImage: NetworkImage(user!.profileImage),
+                  ),
                 ),
                 title: RichText(
                   text: TextSpan(
@@ -156,9 +158,22 @@ class MainPostCardTemplate extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const LikeButton(
-                        size: 15,
-                      ),
+                      LikeButton(
+                          size: 15,
+                          onTap: (isLiked) async {
+                            if (!isLiked) {
+                              await FirebaseFirestore.instance
+                                  .collection('posts')
+                                  .doc(post.postID)
+                                  .update({'likes': post.likes + 1});
+                            } else {
+                              await FirebaseFirestore.instance
+                                  .collection('posts')
+                                  .doc(post.postID)
+                                  .update({'likes': post.likes - 1});
+                            }
+                            return !isLiked;
+                          }),
                       Text("${post.likes}",
                           style: const TextStyle(
                             color: textOnPrimaryBlack,

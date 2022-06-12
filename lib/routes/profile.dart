@@ -67,7 +67,7 @@ class _ProfileState extends State<Profile> {
 
   void _updateEmail(String email) {
     FirebaseFirestore.instance
-        .collection('email')
+        .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update({'email': email});
   }
@@ -88,8 +88,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-      final FirebaseAuth auth =  FirebaseAuth.instance;
-      var uid = auth.currentUser!.uid;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var uid = auth.currentUser!.uid;
     AppAnalytics.logCustomEvent("Profile_Page", <String, dynamic>{});
     return Scaffold(
       backgroundColor: Colors.white,
@@ -119,7 +119,7 @@ class _ProfileState extends State<Profile> {
                   MaterialPageRoute(builder: (context) => NotificationPage()));
             }
           },
-          items: const  [
+          items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
@@ -137,11 +137,8 @@ class _ProfileState extends State<Profile> {
             child: Column(
               children: [
                 FutureBuilder<User1?>(
-                  
                     future: readUser(),
                     builder: (context, snapshot) {
-                        final FirebaseAuth auth = FirebaseAuth.instance;
-                        var uid =  auth.currentUser!.uid;
                       if (snapshot.hasError) {
                         return Text('Something went wrong.');
                       }
@@ -345,7 +342,6 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       body: FutureBuilder<List<Post?>>(
-        
           future: readPostOfUser(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {

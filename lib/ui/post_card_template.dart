@@ -100,23 +100,32 @@ class PostCardTemplate extends StatelessWidget {
                           ],
                         ),
                       ),
-                      
-                      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                        IconButton(
-                        onPressed: () {
-                          deletePost(context: context, id: post.postID);
-                        },
-                        splashRadius: 20,
-                        icon: Icon(Icons.delete, size: 20, color: Colors.grey),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              deletePost(context: context, id: post.postID);
+                            },
+                            splashRadius: 20,
+                            icon: Icon(Icons.delete,
+                                size: 20, color: Colors.grey),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UpdatePost(
+                                          postID: post.postID,
+                                          postText: post.postText)));
+                            },
+                            splashRadius: 20,
+                            icon:
+                                Icon(Icons.edit, size: 20, color: Colors.grey),
+                          ),
+                        ],
                       ),
-                       IconButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute( builder: (context) => UpdatePost(postID: post.postID, postText: post.postText)));
-                        },
-                        splashRadius: 20,
-                        icon: Icon(Icons.edit, size: 20, color: Colors.grey),
-                      ),
-                      ],),
                       subtitle: post.postText != null
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,

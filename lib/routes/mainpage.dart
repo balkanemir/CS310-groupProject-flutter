@@ -33,7 +33,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List<Follower> follower = [
-    Follower(followed: "", user: "", isEnabled: false),
+    Follower(followerID: "",followed: "", user: "", isEnabled: false),
   ];
   List<User1> user = [
     User1(
@@ -337,7 +337,6 @@ class _MainPageState extends State<MainPage> {
                                     break;
                                   }
                                 }
-
                                 break;
                               }
                             }
@@ -351,172 +350,11 @@ class _MainPageState extends State<MainPage> {
                                 return postCards[index];
                               });
 
-                          return const Center(
-                              child: CircularProgressIndicator());
+             
                         });
-                    /*  
-                  return ListView.builder(
-                     itemCount: userData.size,
-                     itemBuilder: (context, index) {
-                       
-                              user[0].userID = userData.docs[index]['userID'].toString();
-                              user[0].name = userData.docs[index]['name'].toString();
-                              user[0].surname = userData.docs[index]['surname'].toString();
-                              user[0].email = userData.docs[index]['email'].toString();
-                              user[0].profileImage = userData.docs[index]['profileImage'].toString();
-                              user[0].MBTI = userData.docs[index]['MBTI'].toString();
-                              user[0].bio = userData.docs[index]['bio'];
-                              //user[0].following =userData.docs[index]['following'];
-                             // user[0].followers = userData.docs[index]['followers'];
-                              post[0].userID =
-                                     postData.docs[index]['userID'].toString();
-                                 post[0].postID =
-                                     postData.docs[index]['postID'].toString();
-                                 post[0].date =
-                                     postData.docs[index]['date'].toDate();
-                                // post[0].comments =
-                                  //   postData.docs[index]['comments'];
-                                 post[0].postImage = postData.docs[index]
-                                         ['postImage']
-                                     .toString();
-                                 post[0].postText =
-                                     postData.docs[index]['postText'].toString();
-                                 post[0].likes = postData.docs[index]['likes'];
-
-                             
-                                return MainPostCardTemplate(
-                                     uid: uid,
-                                     user: user[0],
-                                     post: post[0],
-                                     comment: comment[0]);
-                     }
-                  );*/
+                  
                   });
 
-              /*
-                  final userData = snapshot1.requireData;
-                  final FirebaseAuth auth = FirebaseAuth.instance;
-                  var uid = auth.currentUser!.uid;
-                  return ListView.builder(
-                     itemCount: userData.size,
-                     itemBuilder: (context, index) {
-                              user[0].userID = userData.docs[index]['userID'].toString();
-                              user[0].name = userData.docs[index]['name'].toString();
-                              user[0].surname = userData.docs[index]['surname'].toString();
-                              user[0].email = userData.docs[index]['email'].toString();
-                              user[0].profileImage = userData.docs[index]['profileImage'].toString();
-                              user[0].MBTI = userData.docs[index]['MBTI'].toString();
-                              user[0].bio = userData.docs[index]['bio'];
-                              //user[0].following =userData.docs[index]['following'];
-                             // user[0].followers = userData.docs[index]['followers'];
-
-                             
-                                return PostCardTemplate(
-                                     uid: uid,
-                                     user: user[0],
-                                     post: post[0],
-                                     comment: comment[0]);
-                     }
-                  ); */
-              /*
-                  return StreamBuilder<QuerySnapshot>(
-                   stream: posts,
-                   builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot2) 
-                        {
-                          if(snapshot2.hasError) {
-                            return MaterialApp(title: ' Post error');
-                          }
-                          if(!snapshot2.hasData) 
-                          {
-                            return MaterialApp(title: ' Post Data error');
-                          }
-                          return StreamBuilder<QuerySnapshot>(
-                           stream: comments,
-                           builder: (BuildContext context,
-                               AsyncSnapshot<QuerySnapshot> snapshot3) {
-
-                                if(snapshot3.hasError) {
-                                    return MaterialApp(title: ' Comment error');
-                        
-                                }
-                              final userData = snapshot1.requireData;
-                              final postData = snapshot2.requireData;
-                              final commentData = snapshot3.requireData;
-                            
-                              return ListView.builder(
-                                 itemCount: postData.size,
-                                 itemBuilder: (context, index) {
-                                 user[0].userID =
-                                     userData.docs[index]['userID'].toString();
-                                   user[0].name =
-                                     userData.docs[index]['name'].toString();
-                                user[0].surname =
-                                    userData.docs[index]['surname'].toString();
-                                 user[0].email =
-                                     userData.docs[index]['email'].toString();
-                                 user[0].profileImage = userData.docs[index]
-                                       ['profileImage']
-                                     .toString();
-                                 user[0].MBTI =
-                                    userData.docs[index]['MBTI'].toString();
-                         user[0].bio = userData.docs[index]['bio'];
-                                 user[0].following =
-                                     userData.docs[index]['following'];
-                                 user[0].followers =
-                                     userData.docs[index]['followers'];
-
-                                 post[0].userID =
-                                     postData.docs[index]['userID'].toString();
-                                 post[0].postID =
-                                     postData.docs[index]['postID'].toString();
-                                 post[0].date =
-                                     postData.docs[index]['date'].toDate();
-                                 post[0].comments =
-                                     postData.docs[index]['comments'];
-                                 post[0].postImage = postData.docs[index]
-                                         ['postImage']
-                                     .toString();
-                                 post[0].postText =
-                                     postData.docs[index]['postText'].toString();
-                                 post[0].likes = postData.docs[index]['likes'];
-
-                                if(snapshot3.hasData) {
-                                        comment[0].userID = commentData.docs[index]
-                                         ['userID']
-                                     .toString();
-                                 comment[0].postID = commentData.docs[index]
-                                          ['postID']
-                                     .toString();
-                                 comment[0].commentID = commentData.docs[index]
-                                         ['commentID']
-                                     .toString();
-                                 comment[0].commentText = commentData.docs[index]
-                                         ['commentText']
-                                     .toString();
-
-                                }
-                                
-
-                                 return PostCardTemplate(
-                                     uid: post[0].userID,
-                                     user: user[0],
-                                     post: post[0],
-                                     comment: comment[0]);
-                               });
-                             
-                         
-                         }
-                        
-                         );//comment
-
-                      
-                    
-                          
-                           
-                   }
-               
-                   );*/
             },
           ), //user
         ),

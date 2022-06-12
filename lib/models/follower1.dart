@@ -10,11 +10,13 @@ class Follower {
   String followed;
   String user;
   bool isEnabled;
+  String followerID;
 
   Follower({
     required this.followed,
     required this.user,
     required this.isEnabled,
+    required this.followerID,
   });
 
   factory Follower.fromJson(Map<String, dynamic> json) =>

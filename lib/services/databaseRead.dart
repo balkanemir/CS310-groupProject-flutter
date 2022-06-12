@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/Follower.dart';
+import 'package:flutterui/models/follower1.dart';
 import 'package:flutterui/models/post1.dart';
 import 'package:flutterui/models/comment1.dart';
 import 'package:flutterui/models/user1.dart';
@@ -72,6 +72,7 @@ Future<List<Post?>> readPostOfUserProfile(String myId) async {
 Future<List<Follower?>> readFollowersOfUser(String uid) async {
   List<Follower> followers = [];
   Follower follower = Follower(
+    followerID: "",
     user: "",
     followed: "",
     isEnabled: false,
@@ -83,6 +84,7 @@ Future<List<Follower?>> readFollowersOfUser(String uid) async {
       .get()
       .then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
+      follower.followerID = doc["followerID"];
       follower.followed = doc["followed"];
       follower.user = doc["user"];
       follower.isEnabled = doc["isEnabled"];
@@ -97,6 +99,7 @@ Future<List<Follower?>> readFollowersOfUser(String uid) async {
 Future<List<Follower?>> readFollowingsOfUser(String uid) async {
   List<Follower> followers = [];
   Follower follower = Follower(
+    followerID: "",
     user: "",
     followed: "",
     isEnabled: false,
@@ -108,6 +111,7 @@ Future<List<Follower?>> readFollowingsOfUser(String uid) async {
       .get()
       .then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
+      follower.followerID = doc["followerID"];
       follower.followed = doc["followed"];
       follower.user = doc["user"];
       follower.isEnabled = doc["isEnabled"];
@@ -116,6 +120,7 @@ Future<List<Follower?>> readFollowingsOfUser(String uid) async {
   });
   return followers;
 }
+
 
 Future<Comment?> getCommentWithId(String commentId) async {
   Comment comment = Comment(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/models/Follower.dart';
+import 'package:flutterui/models/follower1.dart';
 import 'package:flutterui/services/analytics.dart';
 import 'package:flutterui/services/databaseRead.dart';
 import 'package:flutterui/models/user1.dart';

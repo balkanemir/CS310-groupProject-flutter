@@ -6,14 +6,17 @@ import '../models/post1.dart';
 import '../models/follower1.dart';
 import '../routes/profile.dart';
 import '../routes/profile.dart';
+
 Future createFollower({
   required String followed,
+  required String followerID,
   required String user,
   required bool isEnabled,
 }) async {
   final docFollower = FirebaseFirestore.instance.collection('followers').doc();
 
   final follower = Follower(
+    followerID: followerID,
     followed: followed,
     user: user,
     isEnabled: isEnabled,
@@ -23,6 +26,7 @@ Future createFollower({
   await docFollower.set(json);
 
   Map<String, dynamic> toJson() => {
+    'followerID': docFollower.id,
     'followed': followed,
     'user': user,
     'isEnabled': isEnabled,
@@ -73,8 +77,6 @@ Future updatePost({
     required String postID,
     String postText = ""
     }) async {
-      print("updated post id: ${postID} ");
-      print("updated post text: ${postText} ");
       await FirebaseFirestore.instance.collection('posts').doc(postID).set({
       'postText': postText,
     }, SetOptions(merge: true)).whenComplete(() => {

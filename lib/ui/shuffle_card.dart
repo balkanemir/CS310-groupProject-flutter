@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/routes/profile.dart';
+import 'package:flutterui/services/databaseWrite.dart';
 import 'package:flutterui/utils/colors.dart';
 
 import 'package:swipe_cards/draggable_card.dart';
@@ -17,13 +19,18 @@ class ShuffleCard extends StatefulWidget {
 
 class _ShuffleCardState extends State<ShuffleCard> {
   final List<User1> Users;
+  User1? followUsers;
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   _ShuffleCardState(this.Users);
+  
 
   @override
+  
+ 
+
   void initState() {
     for (int i = 0; i < Users.length; i++) {
       _swipeItems.add(SwipeItem(
@@ -73,6 +80,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
@@ -89,14 +97,16 @@ class _ShuffleCardState extends State<ShuffleCard> {
                   child: SwipeCards(
                     matchEngine: _matchEngine!,
                     itemBuilder: (BuildContext context, int index) {
+                      followUsers = _swipeItems[index].content;
                       return CircleAvatar(
+                       
                         radius: 200,
                         backgroundColor: primaryPinkLight,
                         backgroundImage: NetworkImage(
                             _swipeItems[index].content.profileImage),
                         child: Text(
                           '${_swipeItems[index].content.name} ${_swipeItems[index].content.MBTI}',
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       );
                     },
@@ -107,7 +117,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                       ));
                     },
                     itemChanged: (SwipeItem item, int index) {
-                      print("item: ${item.content.username}, index: $index");
+                      //print("item: ${item.content.username}, index: $index");
                     },
                     upSwipeAllowed: true,
                     fillSpace: true,
@@ -127,7 +137,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                       elevation: 5,
                     ),
                     child: Row(
-                      children: [
+                      children: const [
                         Icon(Icons.arrow_back_ios_rounded,
                             color: secondaryPinkDark
                             ),
@@ -135,10 +145,22 @@ class _ShuffleCardState extends State<ShuffleCard> {
                             style: TextStyle(color: textOnPrimaryBlack))
                       ],
                     )),
-                ElevatedButton(
+                ElevatedButton( 
                     onPressed: () {
+                      User1? myUser = followUsers;
+                      print("followlayacagim userin idsi ${myUser!.userID}");
+                        final FirebaseAuth auth = FirebaseAuth.instance;
+                        var currentUserId = auth.currentUser!.uid;
+                        print("ben ${currentUserId}");
+                        createFollower(
+                          followed: followUsers!.userID,
+                          followerID: "",
+                          isEnabled: true,
+                          user: currentUserId,
+                      );
+                      print("OLDU MU?");
                       _matchEngine!.currentItem?.superLike();
-                      
+
                     },
                     style: ElevatedButton.styleFrom(
                       primary: primaryPinkLight,
@@ -161,7 +183,7 @@ class _ShuffleCardState extends State<ShuffleCard> {
                       elevation: 5,
                     ),
                     child: Row(
-                      children: [
+                      children :const [
                         Text("Like",
                             style: TextStyle(color: textOnPrimaryBlack)),
                         Icon(Icons.arrow_forward_ios_rounded,

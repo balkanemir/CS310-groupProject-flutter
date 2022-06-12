@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
-import 'package:flutterui/models/Follower.dart';
+import 'package:flutterui/models/follower1.dart';
 import 'package:flutterui/models/comment1.dart';
 import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/search.dart';
@@ -33,12 +33,13 @@ class ShowProfile extends StatefulWidget {
 }
 
 class _ShowProfileState extends State<ShowProfile> {
-   final Stream<QuerySnapshot> posts =
-      FirebaseFirestore.instance.collection('posts').snapshots();
+   final Stream<QuerySnapshot> posts = FirebaseFirestore.instance.collection('posts').snapshots();
+   final Stream<QuerySnapshot> databaseFollower = FirebaseFirestore.instance.collection('followers').snapshots();
   
   //final String uid;
   User1? users;
   Post? post;
+  Follower? follower;
   List<Comment> comment = [
     Comment(
       userID: "",
@@ -274,6 +275,7 @@ class _ShowProfileState extends State<ShowProfile> {
                              var currentUserId = auth.currentUser!.uid;
                              createFollower(
                                 followed: currentUserId,
+                                followerID: "",
                                 isEnabled: false,
                                 user: myUser.userID,
                            );
@@ -283,7 +285,7 @@ class _ShowProfileState extends State<ShowProfile> {
                                 primary: secondaryPink800,
                                 elevation: 5,
                               ),
-                              child: Text(
+                              child: const Text(
                                 "Follow",
                               ),
                             )
@@ -295,9 +297,25 @@ class _ShowProfileState extends State<ShowProfile> {
                           child: ElevatedButton(
                              onPressed: () {
                              Navigator.pop(context);
-                             deleteFollower(
-                                myUser: myUser,
-                           );
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: databaseFollower,
+                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> followerSnapshot) {
+                                    final FirebaseAuth auth = FirebaseAuth.instance;
+                                    var currentUserId = auth.currentUser!.uid; 
+                                    final followerData = followerSnapshot.data;
+                                    for(int i = 0; i < followerData!.size; i++) 
+                                    {
+                                      if(followerData.docs[i]['followed'] == currentUserId && followerData.docs[i]['user'] == myUser.userID) {
+                                        deleteFollower(context: context,myUser: myUser, followerID:  followerData.docs[i]['followed'].toString());
+                                      }
+                                    }
+                                    return Text("");
+
+                                   });
+                   
+
+                                
+
                                },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size.fromHeight(50),
@@ -334,16 +352,12 @@ class _ShowProfileState extends State<ShowProfile> {
                 child: ListView.builder(
                   itemCount: snapshot.data?.length,
                   itemBuilder: (context, index) {
-                    print("first post ${snapshot.data?[0]!.postText}");
-                    print("second post ${snapshot.data?[1]!.postText}");
-                    print("index is ${index}");
-                    print("user id is ${snapshot.data?[index]!.userID}");
+          
+ 
         
                     Post? post = snapshot.data?[index];
                     String? uid = myUser.userID;
                     if (post != null && uid != null) {
-                      print("myUserid is  ${myUser.userID}");
-                      print("post text is ${snapshot.data?[index]!.postText}");
                       return MainPostCardTemplate(
                         user: myUser,
                         uid: myUser.userID,
@@ -369,208 +383,14 @@ class _ShowProfileState extends State<ShowProfile> {
     );
   }
   
-  static Future<void> deleteFollower({context, 
-  
-    required User1 myUser}) async{
-        final FirebaseAuth auth = FirebaseAuth.instance;
-   var uid = auth.currentUser!.uid;
-
-
-      Future all = FirebaseFirestore.instance.collection('followers').where("user", isEqualTo: myUser.userID).where("follower", isEqualTo: uid).get();
-      
-   
-    }
+ 
+  static Future<void> deleteFollower({context,required  User1 myUser, required String followerID}) async {
+    DocumentReference document =
+        FirebaseFirestore.instance.collection('followers').doc(followerID);
+    await document.delete().whenComplete(() => {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ShowProfile(user: myUser)))
+        });
+  }
 }
 
-/*FutureBuilder<User1?>(
-                    future: readUser(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong.');
-                      }
-                      if (snapshot.hasData && snapshot.data == null) {
-                        return Text("Document does not exist");
-                      } else {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                        splashFactory: NoSplash.splashFactory),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ZoomedImage(
-                                              image:
-                                                  "${myUser.profileImage}"),
-                                        ),
-                                      );
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 40,
-                                      backgroundColor: primaryPinkLight,
-                                      backgroundImage: FileImage(
-                                        File(myUser.profileImage),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  "${myUser.name} ${myUser.surname} (${myUser.username})",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            FutureBuilder<List<Post?>>(
-                                future: readPostOfUser(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    print(snapshot.error);
-                                    return Text('Something went wrong.');
-                                  }
-                                  if (snapshot.hasData &&
-                                      snapshot.data == null) {
-                                    return Text("Document does not exist");
-                                  } else {
-                                    return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data?.length}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text("Posts"),
-                                      ],
-                                    );
-                                  }
-                                }),
-                            FutureBuilder<List<Follower?>>(
-                                future: readFollowingsOfUser(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    print(snapshot.error);
-                                    return Text('Something went wrong.');
-                                  }
-                                  if (snapshot.hasData &&
-                                      snapshot.data == null) {
-                                    return Text("Document does not exist");
-                                  } else {
-                                    return TextButton(
-                                      style: TextButton.styleFrom(
-                                        primary: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => FollowerList(
-                                              followers: snapshot.data,
-                                              title: "Followings",
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "${snapshot.data?.length}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text("Following"),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                }),
-                            FutureBuilder<List<Follower?>>(
-                                future: readFollowersOfUser(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    print(snapshot.error);
-                                    return Text('Something went wrong.');
-                                  }
-                                  if (snapshot.hasData &&
-                                      snapshot.data == null) {
-                                    return Text("Document does not exist");
-                                  } else {
-                                    return TextButton(
-                                      style: TextButton.styleFrom(
-                                        primary: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => FollowerList(
-                                              followers: snapshot.data,
-                                              title: "Followers",
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "${snapshot.data?.length}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text("Followers"),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                }),
-                          ],
-                        );
-                      }
-                    }), 
-                    
-                    FutureBuilder<List<Post?>>(
-          future: readPostOfUser(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              print(snapshot.error);
-              return Text('Something went wrong.');
-            }
-            if (snapshot.hasData && snapshot.data == null) {
-              return Text("Document does not exist");
-            } else {
-              return SizedBox(
-                height: screenSize(context).height,
-                child: ListView.builder(
-                  itemBuilder: (ctx, index) {
-                    Post? post = snapshot.data?[index];
-                    String? uid = snapshot.data?[index]?.userID;
-                    if (post != null && uid != null) {
-                      return PostCardTemplate(
-                        uid: uid,
-                        post: post,
-                      );
-                    } else {
-                      return Text("");
-                    }
-                  },
-                  itemCount: snapshot.data?.length,
-                ),
-              );
-            }
-          })*/

@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/models/user1.dart';
+import 'package:flutterui/routes/followerList.dart';
 import 'package:flutterui/routes/login.dart';
 import 'package:flutterui/routes/mainpage.dart';
 import 'package:flutterui/routes/search.dart';
+import 'package:flutterui/services/databaseRead.dart';
 import 'package:flutterui/ui/shuffle_card.dart';
 import 'package:flutterui/utils/styles.dart';
 import 'package:flutterui/utils/screensizes.dart';
@@ -12,6 +14,7 @@ import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/services/analytics.dart';
 
+import '../models/follower1.dart';
 import 'notificationPage.dart';
 
 class Shuffle extends StatefulWidget {
@@ -20,11 +23,14 @@ class Shuffle extends StatefulWidget {
   const Shuffle({Key? key}) : super(key: key);
   @override
   _ShuffleState createState() => _ShuffleState();
+  
 }
 
 class _ShuffleState extends State<Shuffle> {
+  
     final Stream<QuerySnapshot> users = FirebaseFirestore.instance.collection('users').snapshots();
   List<User1>  Users = [];
+
   /*
   List<User1> Users = [
     User1(
@@ -139,14 +145,77 @@ class _ShuffleState extends State<Shuffle> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications), label: 'Notifications')
           ]),
+      
       body: SizedBox(
+
+   
+
+        
+         
+            child:  StreamBuilder<QuerySnapshot>(
+            stream: users,
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> userSnapshot)
+            {
+               final FirebaseAuth auth = FirebaseAuth.instance;
+               var uid = auth.currentUser!.uid;
+                return FutureBuilder<List<Follower?>>
+                    (
+                      
+                       future: readFollowingsOfUser(uid),
+                       builder: (context, followerSnapshot) {
+                          final followerData = followerSnapshot.requireData;
+                           print("length of the ${followerData.length}");
+                            print("I am in the byilder.tightnow");
+                      if (followerSnapshot.hasError) {
+                                      
+                          return Text('Something went wrong.');
+                        }
+                      if (!followerSnapshot.hasData && followerSnapshot.data == null) {
+                        return Text("Document does not exist");
+                      } 
+                        
+                  
+                         final userData = userSnapshot.requireData;
+                         List<User1> addUsers = <User1> [];
+                         for(int i = 0; i < userData.size; i++) {
+                           for(int k = 0; k < followerData.length;  k++) {
+                             if(userData.docs[i]['userID'] != uid && userData.docs[i]['userID'] != followerData[k]!.followed) {
+                               print("user name of is ${userData.docs[i]['name']}");
+                                 addUsers.add(User1( 
+                                  userID: userData.docs[i]['userID'],
+                                  surname: userData.docs[i]['surname'],
+                                  name: userData.docs[i]['name'],
+                                  username: userData.docs[i]['surname'],
+                                  email: userData.docs[i]['email'],
+                                  isPrivate: userData.docs[i]['isPrivate'],
+                                  followers: userData.docs[i]['followers'],
+                                  following: userData.docs[i]['following'],
+                                  MBTI: userData.docs[i]['MBTI'],
+                                  profileImage: userData.docs[i]['profileImage'],
+                                ));
+                             }
+                             break;
+                           }
+
+                         }
+
+                        print("size of the shuffle card id ${addUsers.length}");
+                           
+                        return ShuffleCard(Users: addUsers);
+
+                    });
+              }
+            ),
+          ),
             
-           child: StreamBuilder<QuerySnapshot>(
-             stream: users,
-             builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> userSnapshot) 
-              {    
-                if(userSnapshot.hasError) {
+            
+     );
+    
+  }
+}
+
+/*
+if(userSnapshot.hasError) {
                             return const Text('error');
                     }
                   if(!userSnapshot.hasData) 
@@ -172,8 +241,6 @@ class _ShuffleState extends State<Shuffle> {
                         following: userData.docs[i]['following'],
                         MBTI: userData.docs[i]['MBTI'],
                         profileImage: userData.docs[i]['profileImage'],
-
-
                       ));
                       
                      
@@ -181,11 +248,4 @@ class _ShuffleState extends State<Shuffle> {
                  
                    }
                       return ShuffleCard(Users: addUsers);
-
-
-              }
-       )
-     )
-    );
-  }
-}
+*/

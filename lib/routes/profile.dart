@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/main.dart';
-import 'package:flutterui/models/Follower.dart';
+import 'package:flutterui/models/follower1.dart';
 import 'package:flutterui/models/comment1.dart';
 import 'package:flutterui/routes/notificationPage.dart';
 import 'package:flutterui/routes/search.dart';

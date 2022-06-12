@@ -23,6 +23,7 @@ class EditProfile extends StatefulWidget {
   final Function updateUsername;
   final Function updateEmail;
   final Function updateMbti;
+  final Function updateBio;
   final Function updatePrivate;
 
   EditProfile(
@@ -31,6 +32,7 @@ class EditProfile extends StatefulWidget {
     this.updateSurname,
     this.updateUsername,
     this.updateEmail,
+    this.updateBio,
     this.updateMbti,
     this.updatePrivate,
   );
@@ -47,6 +49,7 @@ class _EditProfileState extends State<EditProfile> {
   String surname = "";
   String username = "";
   String email = "";
+  String? bio = "";
   XFile? _image;
   bool isPrivate = false;
   final _formKey = GlobalKey<FormState>();
@@ -153,6 +156,7 @@ class _EditProfileState extends State<EditProfile> {
     email = widget.user!.email;
     surname = widget.user!.surname;
     username = widget.user!.username;
+    bio =  widget.user!.bio;
     isPrivate = widget.user!.isPrivate;
   }
 
@@ -161,18 +165,11 @@ class _EditProfileState extends State<EditProfile> {
     AppAnalytics.logCustomEvent("Edit_Profile_Page", <String, dynamic>{});
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink,
+        backgroundColor: secondaryPinkDark ,
         centerTitle: true,
         title: Text("Edit Profile"),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [primaryPink200, Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(left: 15),
@@ -299,6 +296,38 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                     SizedBox(height: 20),
+                                 Row(
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            "Username",
+                            style: TextStyle(
+                              color: Color.fromRGBO(87, 10, 87, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints.tight(const Size(250, 50)),
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.deepPurple),
+                            onChanged: (String value) {
+                              bio = value;
+                            },
+                            controller: TextEditingController(
+                              text: bio,
+                            ),
+                            onSaved: (value) {
+                              widget.updateBio(value);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                     SizedBox(height: 20),
                     Row(
                       children: [
                         SizedBox(

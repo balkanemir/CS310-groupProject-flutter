@@ -78,6 +78,12 @@ class _ProfileState extends State<Profile> {
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update({'MBTI': mbti});
   }
+   void _updateBio(String? bio) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'bio': bio});
+  }
 
   void _updatePrivate(bool private) {
     FirebaseFirestore.instance
@@ -297,6 +303,8 @@ class _ProfileState extends State<Profile> {
                         );
                       }
                     }),
+                    
+                
                 Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: FutureBuilder<User1?>(
@@ -308,31 +316,50 @@ class _ProfileState extends State<Profile> {
                           if (snapshot.hasData && snapshot.data == null) {
                             return Text("Document does not exist");
                           } else {
-                            return ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditProfile(
-                                      snapshot.data,
-                                      _updateName,
-                                      _updateSurname,
-                                      _updateUsername,
-                                      _updateEmail,
-                                      _updateMbti,
-                                      _updatePrivate,
+                            
+                            return Column(
+                              children: [
+                               snapshot.data!.bio != null ? RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(
+                                      color: Colors.black,
                                     ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "${snapshot.data!.bio}",
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ) 
+                                      
+                                      ],
+                                ),) : RichText(text: TextSpan(text: "")),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditProfile(
+                                          snapshot.data,
+                                          _updateName,
+                                          _updateSurname,
+                                          _updateUsername,
+                                          _updateEmail,
+                                          _updateBio,
+                                          _updateMbti,
+                                          _updatePrivate,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size.fromHeight(50),
+                                    primary: secondaryPink800,
+                                    elevation: 5,
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50),
-                                primary: secondaryPink800,
-                                elevation: 5,
-                              ),
-                              child: Text(
-                                "Edit Profile",
-                              ),
+                                  child: Text(
+                                    "Edit Profile",
+                                  ),
+                                ),
+                              ],
                             );
                           }
                         })),

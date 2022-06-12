@@ -32,7 +32,7 @@ class AuthService {
         .map(_userFromFirebaseUser);
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<dynamic> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -46,10 +46,14 @@ class AuthService {
       idToken: googleAuth?.idToken,
     );
 
+    try {
+      UserCredential uc =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return uc.user;
+    } on FirebaseAuthException catch (e) {
+      return e.message ?? "Something is wrong";
+    }
     // Once signed in, return the UserCredential
-    UserCredential uc =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    return uc.user;
   }
 
   // login with email & password

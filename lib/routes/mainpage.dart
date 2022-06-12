@@ -16,6 +16,7 @@ import 'package:flutterui/routes/addpost.dart';
 import 'package:flutterui/services/analytics.dart';
 import 'package:flutterui/models/user1.dart';
 import 'package:flutterui/models/post1.dart';
+import 'package:flutterui/main.dart';
 import 'package:flutterui/models/comment1.dart';
 import 'package:flutterui/models/follower1.dart';
 import 'package:multi_stream_builder/multi_stream_builder.dart';
@@ -32,10 +33,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List<Follower> follower = [
-      Follower(
-        followed: "", 
-        user: "", 
-        isEnabled: false),
+    Follower(followed: "", user: "", isEnabled: false),
   ];
   List<User1> user = [
     User1(
@@ -48,7 +46,7 @@ class _MainPageState extends State<MainPage> {
       MBTI: "",
       bio: "",
       following: 0,
-      followers: 0, 
+      followers: 0,
       isPrivate: false,
     )
   ];
@@ -77,7 +75,7 @@ class _MainPageState extends State<MainPage> {
       FirebaseFirestore.instance.collection('posts').snapshots();
   final Stream<QuerySnapshot> comments =
       FirebaseFirestore.instance.collection('comments').snapshots();
-        final Stream<QuerySnapshot> followers =
+  final Stream<QuerySnapshot> followers =
       FirebaseFirestore.instance.collection('followers').snapshots();
 
   int _currentindex = 0;
@@ -141,11 +139,24 @@ class _MainPageState extends State<MainPage> {
                               MaterialPageRoute(
                                   builder: (context) => Profile()));
                         },
-                        child: const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: textOnSecondaryWhite,
-                            backgroundImage: NetworkImage(
-                                'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png')),
+                        child: FutureBuilder<User1?>(
+                            future: readUser(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Something went wrong.');
+                              }
+                              if (snapshot.hasData && snapshot.data == null) {
+                                return Text("Document does not exist");
+                              } else {
+                                return CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: textOnSecondaryWhite,
+                                  backgroundImage: NetworkImage(snapshot
+                                          .data?.profileImage ??
+                                      'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png'),
+                                );
+                              }
+                            }),
                         style: ElevatedButton.styleFrom(
                           primary: secondaryPink800,
                           shape: CircleBorder(),
@@ -178,121 +189,172 @@ class _MainPageState extends State<MainPage> {
                   color: textOnSecondaryWhite,
                 ))),
         body: SizedBox(
-            
-           child: StreamBuilder<QuerySnapshot>(
-             stream: users,
-             builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) 
-              {    if(snapshot1.hasError) {
-                            return const Text('error');
+          child: StreamBuilder<QuerySnapshot>(
+            stream: users,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
+              if (snapshot1.hasError) {
+                return const Text('error');
+              }
+              if (!snapshot1.hasData) {
+                return const Text('User data error');
+              }
+              final FirebaseAuth auth = FirebaseAuth.instance;
+              var uid = auth.currentUser!.uid;
+
+              final userData = snapshot1.requireData;
+              print("uid is ${uid}");
+              print("user data length: ${userData.size}");
+              return StreamBuilder<QuerySnapshot>(
+                  stream: posts,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot2) {
+                    if (snapshot2.hasError) {
+                      return const Text('Post error');
                     }
-                  if(!snapshot1.hasData) 
-                  {
-                    return const Text('User data error');
-                  }
-                   final FirebaseAuth auth = FirebaseAuth.instance;
-                   var uid = auth.currentUser!.uid;
+                    if (!snapshot2.hasData) {
+                      return const Text('Post data error');
+                    }
+                    final postData = snapshot2.requireData;
 
-                   final userData = snapshot1.requireData;
-                   print("uid is ${uid}");
-                   print("user data length: ${userData.size}" );
-                  return StreamBuilder<QuerySnapshot>(
-                    stream: posts,
-                    builder:
-                   (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                        if(snapshot2.hasError) {
-                            return const Text('Post error');
-                        }
-                         if(!snapshot2.hasData) 
-                        {
-                         return const Text('Post data error');
-                        }
-                        final postData = snapshot2.requireData;
-                        
-                        return  StreamBuilder<QuerySnapshot>(
-                          stream: followers,
-                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                            
-                            final FirebaseAuth auth = FirebaseAuth.instance;
-                            var uid = auth.currentUser!.uid;
-                             if(snapshot3.hasError) {
-                               return const Text('Follower error');
-                           }
-                             if(!snapshot3.hasData) 
-                           {
-                               return const Text("Don't have any follower");
-                           }
-
-                           final followerData = snapshot3.requireData;
-                            print("size of follower data is ${followerData.size}" );
-                            List<MainPostCardTemplate> postCards = <MainPostCardTemplate>[];
-                            for(int p = 0; p < postData.size ; p++) {
-
-                                print("processing post: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}, am I the poster? ${uid == postData.docs[p]['userID']}" );
-
-                                if (postData.docs[p]['userID'] == uid) 
-                                {
-                                  print("processing post 2: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}" );
-
-                                  for(int u = 0; u < userData.size; u++) 
-                                  {
-                                    print(" user data is ${u}" );
-
-                                    if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) 
-                                    {
-                                      User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: userData.docs[u]['username'].toString(), email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
-                                      Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage:"" /*postData.docs[p]['postImage'].toString()*/);
-                                      
-                                      print("create post card");
-                                      postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
-                                      break;
-                                    }
-                                  }
-                                  continue;
-                                }
-
-                                for (var f = 0; f < followerData.size ; f++) {
-                                  print("size of post data is ${postData.size}" );
-
-                                  if(postData.docs[p]['userID'] == followerData.docs[f]['followed'] &&  followerData.docs[f]['user'] == uid) {                                       
-                                      
-                                      for(int u = 0; u < userData.size; u++) 
-                                      {
-                                        print(" user data is ${u}" );
-                                        if(postData.docs[p]['userID'] == userData.docs[u]["userID"]) {
-
-                                          User1 myUser = User1(profileImage: "", userID: userData.docs[u]['userID'].toString(), name: userData.docs[u]['name'].toString(), surname: userData.docs[u]['surname'].toString(), username: userData.docs[u]['username'].toString(), email: "", MBTI: "", following: 0, followers: 0, isPrivate: false);
-                                          Post myPost = Post(userID: postData.docs[p]['userID'].toString(), postID: postData.docs[p]['postID'].toString(), date: postData.docs[p]['date'].toDate(), comments: [], likes: postData.docs[p]['likes'], postText: postData.docs[p]['postText'].toString(), postImage: ""/*postData.docs[p]['postImage'].toString()*/);
-
-                                          print("create post card");
-
-                                          postCards.add(MainPostCardTemplate(uid: uid, user: myUser, post: myPost, comment: comment[0]));
-                                          break;
-                                        }
-                                      }
-
-                                      break;
-                                    }
-                                }
-                           
-              
-                           }
-
-                            return ListView.builder(
-                              itemCount: postCards.length,
-                              itemBuilder: (context, int index) 
-                              {
-                                print("post: ${postCards[index].post.postText}");
-                                return postCards[index];
-                              }
-                            );
-           
-                           
-return const Center(child: CircularProgressIndicator());
-
+                    return StreamBuilder<QuerySnapshot>(
+                        stream: followers,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot3) {
+                          final FirebaseAuth auth = FirebaseAuth.instance;
+                          var uid = auth.currentUser!.uid;
+                          if (snapshot3.hasError) {
+                            return const Text('Follower error');
                           }
-                        );
-                        /*  
+                          if (!snapshot3.hasData) {
+                            return const Text("Don't have any follower");
+                          }
+
+                          final followerData = snapshot3.requireData;
+                          print(
+                              "size of follower data is ${followerData.size}");
+                          List<MainPostCardTemplate> postCards =
+                              <MainPostCardTemplate>[];
+                          for (int p = 0; p < postData.size; p++) {
+                            print(
+                                "processing post: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}, am I the poster? ${uid == postData.docs[p]['userID']}");
+
+                            if (postData.docs[p]['userID'] == uid) {
+                              print(
+                                  "processing post 2: ${postData.docs[p]['postText']}, with poster: ${postData.docs[p]['userID']}, this is: ${uid}");
+
+                              for (int u = 0; u < userData.size; u++) {
+                                print(" user data is ${u}");
+
+                                if (postData.docs[p]['userID'] ==
+                                    userData.docs[u]["userID"]) {
+                                  User1 myUser = User1(
+                                      profileImage: userData.docs[u]
+                                          ['profileImage'],
+                                      userID:
+                                          userData.docs[u]['userID'].toString(),
+                                      name: userData.docs[u]['name'].toString(),
+                                      surname: userData.docs[u]['surname']
+                                          .toString(),
+                                      username: userData.docs[u]['username']
+                                          .toString(),
+                                      email: "",
+                                      MBTI: "",
+                                      following: 0,
+                                      followers: 0,
+                                      isPrivate: false);
+                                  Post myPost = Post(
+                                      userID:
+                                          postData.docs[p]['userID'].toString(),
+                                      postID:
+                                          postData.docs[p]['postID'].toString(),
+                                      date: postData.docs[p]['date'].toDate(),
+                                      comments: [],
+                                      likes: postData.docs[p]['likes'],
+                                      postText: postData.docs[p]['postText']
+                                          .toString(),
+                                      postImage: postData.docs[p]['postImage']
+                                          .toString());
+
+                                  print("create post card");
+                                  postCards.add(MainPostCardTemplate(
+                                      uid: uid,
+                                      user: myUser,
+                                      post: myPost,
+                                      comment: comment[0]));
+                                  break;
+                                }
+                              }
+                              continue;
+                            }
+
+                            for (var f = 0; f < followerData.size; f++) {
+                              print("size of post data is ${postData.size}");
+
+                              if (postData.docs[p]['userID'] ==
+                                      followerData.docs[f]['followed'] &&
+                                  followerData.docs[f]['user'] == uid) {
+                                for (int u = 0; u < userData.size; u++) {
+                                  print(" user data is ${u}");
+                                  if (postData.docs[p]['userID'] ==
+                                      userData.docs[u]["userID"]) {
+                                    User1 myUser = User1(
+                                        profileImage: userData.docs[u]
+                                            ['profileImage'],
+                                        userID: userData.docs[u]['userID']
+                                            .toString(),
+                                        name:
+                                            userData.docs[u]['name'].toString(),
+                                        surname: userData.docs[u]['surname']
+                                            .toString(),
+                                        username: userData.docs[u]['username']
+                                            .toString(),
+                                        email: "",
+                                        MBTI: "",
+                                        following: 0,
+                                        followers: 0,
+                                        isPrivate: false);
+                                    Post myPost = Post(
+                                        userID: postData.docs[p]['userID']
+                                            .toString(),
+                                        postID: postData.docs[p]['postID']
+                                            .toString(),
+                                        date: postData.docs[p]['date'].toDate(),
+                                        comments: [],
+                                        likes: postData.docs[p]['likes'],
+                                        postText: postData.docs[p]['postText']
+                                            .toString(),
+                                        postImage: postData.docs[p]['postImage']
+                                            .toString());
+
+                                    print("create post card");
+
+                                    postCards.add(MainPostCardTemplate(
+                                        uid: uid,
+                                        user: myUser,
+                                        post: myPost,
+                                        comment: comment[0]));
+                                    break;
+                                  }
+                                }
+
+                                break;
+                              }
+                            }
+                          }
+
+                          return ListView.builder(
+                              itemCount: postCards.length,
+                              itemBuilder: (context, int index) {
+                                print(
+                                    "post: ${postCards[index].post.postText}");
+                                return postCards[index];
+                              });
+
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        });
+                    /*  
                   return ListView.builder(
                      itemCount: userData.size,
                      itemBuilder: (context, index) {
@@ -329,9 +391,9 @@ return const Center(child: CircularProgressIndicator());
                                      comment: comment[0]);
                      }
                   );*/
-                   });
+                  });
 
-                  /*
+              /*
                   final userData = snapshot1.requireData;
                   final FirebaseAuth auth = FirebaseAuth.instance;
                   var uid = auth.currentUser!.uid;
@@ -356,7 +418,7 @@ return const Center(child: CircularProgressIndicator());
                                      comment: comment[0]);
                      }
                   ); */
-                  /*
+              /*
                   return StreamBuilder<QuerySnapshot>(
                    stream: posts,
                    builder: (BuildContext context,
@@ -455,12 +517,9 @@ return const Center(child: CircularProgressIndicator());
                    }
                
                    );*/
-                },
-
-          
-          ),//user
-          
-         ),
+            },
+          ), //user
+        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(

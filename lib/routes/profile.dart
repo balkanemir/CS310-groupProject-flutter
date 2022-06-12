@@ -176,7 +176,7 @@ class _ProfileState extends State<Profile> {
                                       radius: 40,
                                       backgroundColor: secondaryPinkLight,
                                       backgroundImage: NetworkImage(
-                                        snapshot.data!.profileImage,
+                                        "${snapshot.data?.profileImage}",
                                       ),
                                     ),
                                   ),
@@ -320,7 +320,7 @@ class _ProfileState extends State<Profile> {
                             
                             return Column(
                               children: [
-                               snapshot.data!.bio != null ? RichText(
+                               snapshot.data?.bio != null ? RichText(
                                   text: TextSpan(
                                     style: const TextStyle(
                                       color: Colors.black,

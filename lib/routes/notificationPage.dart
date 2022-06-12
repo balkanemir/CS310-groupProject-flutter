@@ -8,6 +8,7 @@ import 'package:flutterui/utils/screensizes.dart';
 import 'package:flutterui/utils/colors.dart';
 import 'package:flutterui/utils/dimensions.dart';
 import 'package:flutterui/services/analytics.dart';
+import 'package:flutterui/routes/messages.dart';
 
 import 'mainpage.dart';
 
@@ -80,7 +81,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Welcome()));
+                                  builder: (context) => Profile()));
                         },
                         child: CircleAvatar(
                             radius: 30,
@@ -100,7 +101,10 @@ class _NotificationPageState extends State<NotificationPage> {
                       height: 50,
                       child: ElevatedButton(
                           onPressed: () {
-                            // go to messages
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MessagePage()));
                           },
                           child: Icon(Icons.message_sharp),
                           style: ElevatedButton.styleFrom(

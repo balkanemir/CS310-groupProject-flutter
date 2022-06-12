@@ -263,7 +263,24 @@ class _ShowProfileState extends State<ShowProfile> {
                                   }
                                 }),
               ],),
-                
+                Padding(
+                  padding: EdgeInsets.only(top: 10) ,
+                  child: Column(
+                  children: [
+                      myUser.bio != null ? RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "${myUser.bio}",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ) 
+                            
+                            ],
+                                ),) : RichText(text: TextSpan(text: "")) ],
+                )),
                 
                 Padding(
                     padding: EdgeInsets.only(top: 10),
@@ -309,20 +326,16 @@ class _ShowProfileState extends State<ShowProfile> {
                                         deleteFollower(context: context,myUser: myUser, followerID:  followerData.docs[i]['followed'].toString());
                                       }
                                     }
-                                    return Text("");
+                                    return const  Text("");
 
                                    });
-                   
-
-                                
-
                                },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size.fromHeight(50),
                                 primary: secondaryPink800,
                                 elevation: 5,
                               ),
-                              child: Text(
+                              child: const Text(
                                 "Unfollow",
                               ),
                             )

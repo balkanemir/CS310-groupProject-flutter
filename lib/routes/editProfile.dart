@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterui/routes/profile.dart';
 import 'package:path/path.dart' show basename;
 import 'dart:io' show Platform;
 import 'package:image_picker/image_picker.dart';
@@ -23,8 +24,8 @@ class EditProfile extends StatefulWidget {
   final Function updateUsername;
   final Function updateEmail;
   final Function updateMbti;
-  final Function updateBio;
   final Function updatePrivate;
+  final Function updateBio;
 
   EditProfile(
     this.user,
@@ -32,9 +33,9 @@ class EditProfile extends StatefulWidget {
     this.updateSurname,
     this.updateUsername,
     this.updateEmail,
-    this.updateBio,
     this.updateMbti,
     this.updatePrivate,
+    this.updateBio,
   );
 
   @override
@@ -49,9 +50,9 @@ class _EditProfileState extends State<EditProfile> {
   String surname = "";
   String username = "";
   String email = "";
-  String? bio = "";
   XFile? _image;
   bool isPrivate = false;
+  String? bio = "";
   final _formKey = GlobalKey<FormState>();
 
   List<String> mbtiTypes = [
@@ -295,38 +296,7 @@ class _EditProfileState extends State<EditProfile> {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
-                                 Row(
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          child: Text(
-                            "Username",
-                            style: TextStyle(
-                              color: Color.fromRGBO(87, 10, 87, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        ConstrainedBox(
-                          constraints:
-                              BoxConstraints.tight(const Size(250, 50)),
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.deepPurple),
-                            onChanged: (String value) {
-                              bio = value;
-                            },
-                            controller: TextEditingController(
-                              text: bio,
-                            ),
-                            onSaved: (value) {
-                              widget.updateBio(value);
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                    
                      SizedBox(height: 20),
                     Row(
                       children: [
@@ -439,7 +409,40 @@ class _EditProfileState extends State<EditProfile> {
                         )
                       ],
                     ),
-                    SizedBox(height: 30),
+                    
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            "Bio",
+                            style: TextStyle(
+                              color: Color.fromRGBO(87, 10, 87, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints:
+                          BoxConstraints.tight(const Size(250, 50)),
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.deepPurple),
+                            onChanged: (String value) {
+                              bio = value;
+                            },
+                            controller: TextEditingController(
+                              text: bio,
+                            ),
+                            onSaved: (value) {
+                              widget.updateBio(value);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 30),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -452,6 +455,12 @@ class _EditProfileState extends State<EditProfile> {
                             } else {
                               _showDialog('Form Error', 'Your form is invalid');
                             }
+                            Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Profile(),
+                                        ),
+                                      );
                           },
                           style: OutlinedButton.styleFrom(
                             primary: Color.fromRGBO(247, 61, 147, 0.8),

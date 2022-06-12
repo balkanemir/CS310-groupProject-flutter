@@ -161,11 +161,11 @@ class _ShuffleState extends State<Shuffle> {
                 return FutureBuilder<List<Follower?>>
                     (
                       
-                       future: readFollowingsOfUser(uid),
-                       builder: (context, followerSnapshot) {
-                          final followerData = followerSnapshot.requireData;
-                           print("length of the ${followerData.length}");
-                            print("I am in the byilder.tightnow");
+                      future: readFollowingsOfUser(uid),
+                      builder: (context, followerSnapshot) {
+                      final followerData = followerSnapshot.requireData;
+                      print("length of the ${followerData.length}");
+                      print("I am in the byilder.tightnow");
                       if (followerSnapshot.hasError) {
                                       
                           return Text('Something went wrong.');
@@ -194,8 +194,23 @@ class _ShuffleState extends State<Shuffle> {
                                   profileImage: userData.docs[i]['profileImage'],
                                 ));
                              }
+                             
                              break;
                            }
+                           if(followerData.length == 0 && userData.docs[i]['userID'] != uid) {
+                                addUsers.add(User1( 
+                                  userID: userData.docs[i]['userID'],
+                                  surname: userData.docs[i]['surname'],
+                                  name: userData.docs[i]['name'],
+                                  username: userData.docs[i]['surname'],
+                                  email: userData.docs[i]['email'],
+                                  isPrivate: userData.docs[i]['isPrivate'],
+                                  followers: userData.docs[i]['followers'],
+                                  following: userData.docs[i]['following'],
+                                  MBTI: userData.docs[i]['MBTI'],
+                                  profileImage: userData.docs[i]['profileImage'],
+                                ));
+                             }
 
                          }
 

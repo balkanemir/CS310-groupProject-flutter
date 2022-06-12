@@ -334,10 +334,16 @@ class _ShowProfileState extends State<ShowProfile> {
                 child: ListView.builder(
                   itemCount: snapshot.data?.length,
                   itemBuilder: (context, index) {
-                 
+                    print("first post ${snapshot.data?[0]!.postText}");
+                    print("second post ${snapshot.data?[1]!.postText}");
+                    print("index is ${index}");
+                    print("user id is ${snapshot.data?[index]!.userID}");
+        
                     Post? post = snapshot.data?[index];
                     String? uid = myUser.userID;
                     if (post != null && uid != null) {
+                      print("myUserid is  ${myUser.userID}");
+                      print("post text is ${snapshot.data?[index]!.postText}");
                       return MainPostCardTemplate(
                         user: myUser,
                         uid: myUser.userID,
